@@ -1,0 +1,25 @@
+{
+  "name": "ethesis",
+  "version": "1.0.0",
+  "description": "University thesis management web app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stamelosxp/eThesis.git"
+  },
+  "author": "Stamelos Charilaos-Panagiotis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stamelosxp/eThesis/issues"
+  },
+  "homepage": "https://github.com/stamelosxp/eThesis#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
