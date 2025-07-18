@@ -1,0 +1,26 @@
+<aside id="main-menu">
+  <nav>
+    <ul class="menu-list">
+      <%if (locals.userRole === 'professor') { %>
+      <li class="menu-item <%= locals.currentPage === 'home' ? 'current' : '' %>"><a href="/professor">Αρχική</a></li>
+      <li class="menu-item <%= locals.currentPage === 'topics' ? 'current' : '' %>"><a href="/professor/topics">Θέματα</a></li>
+      <li class="menu-item <%= locals.currentPage === 'assignments' ? 'current' : '' %>"><a href="/professor/assignments">Εργασίες</a></li>
+      <li class="menu-item <%= locals.currentPage === 'invitations' ? 'current' : '' %>"><a href="/professor/invitations">Προσκλήσεις</a></li>
+      <li class="menu-item <%= locals.currentPage === 'stats' ? 'current' : '' %>"><a href="/professor/stats">Στατιστικά</a></li>
+      <li class="menu-item <%= locals.currentPage === 'announcements' ? 'current' : '' %>"><a href="/professor/announcements">Ανακοινώσεις</a></li>
+      <% } else if (locals.userRole === 'student') { %>
+      <li class="menu-item <%= locals.currentPage === 'home' ? 'current' : '' %>"><a href="/student">Αρχική</a></li>
+      <li class="menu-item <%= locals.currentPage === 'topics' ? 'current' : '' %>"><a href="/student/topics">Θέματα</a></li>
+      <li class="menu-item <%= locals.currentPage === 'thesis' ? 'current' : '' %>"><a href="/student/thesis">Διπλωματική</a></li>
+      <li class="menu-item <%= locals.currentPage === 'announcements' ? 'current' : '' %>"><a href="/student/announcements">Ανακοινώσεις</a></li>
+      <% } else if (locals.userRole === 'secretary') { %>
+      <li class="menu-item <%= locals.currentPage === 'home' ? 'current' : '' %>"><a href="/secretary">Αρχική</a></li>
+      <li class="menu-item <%= locals.currentPage === 'users' ? 'current' : '' %>"><a href="/secretary/users">Χρήστες</a></li>
+      <li class="menu-item <%= locals.currentPage === 'announcements' ? 'current' : '' %>"><a href="/announcements">Ανακοινώσεις</a></li>
+      <% } else { %>
+      <li class="menu-item <%= locals.currentPage === 'login' ? 'current' : '' %>"><a href="/login">Είσοδος</a></li>
+      <li class="menu-item <%= locals.currentPage === 'announcements' ? 'current' : '' %>"><a href="/announcements">Ανακοινώσεις</a></li>
+      <% } %>
+    </ul>
+  </nav>
+</aside>
