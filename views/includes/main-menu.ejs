@@ -1,26 +1,100 @@
 <aside id="main-menu">
-  <nav>
-    <ul class="menu-list">
-      <%if (locals.userRole === 'professor') { %>
-      <li class="menu-item <%= locals.currentPage === 'home' ? 'current' : '' %>"><a href="/professor">Αρχική</a></li>
-      <li class="menu-item <%= locals.currentPage === 'topics' ? 'current' : '' %>"><a href="/professor/topics">Θέματα</a></li>
-      <li class="menu-item <%= locals.currentPage === 'assignments' ? 'current' : '' %>"><a href="/professor/assignments">Εργασίες</a></li>
-      <li class="menu-item <%= locals.currentPage === 'invitations' ? 'current' : '' %>"><a href="/professor/invitations">Προσκλήσεις</a></li>
-      <li class="menu-item <%= locals.currentPage === 'stats' ? 'current' : '' %>"><a href="/professor/stats">Στατιστικά</a></li>
-      <li class="menu-item <%= locals.currentPage === 'announcements' ? 'current' : '' %>"><a href="/professor/announcements">Ανακοινώσεις</a></li>
-      <% } else if (locals.userRole === 'student') { %>
-      <li class="menu-item <%= locals.currentPage === 'home' ? 'current' : '' %>"><a href="/student">Αρχική</a></li>
-      <li class="menu-item <%= locals.currentPage === 'topics' ? 'current' : '' %>"><a href="/student/topics">Θέματα</a></li>
-      <li class="menu-item <%= locals.currentPage === 'thesis' ? 'current' : '' %>"><a href="/student/thesis">Διπλωματική</a></li>
-      <li class="menu-item <%= locals.currentPage === 'announcements' ? 'current' : '' %>"><a href="/student/announcements">Ανακοινώσεις</a></li>
-      <% } else if (locals.userRole === 'secretary') { %>
-      <li class="menu-item <%= locals.currentPage === 'home' ? 'current' : '' %>"><a href="/secretary">Αρχική</a></li>
-      <li class="menu-item <%= locals.currentPage === 'users' ? 'current' : '' %>"><a href="/secretary/users">Χρήστες</a></li>
-      <li class="menu-item <%= locals.currentPage === 'announcements' ? 'current' : '' %>"><a href="/announcements">Ανακοινώσεις</a></li>
-      <% } else { %>
-      <li class="menu-item <%= locals.currentPage === 'login' ? 'current' : '' %>"><a href="/login">Είσοδος</a></li>
-      <li class="menu-item <%= locals.currentPage === 'announcements' ? 'current' : '' %>"><a href="/announcements">Ανακοινώσεις</a></li>
-      <% } %>
-    </ul>
-  </nav>
+    <nav>
+        <ul class="menu-list">
+            <% if (locals.userRole === 'professor') { %>
+                <li class="menu-item <%= locals.currentPage === 'home' ? 'current' : '' %>">
+                    <a href="/professor">
+                        <img class="menu-icon" src="/icons/homepage.png" alt="Home Icon">
+                        <span class="menu-text">Αρχική</span>
+                    </a>
+                </li>
+                <li class="menu-item <%= locals.currentPage === 'topics' ? 'current' : '' %>">
+                    <a href="/professor/topics">
+                        <img class="menu-icon" src="/icons/topics.png" alt="Available Topics Icon">
+                        <span class="menu-text">Θέματα</span>
+                    </a>
+                </li>
+                <li class="menu-item <%= locals.currentPage === 'assignments' ? 'current' : '' %>">
+                    <a href="/professor/assignments">
+                        <img class="menu-icon" src="/icons/assignments.png" alt="Assignments Icon">
+                        <span class="menu-text">Αναθέσεις</span>
+                    </a>
+                </li>
+                <li class="menu-item <%= locals.currentPage === 'invitations' ? 'current' : '' %>">
+                    <a href="/professor/invitations">
+                        <img class="menu-icon" src="/icons/invitations.png" alt="Invitations Icon">
+                        <span class="menu-text">Προσκλήσεις</span>
+                    </a>
+                </li>
+                <li class="menu-item <%= locals.currentPage === 'stats' ? 'current' : '' %>">
+                    <a href="/professor/stats">
+                        <img class="menu-icon" src="/icons/stats.png" alt="Statistics Icon">
+                        <span class="menu-text">Στατιστικά</span>
+                    </a>
+                </li>
+                <li class="menu-item <%= locals.currentPage === 'announcements' ? 'current' : '' %>">
+                    <a href="/professor/announcements">
+                        <img class="menu-icon" src="/icons/announcements.png" alt="Announcements Icon">
+                        <span class="menu-text">Ανακοινώσεις</span>
+                    </a>
+                </li>
+                <% } else if (locals.userRole === 'student') { %>
+                    <li class="menu-item <%= locals.currentPage === 'home' ? 'current' : '' %>">
+                        <a href="/student">
+                            <img class="menu-icon" src="/icons/homepage.png" alt="Home Icon">
+                            <span class="menu-text">Αρχική</span>
+                        </a>
+                    </li>
+                    <li class="menu-item <%= locals.currentPage === 'topics' ? 'current' : '' %>">
+                        <a href="/student/topics">
+                            <img class="menu-icon" src="/icons/topics.png" alt="Available Topics Icon">
+                            <span class="menu-text">Θέματα</span>
+                        </a>
+                    </li>
+                    <li class="menu-item <%= locals.currentPage === 'thesis' ? 'current' : '' %>">
+                        <a href="/student/thesis">
+                            <img class="menu-icon" src="/icons/my_thesis.png" alt="My Thesis Icon">
+                            <span class="menu-text">Διπλωματική</span>
+                        </a>
+                    </li>
+                    <li class="menu-item <%= locals.currentPage === 'announcements' ? 'current' : '' %>">
+                        <a href="/student/announcements">
+                            <img class="menu-icon" src="/icons/announcements.png" alt="Announcements Icon">
+                            <span class="menu-text">Ανακοινώσεις</span>
+                        </a>
+                    </li>
+                <% } else if (locals.userRole === 'secretary') { %>
+                    <li class="menu-item <%= locals.currentPage === 'home' ? 'current' : '' %>">
+                        <a href="/secretary">
+                            <img class="menu-icon" src="/icons/homepage.png" alt="Home Icon">
+                            <span class="menu-text">Αρχική</span>
+                        </a>
+                    </li>
+                    <li class="menu-item <%= locals.currentPage === 'users' ? 'current' : '' %>">
+                        <a href="/secretary/users">
+                            <img class="menu-icon" src="/icons/users_sec.png" alt="Users Icon">
+                            <span class="menu-text">Χρήστες</span>
+                        </a>
+                    </li>
+                    <li class="menu-item <%= locals.currentPage === 'announcements' ? 'current' : '' %>">
+                        <a href="/secretary/announcements">
+                            <img class="menu-icon" src="/icons/announcements.png" alt="Announcements Icon">
+                            <span class="menu-text">Ανακοινώσεις</span>
+                        </a>
+                    </li>
+                <% } else { %>
+                    <li class="menu-item <%= locals.currentPage === 'login' ? 'current' : '' %>">
+                        <a href="/login">
+                            <span class="menu-text">Είσοδος</span>
+                        </a>
+                    </li>
+                    <li class="menu-item <%= locals.currentPage === 'announcements' ? 'current' : '' %>">
+                        <a href="/announcements">
+                            <img class="menu-icon" src="/icons/announcements.png" alt="Announcements Icon">
+                            <span class="menu-text">Ανακοινώσεις</span>
+                        </a>
+                    </li>
+            <% } %>
+        </ul>
+    </nav>
 </aside>
