@@ -36,68 +36,72 @@ app.get("/", (req, res) => {
     }
 });
 
+
 app.get("/professor", (req, res) => {
   res.render("home", { pageTitle: "Home", userRole: "professor", currentPage: "home", pageContent: "Αρχική Σελίδα" });
 });
 
 app.get("/professor/topics", (req, res) => {
-  res.render("home", { pageTitle: "Θέματα", userRole: "professor", currentPage: "topics", pageContent: "Θέματα Διπλωματικών" });
+  res.render("maintenance", { pageTitle: "Θέματα", userRole: "professor", currentPage: "topics" });
 });
 
 app.get("/professor/assignments", (req, res) => {
-  res.render("home", { pageTitle: "Εργασίες", userRole: "professor", currentPage: "assignments", pageContent: "Εργασίες" });
+  res.render("maintenance", { pageTitle: "Εργασίες", userRole: "professor", currentPage: "assignments" });
 });
 
 app.get("/professor/invitations", (req, res) => {
-  res.render("home", { pageTitle: "Προσκλήσεις", userRole: "professor", currentPage: "invitations", pageContent: "Προσκλήσεις" });
+  res.render("maintenance", { pageTitle: "Προσκλήσεις", userRole: "professor", currentPage: "invitations" });
 });
 
 app.get("/professor/stats", (req, res) => {
-  res.render("home", { pageTitle: "Στατιστικά", userRole: "professor", currentPage: "stats", pageContent: "Στατιστικά" });
+  res.render("maintenance", { pageTitle: "Στατιστικά", userRole: "professor", currentPage: "stats" });
 });
 
 app.get("/professor/announcements", (req, res) => {
-  res.render("home", { pageTitle: "Ανακοινώσεις", userRole: "professor", currentPage: "announcements", pageContent: "Ανακοινώσεις" });
+  res.render("maintenance", { pageTitle: "Ανακοινώσεις", userRole: "professor", currentPage: "announcements" });
 });
+
 
 // Student routes
 app.get("/student", (req, res) => {
-  res.render("home", { pageTitle: "Home", userRole: "student", currentPage: "home", pageContent: "Αρχική Σελίδα" });
+  res.render("maintenance", { pageTitle: "Home", userRole: "student", currentPage: "home" });
 });
 
 app.get("/student/topics", (req, res) => {
-  res.render("home", { pageTitle: "Θέματα", userRole: "student", currentPage: "topics", pageContent: "Διαθέσιμα Θέματα" });
+  res.render("maintenance", { pageTitle: "Θέματα", userRole: "student", currentPage: "topics" });
 });
 
 app.get("/student/thesis", (req, res) => {
-  res.render("home", { pageTitle: "Διπλωματική", userRole: "student", currentPage: "thesis", pageContent: "Η Διπλωματική μου" });
+  res.render("maintenance", { pageTitle: "Διπλωματική", userRole: "student", currentPage: "thesis" });
 });
 
 app.get("/student/announcements", (req, res) => {
-  res.render("home", { pageTitle: "Ανακοινώσεις", userRole: "student", currentPage: "announcements", pageContent: "Ανακοινώσεις" });
+  res.render("maintenance", { pageTitle: "Ανακοινώσεις", userRole: "student", currentPage: "announcements" });
 });
+
 
 // Secretary routes
 app.get("/secretary", (req, res) => {
-  res.render("home", { pageTitle: "Home", userRole: "secretary", currentPage: "home", pageContent: "Αρχική Σελίδα" });
+  res.render("maintenance", { pageTitle: "Home", userRole: "secretary", currentPage: "home" });
 });
 
 app.get("/secretary/users", (req, res) => {
-  res.render("home", { pageTitle: "Χρήστες", userRole: "secretary", currentPage: "users", pageContent: "Διαχείριση Χρηστών" });
+  res.render("maintenance", { pageTitle: "Χρήστες", userRole: "secretary", currentPage: "users" });
 });
 
 app.get("/secretary/announcements", (req, res) => {
-  res.render("home", { pageTitle: "Ανακοινώσεις", userRole: "secretary", currentPage: "announcements", pageContent: "Ανακοινώσεις" });
+  res.render("maintenance", { pageTitle: "Ανακοινώσεις", userRole: "secretary", currentPage: "announcements" });
 });
+
 
 
 // General routes (accessible by all roles)
 app.get("/login", (req, res) => {
-  res.render("home", { pageTitle: "Είσοδος", userRole: null, currentPage: "login", pageContent: "Σύνδεση στο Σύστημα" });
+  res.render("maintenance", { pageTitle: "Είσοδος", userRole: null, currentPage: "login" });
 });
 
 app.get("/announcements", (req, res) => {
-  res.render("home", { pageTitle: "Ανακοινώσεις", userRole: null, currentPage: "announcements", pageContent: "Ανακοινώσεις" });
+  res.render("maintenance", { pageTitle: "Ανακοινώσεις", userRole: null, currentPage: "announcements" });
 });
 
 
