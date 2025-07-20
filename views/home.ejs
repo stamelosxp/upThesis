@@ -11,6 +11,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles/shared.css" />
+    <link rel="stylesheet" href="/styles/home_pro.css" />
+    <script src="/scripts/date-picker.js" defer></script>
+    <script src="/scripts/notifications.js" defer></script>
   </head>
   <body>
     <header>
@@ -19,6 +22,97 @@
     <div class="layout">
       <%- include('includes/main-menu') %>
       <main>
+        <section id="page-title">
+          <div id="page-title-container">
+            <h2>Αρχική</h2>
+            <p>Καλώς ήρθατε στην πλατφόρμα upThesis.</p>
+          </div>
+        </section>
+        <section id="dashboard">
+          <%- include('professor/dashboard_stats') %>
+        </section>
+        <section id="main-content">
+          <div id="main-container">
+            <div id="notifications" class="content-card">
+              <ul class="card-header">
+                <li>
+                  <h2>Ειδοποιήσεις</h2>
+                </li>
+                <li class="header-buttons">
+                  <button
+                    id="refresh-notifications-btn"
+                    class="icon-button"
+                    title="Ανανέωση"
+                  >
+                    Ανανέωση
+                  </button>
+                  <button
+                    id="clear-notifications-btn"
+                    class="button"
+                    title="Καθαρισμός"
+                  >
+                    Καθαρισμός
+                  </button>
+                </li>
+              </ul>
+              <span class="line"></span>
+              <div id="notifications-list">
+                <% if (notification) { %>
+                <ul class="notification-list">
+                  <% for (let i = 0; i < 10; i++) { %>
+                  <li
+                    class="notification-card"
+                    onclick="toggleNotification(this)"
+                  >
+                    <div class="notification-body">
+                      <div class="notification-content collapsed">
+                        Αυτό είναι ένα παράδειγμα ειδοποίησης με περισσότερο
+                        περιεχόμενο που μπορεί να είναι πολύ μεγάλο για να
+                        εμφανιστεί σε μία γραμμή. Όταν το περιεχόμενο είναι πολύ
+                        μεγάλο, θα εμφανιστούν τρεις τελείες και μπορείτε να
+                        κάνετε κλικ για να το επεκτείνετε και να δείτε το πλήρες
+                        κείμενο. Αυτό είναι ένα παράδειγμα ειδοποίησης με
+                        περισσότερο περιεχόμενο που μπορεί να είναι πολύ μεγάλο
+                        για να εμφανιστεί σε μία γραμμή. Όταν το περιεχόμενο
+                        είναι πολύ μεγάλο, θα εμφανιστούν τρεις τελείες και
+                        μπορείτε να κάνετε κλικ για να το επεκτείνετε και να
+                        δείτε το πλήρες κείμενο.
+                      </div>
+                      <div class="notification-date">5λ</div>
+                    </div>
+                  </li>
+                  <% } %>
+                </ul>
+                <% } else { %>
+                <p>Δεν υπάρχουν ειδοποιήσεις.</p>
+                <% } %>
+              </div>
+            </div>
+            <div class="content-card">
+              <ul class="card-header">
+                <li>
+                  <h2>Εκδηλώσεις</h2>
+                </li>
+                <li>
+                  <input type="date" class="date-picker" />
+                </li>
+              </ul>
+              <span class="line"></span>
+              <div id="events-list">
+                <p
+                  style="
+                    text-align: center;
+                    color: #52616b;
+                    padding: 2rem;
+                    font-size: 1.1rem;
+                  "
+                >
+                  Δεν υπάρχουν προγραμματισμένες εκδηλώσεις.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   </body>
