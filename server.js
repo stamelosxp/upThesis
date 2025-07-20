@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
 
 
 app.get("/professor", (req, res) => {
-  res.render("home", { pageTitle: "Home", userRole: "professor", currentPage: "home", pageContent: "Αρχική Σελίδα" });
+  res.render("home", { pageTitle: "Home", userRole: "professor", currentPage: "home", pageContent: "Αρχική Σελίδα", notification: true });
 });
 
 app.get("/professor/topics", (req, res) => {
