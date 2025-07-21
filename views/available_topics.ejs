@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="el">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %> | eThesis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/shared.css" />
+    <link rel="stylesheet" href="/styles/available_topics.css" />
+    <script src="/scripts/available_topics.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <a href="/" id="main-logo">upThesis</a>
+    </header>
+    <div class="layout">
+      <%- include('includes/main-menu') %>
+      <main>
+        <section id="page-title">
+          <div id="page-title-container">
+            <h2>Διαθέσιμα Θέματα</h2>
+            <p>Έχετε <%= topics ? topics.length : 0 %> διαθέσιμα θέματα ανεβασμένα.</p>
+          </div>
+        </section>
+        <section id="topics-buttons">
+          <div class="button-container">
+            <div id="start-group">
+              <button id="create-topic-btn" class="button">
+                Προσθήκη Θέματος
+              </button>
+            </div>
+            <div class="end-group">
+              <input
+                type="text"
+                id="search-bar"
+                placeholder="Αναζήτηση Θεμάτων..."
+              />
+              <select id="sort-topics" class="sort-dropdown">
+                <option value="date_created">Ημερομηνία Δημιουργίας</option>
+                <option value="topic_title" selected>Τίτλος</option>
+              </select>
+            </div>
+          </div>
+        </section>
+        <section id="topics">
+            <!-- This section contains the list of all available topics -->
+          <div id="topics-container-list">
+            <% if(topics && topics.length > 0) { %>
+            <ul class="topics-list">
+              <% topics.forEach(function(topic, index) { %>
+              <li class="topic-item">
+                <div class="topic-content collapsed">
+                  <div class="collapsed-header">
+                    <h3 class="topic-header">
+                      <%= topic.title %>
+                    </h3>
+                    <p class="topic-creation-date"><%= topic.creationDate %></p>
+                  </div>
+                  <small class="expand-indicator">Κλικ για ανάπτυξη</small>
+                </div>
+                <%- include('includes/completed_topic', {topic: topic}) %>
+              </li>
+              <% }); %>
+            </ul>
+            <% } else { %>
+            <p class="no-topics-message">Δεν υπάρχουν διαθέσιμα θέματα.</p>
+            <% } %>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
