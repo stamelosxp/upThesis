@@ -67,8 +67,8 @@ main {
   width: 500px;
 }
 #search-bar {
-    background-color: #fff;
-    margin-right: 0.5rem;
+  background-color: #fff;
+  margin-right: 0.5rem;
 }
 
 #sort-topics {
@@ -76,8 +76,6 @@ main {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-
 
 #search-bar:hover,
 #search-bar:focus,
@@ -95,16 +93,18 @@ main {
 /* topics container style */
 /* main container of the section */
 #topics-container-list {
-  margin-top: 3rem;
+  margin-top: 2rem;
   width: 90%;
   height: 800px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #52616b #f0f5f9;
   padding: 1rem;
+  padding-left: 0;
 }
 
-.topic-item, .topic-item.new-topic{
+.topic-item,
+.topic-item.new-topic {
   background-color: #f8fafb;
   color: #52616b;
   border: 2px solid #52616b;
@@ -122,7 +122,6 @@ main {
   position: relative;
   overflow: visible; /* Allow the badge to extend outside */
 }
-
 
 .topic-item.new-topic::before {
   content: "ΝΕΟ";
@@ -158,7 +157,6 @@ main {
   letter-spacing: 0.5px;
 }
 
-
 /*displayed topics on hover */
 .topic-item:hover {
   /* moves the topic 2px up */
@@ -180,7 +178,6 @@ main {
   flex-direction: column;
   box-sizing: border-box;
 }
-
 
 .collapsed-header {
   display: flex;
@@ -237,7 +234,7 @@ main {
 }
 
 .topic-creation-date {
-  background: #c9d6df; 
+  background: #c9d6df;
   color: #1e2022;
   padding: 0.4rem 1rem;
   border-radius: 25px;
@@ -248,7 +245,8 @@ main {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.topic-input-class, .new-topic-input-class {
+.topic-input-class,
+.new-topic-input-class {
   padding: 0.7rem 1rem;
   border: 2px solid #52616b;
   border-radius: 6px;
@@ -263,8 +261,6 @@ main {
   box-sizing: border-box;
 }
 
-
-
 /* Ensure readonly inputs maintain consistent styling */
 input[readonly],
 textarea[readonly] {
@@ -273,7 +269,8 @@ textarea[readonly] {
   border-color: #52616b !important;
 }
 
-.topic-description, .new-topic-description{
+.topic-description,
+.new-topic-description {
   width: 100%;
   min-height: 70px;
   border: 2px solid #52616b;
@@ -289,12 +286,14 @@ textarea[readonly] {
   color: #52616b;
 }
 
-.new-topic-input-class, .new-topic-description {
+.new-topic-input-class,
+.new-topic-description {
   background-color: #fff;
   border-color: #52616b;
 }
 
-.new-topic-input-class:focus, .new-topic-description:focus {
+.new-topic-input-class:focus,
+.new-topic-description:focus {
   border-color: #1e2022;
   background: #fff;
   box-shadow: 0 4px 16px rgba(28, 32, 34, 0.18);
@@ -314,7 +313,8 @@ textarea[readonly] {
   margin: 0;
 }
 
-.attachment-file, .new-attachment-file {
+.attachment-file,
+.new-attachment-file {
   padding: 0.5rem 0.9rem;
   background: #f8fafb;
   border: 2px solid #52616b;
@@ -326,14 +326,15 @@ textarea[readonly] {
   pointer-events: none;
 }
 
-.attachment-file:hover, .new-attachment-file:hover {
+.attachment-file:hover,
+.new-attachment-file:hover {
   border-color: #1e2022;
   box-shadow: 0 2px 8px rgba(82, 97, 107, 0.1);
 }
 
 .new-attachment-file {
-    cursor: pointer;
-    pointer-events: all;
+  cursor: pointer;
+  pointer-events: all;
 }
 
 .assignment {
@@ -343,7 +344,8 @@ textarea[readonly] {
   margin: 0;
 }
 
-.assignment-button, .edit-button {
+.assignment-button,
+.edit-button {
   background-color: #52616b;
   color: #f0f5f9;
   border: none;
@@ -355,7 +357,8 @@ textarea[readonly] {
   transition: all 0.3s ease;
 }
 
-.assignment-button:hover, .edit-button:hover {
+.assignment-button:hover,
+.edit-button:hover {
   background-color: #1e2022;
   color: #c9d6df;
   box-shadow: 0 4px 16px rgba(28, 32, 34, 0.18);
@@ -453,6 +456,6 @@ textarea[readonly] {
 
 @media screen and (max-width: 768px) {
   #search-bar {
-    width: 120px; 
+    width: 120px;
   }
 }
