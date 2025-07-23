@@ -43,11 +43,11 @@ function toggleEditMode(topicItem, topicId, editButton) {
   //get with querySelector instead because we have topic item
   const titleInput = topicItem.querySelector(`#topic-input-title-${topicId}`);
   const descriptionTextarea = topicItem.querySelector(
-    `#topic-description-form-${topicId}`
+    `#topic-description-form-${topicId}`,
   );
   const fileInput = topicItem.querySelector(`#topic-attachments-${topicId}`);
   const deleteButton = topicItem.querySelector(
-    `#delete-topic-button-${topicId}`
+    `#delete-topic-button-${topicId}`,
   );
 
   if (titleInput.hasAttribute("readonly")) {
@@ -73,7 +73,7 @@ function toggleEditMode(topicItem, topicId, editButton) {
     // change cancel button instead of delete button
     deleteButton.textContent = "Ακύρωση";
     deleteButton.setAttribute("data-original-text", "Διαγραφή");
-    
+
     // add edit class to add ΕΠΕΞΕΡΓΑΣΙΑ
     topicItem.classList.add("edit-mode");
   } else {
@@ -96,19 +96,18 @@ function toggleEditMode(topicItem, topicId, editButton) {
     deleteButton.textContent =
       deleteButton.getAttribute("data-original-text") || "Διαγραφή";
     deleteButton.removeAttribute("data-original-text");
-    
-    
+
     topicItem.classList.remove("edit-mode");
   }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
   const topicItems = document.querySelectorAll(".topic-item");
-  
+
   //initialize all topics to collapsed state
   topicItems.forEach(function (topicItem) {
     const collapsedContent = topicItem.querySelector(
-      ".topic-content.collapsed"
+      ".topic-content.collapsed",
     );
     const expandedContent = topicItem.querySelector(".topic-content.expanded");
 
@@ -171,15 +170,15 @@ document.addEventListener("DOMContentLoaded", function () {
           if (deleteButton.textContent === "Ακύρωση") {
             // Cancel edit mode - revert to readonly without saving
             const editButton = topicItem.querySelector(
-              `#edit-topic-button-${topicId}`
+              `#edit-topic-button-${topicId}`,
             );
 
             // Reset form to original values
             const titleInput = topicItem.querySelector(
-              `#topic-input-title-${topicId}`
+              `#topic-input-title-${topicId}`,
             );
             const descriptionTextarea = topicItem.querySelector(
-              `#topic-description-form-${topicId}`
+              `#topic-description-form-${topicId}`,
             );
 
             // You might want to store original values when entering edit mode
