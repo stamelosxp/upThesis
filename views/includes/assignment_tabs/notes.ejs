@@ -1,0 +1,74 @@
+<div class="notes-content">
+  <div class="info-section">
+    <h4 class="info-label">Νέα Σημείωση</h4>
+    <div class="new-note-container">
+      <form>
+        <label for="noteTitle">Τίτλος Σημείωσης</label>
+        <input
+          id="noteTitle"
+          class="input-note"
+          type="text"
+          name="noteTitle"
+          placeholder="Εισάγεται τίτλο σημείωσης"
+          required
+        />
+
+        <label for="noteContent">Περιεχόμενο Σημείωσης</label>
+        <textarea
+          id="noteContent"
+          name="noteContent"
+          placeholder="Εισάγεται περιεχόμενο σημείωσης"
+          required
+        ></textarea>
+        <div class="button-group">
+          <button type="reset" class="clear-button">Καθαρισμός</button>
+          <button type="submit" class="green-button">Προσθήκη</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h4 class="info-label">Αποθηκευμένες Σημειώσεις</h4>
+    <ul class="notes-list">
+      <% if (resNotes && resNotes.length > 0) { %> <% resNotes.forEach(note => {
+      %>
+      <li
+        class="info-members note-item"
+        data-note-id="<%= note.id %>"
+        data-note-title="<%= note.noteTitle %>"
+        data-note-content="<%= note.noteContent %>"
+        data-note-date="<%= note.dateCreated %>"
+      >
+        <p class="note-title"><%= note.noteTitle %></p>
+        <p class="info-badge"><%= note.dateCreated %></p>
+        <span class="delete-wrapper">
+          <a>
+            <img
+              class="delete-note-icon"
+              src="/icons/delete.png"
+              alt="Delete Note Icon"
+            />
+          </a>
+        </span>
+      </li>
+      <% }); %> <% } else { %>
+      <li class="no-data">Δεν υπάρχουν σημειώσεις.</li>
+      <% } %>
+    </ul>
+  </div>
+
+  <div id="noteOverlay" class="note-overlay">
+    <div class="note-modal">
+      <div class="note-modal-header">
+        <h3 id="modalNoteTitle">Τίτλος Σημείωσης</h3>
+        <button class="close-modal" id="closeNoteModal">&times;</button>
+      </div>
+      <div class="note-modal-body">
+        <div class="note-content" id="modalNoteContent">
+          Περιεχόμενο σημείωσης...
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

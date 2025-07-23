@@ -1,0 +1,137 @@
+<div class="timeline-content">
+    <% if (locals.professorRole === "supervisor") { %>
+        <div class="info-section">
+            <div class="section-header">
+                <h4 class="info-label">Ενεργές Προσκλήσεις</h4>
+                <button class="green-button">Πρόσκληση</button>
+            </div>
+
+            <div class="info-list">
+                <% if (topic.activeInvitations && topic.activeInvitations.length > 0) { %>
+                    <% topic.activeInvitations.forEach(function(invitation) { %>
+                        <div class="info-members">
+                            <p class="member-name">
+                                <%= invitation.professorName || 'ΠΑΠΑΔΟΠΟΥΛΟΣ ΝΙΚΟΛΑΟΣ' %>
+                            </p>
+                            <p class="info-badge">
+                                <%= invitation.invitationDate ? new
+                                        Date(invitation.invitationDate).toLocaleDateString('el-GR') :
+                                        '10/01/2025' %>
+                            </p>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="info-members">
+                        <p class="member-name">ΠΑΠΑΔΟΠΟΥΛΟΣ ΝΙΚΟΛΑΟΣ</p>
+                        <p class="info-badge">10/01/2025</p>
+                    </div>
+                    <div class="info-members">
+                        <p class="member-name">ΚΩΝΣΤΑΝΤΙΝΟΥ ΜΑΡΙΑ</p>
+                        <p class="info-badge">12/01/2025</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Rejected Invitations Card -->
+        <div class="info-section">
+            <h4 class="info-label">Απορριφθείσες Προσκλήσεις</h4>
+            <div class="info-list">
+                <% if (topic.rejectedInvitations && topic.rejectedInvitations.length > 0)
+                { %> <% topic.rejectedInvitations.forEach(function(invitation) { %>
+                    <div class="info-members">
+                        <p class="member-name">
+                            <%= invitation.professorName || 'ΓΕΩΡΓΙΟΥ ΑΝΑΣΤΑΣΙΟΣ' %>
+                        </p>
+                        <p class="info-badge">
+                            <%= invitation.rejectedDate ? new
+                                    Date(invitation.rejectedDate).toLocaleDateString('el-GR') :
+                                    '08/01/2025' %>
+                        </p>
+                    </div>
+                <% }); %>
+                <% } else { %>
+                    <div class="info-members">
+                        <p class="member-name">ΓΕΩΡΓΙΟΥ ΑΝΑΣΤΑΣΙΟΣ</p>
+                        <p class="info-badge">08/01/2025</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
+    <% } %>
+
+    <div class="info-section">
+        <h4 class="info-label">Ιστορικό Καταστάσεων</h4>
+        <div class="info-list">
+            <div class="info-members">
+                <p class="member-name">Δημιουργία Θέματος</p>
+                <p class="info-badge">
+                    <%= topic.createdDate ? new
+                    Date(topic.createdDate).toLocaleDateString('el-GR') : '05/01/2025' %>
+                </p>
+            </div>
+
+            <!-- Assignment -->
+            <% if (topic.assignmentDate || topic.status !== 'pending') { %>
+                <div class="info-members">
+                    <p class="member-name">Ανάθεση</p>
+                    <p class="info-badge">
+                        <%= topic.assignmentDate ? new
+                        Date(topic.assignmentDate).toLocaleDateString('el-GR') : '15/01/2025'
+                        %>
+                    </p>
+                </div>
+            <% } %>
+
+            <!-- Official Assignment -->
+            <% if (topic.officialAssignmentDate || (topic.status !== 'pending' &&
+                    topic.status !== 'active')) { %>
+                <div class="info-members">
+                    <p class="member-name">Επίσημη Ανάθεση</p>
+                    <p class="info-badge">
+                        <%= topic.officialAssignmentDate ? new
+                                Date(topic.officialAssignmentDate).toLocaleDateString('el-GR') :
+                                '20/01/2025' %>
+                    </p>
+                </div>
+            <% } %>
+
+            <!-- Active Status -->
+            <% if (topic.activeDate || (topic.status === 'active' || topic.status ===
+                    'review' || topic.status === 'completed')) { %>
+                <div class="info-members">
+                    <p class="member-name">Ενεργή</p>
+                    <p class="info-badge">
+                        <%= topic.activeDate ? new
+                        Date(topic.activeDate).toLocaleDateString('el-GR') : '25/01/2025' %>
+                    </p>
+                </div>
+            <% } %>
+
+            <!-- Under Review Status -->
+            <% if (topic.reviewDate || (topic.status === 'review' || topic.status ===
+                    'completed')) { %>
+                <div class="info-members">
+                    <p class="member-name">Υπό Εξέταση</p>
+                    <p class="info-badge">
+                        <%= topic.reviewDate ? new
+                        Date(topic.reviewDate).toLocaleDateString('el-GR') : '15/06/2025' %>
+                    </p>
+                </div>
+            <% } %>
+
+            <!-- Completed Status -->
+            <% if (topic.completedDate || topic.status === 'completed') { %>
+                <div class="info-members">
+                    <p class="member-name">Ολοκληρωμένη</p>
+                    <p class="info-badge">
+                        <%= topic.completedDate ? new
+                        Date(topic.completedDate).toLocaleDateString('el-GR') : '20/06/2025'
+                        %>
+                    </p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>

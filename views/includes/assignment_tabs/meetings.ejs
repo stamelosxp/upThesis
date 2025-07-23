@@ -1,0 +1,59 @@
+<div class="meetings-content">
+  <div class="info-section">
+    <div class="section-header">
+      <h4 class="info-label">Συναντήσεις</h4>
+      <button class="green-button">
+        Συνάντηση
+      </button>
+    </div>
+    
+    <ul class="meetings-list">
+      <% if (professorMeetings && professorMeetings.length > 0) { %>
+        <% professorMeetings.forEach(meeting => { %>
+          <li class="info-members meeting-item" data-meeting-id="<%= meeting.id %>">
+            <div class="meeting-info">
+              <p class="meeting-date"><%= new Date(meeting.dateTime).toLocaleDateString('el-GR', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              }) %></p>
+              <p class="meeting-time"><%= new Date(meeting.dateTime).toLocaleTimeString('el-GR', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+              }) %></p>
+            </div>
+            <div class="meeting-status">
+              <% 
+                let statusClass = '';
+                let statusText = '';
+                switch(meeting.status) {
+                  case 'completed':
+                    statusClass = 'completed';
+                    statusText = 'Ολοκληρωμένη';
+                    break;
+                  case 'scheduled':
+                    statusClass = 'pending';
+                    statusText = 'Προγραμματισμένη';
+                    break;
+                  case 'cancelled':
+                    statusClass = 'cancelled';
+                    statusText = 'Ακυρωμένη';
+                    break;
+                }
+              %>
+              <span class="info-badge status-<%= statusClass %>"><%= statusText %></span>
+              <% if (meeting.status === 'scheduled') { %>
+                <button class="cancel-meeting-btn" data-meeting-id="<%= meeting.id %>" title="Ακύρωση συνάντησης">
+                  <span>&times;</span>
+                </button>
+              <% } %>
+            </div>
+          </li>
+        <% }); %>
+      <% } else { %>
+        <li class="no-data">Δεν υπάρχουν συναντήσεις.</li>
+      <% } %>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="evaluation-content">
+  <% if (topic.status === 'active') { %> <% if (locals.professorRole ===
+  'supervisor') { %>
+  <div class="no-data">
+    <p>
+      Ορίστε την διπλωματική σε Υπό-Εξέταση για να ξεκινήσει η διαδικασία
+      αξιολόγησης.
+    </p>
+    <button class="green-button">Ορισμός σε Υπό-Εξέταση</button>
+  </div>
+  <% } else { %>
+  <div class="no-data">
+    <p>Περιμένετε τον Επιβλέπων να ορίσει την διπλωματική σε Υπό-Εξέταση.</p>
+  </div>
+  <% } %> <% } else if (topic.status === 'review') { %>
+  <div class="info-section">
+    <h4 class="info-label">Αξιολόγηση</h4>
+    <div class="grades-container">
+      <% if (showEvaluation) { %>
+      <table class="evaluation-table">
+        <thead>
+          <tr>
+            <th>Κατηγορία</th>
+            <th
+              class="<%= locals.professorRole !== 'supervisor' ? 'readonly-col' : '' %>"
+            >
+              Επιβλέπων
+            </th>
+            <th
+              class="<%= locals.professorRole !== 'memberA' ? 'readonly-col' : '' %>"
+            >
+              Μέλος Α
+            </th>
+            <th
+              class="<%= locals.professorRole !== 'memberB' ? 'readonly-col' : '' %>"
+            >
+              Μέλος Β
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% const categories = ["Ποιότητα", "Διάρκεια", "Κείμενο",
+          "Παρουσίαση"]; %> <% categories.forEach(function(cat, rowIdx) { %>
+          <tr>
+            <td><%= cat %></td>
+            <td
+              class="<%= locals.professorRole !== 'supervisor' ? 'readonly-col' : '' %>"
+            >
+              <input type="number" min="0" max="10" step="0.1" required
+              name="supervisor_<%= rowIdx %>" class="topic-input-class" <%=
+              locals.professorRole === 'supervisor' ? '' : 'readonly disabled'
+              %> />
+            </td>
+            <td
+              class="<%= locals.professorRole !== 'memberA' ? 'readonly-col' : '' %>"
+            >
+              <input type="number" min="0" max="10" step="0.1" required
+              name="memberA_<%= rowIdx %>" class="topic-input-class" <%=
+              locals.professorRole === 'memberA' ? '' : 'readonly disabled' %>
+              />
+            </td>
+            <td
+              class="<%= locals.professorRole !== 'memberB' ? 'readonly-col' : '' %>"
+            >
+              <input type="number" min="0" max="10" step="0.1" required
+              name="memberB_<%= rowIdx %>" class="topic-input-class" <%=
+              locals.professorRole === 'memberB' ? '' : 'readonly disabled' %>
+              />
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <div class="button-group" style="margin-top: 0.5rem">
+        <button type="submit" class="green-button">Αποθήκευση</button>
+      </div>
+      <% } else { %>
+      <div class="no-data">
+        <p>
+          Το βαθμολόγιο της διπλωματικής θα εμφανιστεί μετά την παρουσίαση της.
+        </p>
+      </div>
+      <% } %>
+    </div>
+    <div class="info-section text-area">
+      <h4 class="info-label">Πρόχειρο Κείμενο</h4>
+      <p class="info-value">
+        <a href="/data/dummy_pdf.pdf" target="_blank" class="attachment-link">
+          <span class="attachment-icon">📄</span>
+          dummy_pdf.pdf
+          <span class="attachment-type">PDF</span>
+        </a>
+      </p>
+    </div>
+    <div class="info-section">
+      <h4 class="info-label">Σύνδεσμοι</h4>
+      <p class="info-value">
+        <a href="<%= topic.repositoryUrl || 'https://google.com' %>"
+          ><%= topic.repositoryUrl || 'https://google.com' %></a
+        >
+      </p>
+      <p class="info-value" style="margin-top: 0.5rem">
+        <a href="<%= topic.repositoryUrl || 'https://google.com' %>"
+          ><%= topic.repositoryUrl || 'https://google.com' %></a
+        >
+      </p>
+    </div>
+  </div>
+  <% } %>
+</div>

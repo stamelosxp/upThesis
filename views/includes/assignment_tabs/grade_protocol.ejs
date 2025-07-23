@@ -1,0 +1,91 @@
+<div class="protocol-content">
+    <div class="protocol-container">
+        <% if (!showEvaluation) { %>
+            <div class="no-data">
+                <p>
+                    Το πρακτικό θα εμφανιστεί μετά την ημέρα της παρουσίασης και την
+                    οριστικοποίηση των βαθμολογιών.
+                </p>
+            </div>
+        <% } else { %>
+            <% let readOnlyCheck = true; %>
+            <% if (locals.professorRole === 'supervisor') {
+                readOnlyCheck = false;
+            } %>
+            <div class="protocol-info-section">
+                <label for="protocolDate" class="protocol-label">Ημερομηνία</label>
+                <input type="date" id="protocolDate" name="protocolDate"
+                       class="protocol-input" <%= readOnlyCheck ? 'readonly' : '' %> />
+            </div>
+            <div class="protocol-info-section">
+                <label for="protocolTime" class="protocol-label">Ώρα</label>
+                <input type="time" id="protocolTime" name="protocolTime"
+                       class="protocol-input" <%= readOnlyCheck ? 'readonly' : '' %> />
+            </div>
+            <div class="protocol-info-section">
+                <label for="protocolRoom" class="protocol-label">Αίθουσα</label>
+                <input type="text" id="protocolRoom" name="protocolRoom"
+                       class="protocol-input" <%= readOnlyCheck ? 'readonly' : '' %> />
+            </div>
+        <div class="vote-section">
+            <label class="protocol-label">Ψηφοφορία</label>
+            <table class="vote-table">
+                <tr>
+                    <td>
+                        <label for="voteSupervisor" class="protocol-label">Επιβλέπων</label>
+                        <select id="voteSupervisor" name="voteSupervisor" class="protocol-input" <%= readOnlyCheck ? 'disabled' : '' %>>
+                            <option>ΥΠΕΡ</option>
+                            <option>ΚΑΤΑ</option>
+                        </select>
+                    </td>
+                    <td>
+                        <label for="voteMemberA" class="protocol-label">Μέλος Α</label>
+                        <select id="voteMemberA" name="voteMemberA" class="protocol-input" <%= readOnlyCheck ? 'disabled' : '' %>>
+                            <option>ΥΠΕΡ</option>
+                            <option>ΚΑΤΑ</option>
+                        </select>
+                    </td>
+                    <td>
+                        <label for="voteMemberB" class="protocol-label">Μέλος Β</label>
+                        <select id="voteMemberB" name="voteMemberB" class="protocol-input" <%= readOnlyCheck ? 'disabled' : '' %>>
+                            <option>ΥΠΕΡ</option>
+                            <option>ΚΑΤΑ</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <div class="protocol-info-section">
+                <label for="proposedGrade" class="protocol-label">Πρόταση Βαθμού</label>
+                <input type="number" id="proposedGrade" name="proposedGrade" min="0" max="10" step="0.1"
+                       class="protocol-input" <%= readOnlyCheck ? 'readonly' : '' %> />
+            </div>
+
+            <div class="protocol-info-section">
+                <label for="finalGrade" class="protocol-label">Τελικός Βαθμός</label>
+                <input type="number" id="finalGrade" name="finalGrade" min="0" max="10" step="0.1"
+                       class="protocol-input" <%= readOnlyCheck ? 'readonly' : '' %> />
+            </div>
+
+            <% } %>
+        </div>
+    </div>
+    <div class="button-group">
+        <% if (existsProtocol) { %>
+            <button type="button" class="protocol-button">Προβολή</button>
+        <% } else if(!existsProtocol && locals.professorRole === 'supervisor') { %>
+            <button type="submit" class="green-button">Οριστικοποίηση</button>
+        <% } %>
+    </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var dateInput = document.getElementById('protocolDate');
+    if (dateInput && !dateInput.value) {
+      var today = new Date();
+      var yyyy = today.getFullYear();
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var dd = String(today.getDate()).padStart(2, '0');
+      dateInput.value = yyyy + '-' + mm + '-' + dd;
+    }
+  });
+</script>
