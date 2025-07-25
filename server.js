@@ -179,7 +179,7 @@ app.get("/professor/assignments/:id", async (req, res) => {
 });
 
 app.get("/professor/invitations", (req, res) => {
-    res.render("maintenance", {
+    res.render("invitations", {
         pageTitle: "Προσκλήσεις",
         userRole: "professor",
         currentPage: "invitations",
