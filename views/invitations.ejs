@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><%= pageTitle %> | eThesis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/invitations.css"/>
+</head>
+<body>
+<%- include('includes/main-header') %>
+<div class="layout">
+    <%- include('includes/main-menu') %>
+    <main>
+        <section class="current-page-header">
+            <h2><%= pageTitle %></h2>
+            <p class="current-page-message">
+                Έχετε <%= (invitationsList || []).filter((inv) => inv.status === "pending").length %> εκκρεμείς
+                προσκλήσεις.</p>
+        </section>
+        <section class="invitations-content">
+            <div id="invitations-list" class="invitations-container">
+                <% if(invitationsList && invitationsList.length > 0) { %>
+                    <ul>
+                        <% invitationsList.forEach(function(invItem, index) { %>
+                            <li class="invitation-item collapsed">
+                                <div class="invitation-header">
+                                    <h3 class="invitation-thesis-title">Τίτλος Διπλωματικής</h3>
+                                    <div class="badges-group">
+                                        <p class="invitation-status <%= invItem.status.toLowerCase() %>">
+                                            <%
+                                                let statusText = '';
+                                                if (invItem.status) {
+                                                    switch (invItem.status.toLowerCase()) {
+                                                        case 'pending': statusText = 'Εκκρεμής'; break;
+                                                        case 'accepted': statusText = 'Εγκεκριμένη'; break;
+                                                        case 'rejected': statusText = 'Απορριφθείσα'; break;
+                                                        default: statusText = invItem.status;
+                                                    }
+                                                }
+                                            %>
+                                            <%= statusText %>
+                                        </p>
+                                        <p class="invitation-date">
+                                            <%= invItem.createdAt ? invItem.createdAt.split('T')[0] : '' %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <small class="expand-indicator">Κλικ για ανάπτυξη</small>
+                            </li>
+                        <% }); %>
+                    </ul>
+                <% } else { %>
+                    <p>Δεν υπάρχουν προσκλήσεις.</p>
+                <% } %>
+            </div>
+            <aside class="filters-box">
+                <h3>Φίλτρα</h3>
+                <form id="filter-form-invitations" class="filter-form">
+                    <div class="filter-group">
+                        <label for="filter-status" class="filter-header">Κατάσταση</label>
+                        <div>
+                            <input type="checkbox" id="filter-status-pending" name="status" value="pending"/>
+                            <label for="filter-status-pending">Εκκρεμείς</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="filter-status-accepted" name="status" value="accepted"/>
+                            <label for="filter-status-accepted">Εγκεκριμένη</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="filter-status-rejected" name="status" value="rejected"/>
+                            <label for="filter-status-rejected">Απορριφθείσα</label>
+                        </div>
+                    </div>
+                    <div class="button-form-group">
+                        <button type="reset" class="standard-button">Επαναφορά</button>
+                    </div>
+                </form>
+            </aside>
+        </section>
+    </main>
+
+</div>
+</body>
+</html>

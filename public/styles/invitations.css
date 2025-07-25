@@ -1,0 +1,119 @@
+/*import components*/
+@import url('shared.css');
+@import url('./components/buttons.css');
+@import url('./components/filtes.css');
+
+/*will moved into shared*/
+.current-page-header {
+    padding: 1rem 0;
+    display: flex;
+    white-space: nowrap;
+}
+
+.current-page-header h2 {
+    font-size: 2rem;
+    color: #52616b;
+    margin: 0.5rem 0;
+    padding-right: 1rem;
+    margin-right: 1rem;
+    border-right: 2px solid #1e2022;
+}
+
+.invitations-content {
+    display: flex;
+    flex-direction: row;
+    margin-right: 1.5rem;
+}
+
+#invitations-list {;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #52616b #f0f5f9;
+    padding: 0.2rem 1rem 0 0;
+    box-sizing: border-box;
+    margin-right: 2rem;
+    height: 1000px;
+    width: 100%;
+}
+
+.invitation-item {
+    background-color: #f8fafb;
+    color: #52616b;
+    border: 2px solid #52616b;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(82, 97, 107, 0.15);
+    margin-bottom: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.invitation-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(82, 97, 107, 0.25);
+    border-color: #1e2022;
+}
+
+.invitation-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(82, 97, 107, 0.1);
+    margin-bottom: 0.8rem;
+}
+
+.invitation-thesis-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.badges-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.invitation-date, .invitation-status {
+    max-width: fit-content;
+    background: #c9d6df;
+    color: #1e2022;
+    padding: 0.4rem 1rem;
+    border-radius: 25px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 0;
+    flex: 0 0 auto;
+    width: auto;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+
+/* Status-specific colors */
+.invitation-status.accepted {
+    background: #4caf50;
+    color: #fff;
+}
+
+.invitation-status.rejected {
+    background: #f44336;
+    color: #fff;
+}
+
+.invitation-status.pending {
+    background: #ff9800;
+    color: #fff;
+}
+
+
+

@@ -183,9 +183,7 @@ app.get("/professor/invitations", async (req, res) => {
         const invitationsList = await fs.readFile(path.join(__dirname, "data", "sampleInvitations.json"), "utf-8");
         const allInvitations = JSON.parse(invitationsList);
 
-        const professorInvitations = allInvitations.filter((inv) => inv.professorID == res.locals.professorID);
-
-        console.log(professorInvitations);
+        const professorInvitations = allInvitations.filter((inv) => inv.professorID === res.locals.professorID);
 
         res.render("invitations", {
             pageTitle: "Προσκλήσεις",
