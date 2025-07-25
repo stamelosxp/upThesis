@@ -1,9 +1,9 @@
-#page-title {
-  padding: 0;
+#back-section {
+  padding: 1rem 0;
   margin: 0;
 }
 
-#page-title a {
+#back-section a {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -18,7 +18,7 @@
   border: 1px solid rgba(201, 214, 223, 0.4);
 }
 
-#page-title a:hover {
+#back-section a:hover {
   background: rgba(255, 255, 255, 0.9);
   border-color: rgba(82, 97, 107, 0.3);
   transform: translateY(-1px);
