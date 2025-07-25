@@ -178,12 +178,28 @@ app.get("/professor/assignments/:id", async (req, res) => {
     }
 });
 
-app.get("/professor/invitations", (req, res) => {
-    res.render("invitations", {
-        pageTitle: "Προσκλήσεις",
-        userRole: "professor",
-        currentPage: "invitations",
-    });
+app.get("/professor/invitations", async (req, res) => {
+    try {
+        const invitationsList = await fs.readFile(path.join(__dirname, "data", "sampleInvitations.json"), "utf-8");
+        const allInvitations = JSON.parse(invitationsList);
+
+        const professorInvitations = allInvitations.filter((inv) => inv.professorID == res.locals.professorID);
+
+        console.log(professorInvitations);
+
+        res.render("invitations", {
+            pageTitle: "Προσκλήσεις",
+            userRole: "professor",
+            currentPage: "invitations",
+            invitationsList: professorInvitations,
+        });
+
+    } catch (err) {
+        console.error("Error loading invitations:", err);
+        return res.status(500).send("Error loading invitations");
+    }
+
+
 });
 
 app.get("/professor/stats", (req, res) => {
