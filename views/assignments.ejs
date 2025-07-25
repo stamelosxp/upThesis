@@ -1,178 +1,177 @@
 <!DOCTYPE html>
 <html lang="el">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><%= pageTitle %> | upThesis</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
+            rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles/shared.css" />
-    <link rel="stylesheet" href="/styles/assignments.css" />
-  </head>
-  <body>
-    <header>
-      <a href="/" id="main-logo">upThesis</a>
-    </header>
-    <div class="layout">
-      <%- include('includes/main-menu') %>
-      <main>
+    <link rel="stylesheet" href="/styles/shared.css"/>
+    <link rel="stylesheet" href="/styles/assignments.css"/>
+</head>
+<body>
+<%- include('includes/main-header') %>
+<div class="layout">
+    <%- include('includes/main-menu') %>
+    <main>
         <section id="page-title">
-          <div id="page-title-container">
-            <h2>Αναθέσεις</h2>
-            <p><%= topics ? topics.length : 0 %> Αποτελέσματα</p>
-          </div>
+            <div id="page-title-container">
+                <h2>Αναθέσεις</h2>
+                <p><%= topics ? topics.length : 0 %> Αποτελέσματα</p>
+            </div>
         </section>
         <section id="assignments-content">
-          <div class="page-content-container">
-            <div id="assignments-container">
-              <div class="button-container">
-                <input
-                  type="text"
-                  id="search-bar"
-                  placeholder="Αναζήτηση Εργασιών..."
-                />
-                <button id="export-theses" class="button">Εξαγωγή</button>
-              </div>
-              <div id="assignments-list">
-                <% if(topics && topics.length > 0) { %>
-                <ul class="topics-list">
-                  <% topics.forEach(function(topic, index) { %>
-                  <li class="topic-item">
-                    <div class="topic-conten">
-                      <div class="collapsed-header">
-                        <h3 class="topic-header"><%= topic.title %></h3>
-                        <p class="topic-status <%= topic.status %>">
-                          <% 
-                            let statusText = '';
-                            if (topic.status) {
-                              switch(topic.status.toLowerCase()) {
-                                case 'completed':
-                                  statusText = 'Ολοκληρωμένη';
-                                  break;
-                                case 'active':
-                                  statusText = 'Ενεργή';
-                                  break;
-                                case 'pending':
-                                  statusText = 'Υπό-Ανάθεση';
-                                  break;
-                                case 'review':
-                                  statusText = 'Υπό-Εξέταση';
-                                  break;
-                                case 'cancelled':
-                                  statusText = 'Ακυρωμένη';
-                                  break;
-                                default:
-                                  statusText = topic.status;
-                              }
-                            }
-                          %>
-                          <%= statusText %>
-                        </p>
-                      </div>
-                      <a href="/professor/assignments/<%= topic.id %>" class="open-topic-page">Κλικ για άνοιγμα</a>
+            <div class="page-content-container">
+                <div id="assignments-container">
+                    <div class="button-container">
+                        <input
+                                type="text"
+                                id="search-bar"
+                                placeholder="Αναζήτηση Εργασιών..."
+                        />
+                        <button id="export-theses" class="button">Εξαγωγή</button>
                     </div>
-                  </li>
-                  <% }); %>
-                </ul>
-                <% } else { %>
-                <p class="no-topics-message">Δεν υπάρχουν διαθέσιμα θέματα.</p>
-                <% } %>
-              </div>
+                    <div id="assignments-list">
+                        <% if(topics && topics.length > 0) { %>
+                            <ul class="topics-list">
+                                <% topics.forEach(function(topic, index) { %>
+                                    <li class="topic-item">
+                                        <div class="topic-conten">
+                                            <div class="collapsed-header">
+                                                <h3 class="topic-header"><%= topic.title %></h3>
+                                                <p class="topic-status <%= topic.status %>">
+                                                    <%
+                                                        let statusText = '';
+                                                        if (topic.status) {
+                                                            switch (topic.status.toLowerCase()) {
+                                                                case 'completed':
+                                                                    statusText = 'Ολοκληρωμένη';
+                                                                    break;
+                                                                case 'active':
+                                                                    statusText = 'Ενεργή';
+                                                                    break;
+                                                                case 'pending':
+                                                                    statusText = 'Υπό-Ανάθεση';
+                                                                    break;
+                                                                case 'review':
+                                                                    statusText = 'Υπό-Εξέταση';
+                                                                    break;
+                                                                case 'cancelled':
+                                                                    statusText = 'Ακυρωμένη';
+                                                                    break;
+                                                                default:
+                                                                    statusText = topic.status;
+                                                            }
+                                                        }
+                                                    %>
+                                                    <%= statusText %>
+                                                </p>
+                                            </div>
+                                            <a href="/professor/assignments/<%= topic.id %>" class="open-topic-page">Κλικ
+                                                για άνοιγμα</a>
+                                        </div>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        <% } else { %>
+                            <p class="no-topics-message">Δεν υπάρχουν διαθέσιμα θέματα.</p>
+                        <% } %>
+                    </div>
+                </div>
+                <div id="assignments-filters">
+                    <h3>Φίλτρα</h3>
+                    <form id="filter-form">
+                        <div class="filter-group">
+                            <label for="sort-method" class="filter-header"
+                            >Ταξινόμηση</label
+                            >
+                            <div class="radio-group">
+                                <input
+                                        type="radio"
+                                        id="sort-method-date"
+                                        name="sort-method"
+                                        value="date"
+                                        checked
+                                />
+                                <label for="sort-method-date">Ημερομηνία</label>
+                            </div>
+                            <div class="radio-group">
+                                <input
+                                        type="radio"
+                                        id="sort-method-title"
+                                        name="sort-method"
+                                        value="title"
+                                />
+                                <label for="sort-method-title">Τίτλος</label>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filter-status" class="filter-header"
+                            >Κατάσταση</label
+                            >
+                            <div>
+                                <input type="checkbox" id="filter-status-assigned"/>
+                                <label for="filter-status-assigned">Υπό-Ανάθεση</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="filter-status-active"/>
+                                <label for="filter-status-active">Ενεργή</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="filter-status-for-review"/>
+                                <label for="filter-status-for-review">Υπό-Εξέταση</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="filter-status-completed"/>
+                                <label for="filter-status-completed">Ολοκληρωμένη</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="filter-status-rejected"/>
+                                <label for="filter-status-rejected">Ακυρωμένη</label>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filter-year" class="filter-header">Έτος</label>
+                            <div>
+                                <input type="checkbox" id="filter-year-2025"/>
+                                <label for="filter-year-2025">2025</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="filter-year-2024"/>
+                                <label for="filter-year-2024">2024</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="filter-year-2023"/>
+                                <label for="filter-year-2023">2023</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="filter-year-old"/>
+                                <label for="filter-year-old">Παλιότερα</label>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filter-user-role">Ρόλος</label>
+                            <div>
+                                <input type="checkbox" id="filter-role-supervisor"/>
+                                <label for="filter-role-supervisor">Επιβλέπων</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="filter-role-member"/>
+                                <label for="filter-role-member">Μέλος</label>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="reset" class="button">Επαναφορά</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div id="assignments-filters">
-              <h3>Φίλτρα</h3>
-              <form id="filter-form">
-                <div class="filter-group">
-                  <label for="sort-method" class="filter-header"
-                    >Ταξινόμηση</label
-                  >
-                  <div class="radio-group">
-                    <input
-                      type="radio"
-                      id="sort-method-date"
-                      name="sort-method"
-                      value="date"
-                      checked
-                    />
-                    <label for="sort-method-date">Ημερομηνία</label>
-                  </div>
-                  <div class="radio-group">
-                    <input
-                      type="radio"
-                      id="sort-method-title"
-                      name="sort-method"
-                      value="title"
-                    />
-                    <label for="sort-method-title">Τίτλος</label>
-                  </div>
-                </div>
-                <div class="filter-group">
-                  <label for="filter-status" class="filter-header"
-                    >Κατάσταση</label
-                  >
-                  <div>
-                    <input type="checkbox" id="filter-status-assigned" />
-                    <label for="filter-status-assigned">Υπό-Ανάθεση</label>
-                  </div>
-                  <div>
-                    <input type="checkbox" id="filter-status-active" />
-                    <label for="filter-status-active">Ενεργή</label>
-                  </div>
-                  <div>
-                    <input type="checkbox" id="filter-status-for-review" />
-                    <label for="filter-status-for-review">Υπό-Εξέταση</label>
-                  </div>
-                  <div>
-                    <input type="checkbox" id="filter-status-completed" />
-                    <label for="filter-status-completed">Ολοκληρωμένη</label>
-                  </div>
-                  <div>
-                    <input type="checkbox" id="filter-status-rejected" />
-                    <label for="filter-status-rejected">Ακυρωμένη</label>
-                  </div>
-                </div>
-                <div class="filter-group">
-                  <label for="filter-year" class="filter-header">Έτος</label>
-                  <div>
-                    <input type="checkbox" id="filter-year-2025" />
-                    <label for="filter-year-2025">2025</label>
-                  </div>
-                  <div>
-                    <input type="checkbox" id="filter-year-2024" />
-                    <label for="filter-year-2024">2024</label>
-                  </div>
-                  <div>
-                    <input type="checkbox" id="filter-year-2023" />
-                    <label for="filter-year-2023">2023</label>
-                  </div>
-                  <div>
-                    <input type="checkbox" id="filter-year-old" />
-                    <label for="filter-year-old">Παλιότερα</label>
-                  </div>
-                </div>
-                <div class="filter-group">
-                  <label for="filter-user-role">Ρόλος</label>
-                  <div>
-                    <input type="checkbox" id="filter-role-supervisor" />
-                    <label for="filter-role-supervisor">Επιβλέπων</label>
-                  </div>
-                  <div>
-                    <input type="checkbox" id="filter-role-member" />
-                    <label for="filter-role-member">Μέλος</label>
-                  </div>
-                </div>
-                <div class="button-group">
-                  <button type="reset" class="button">Επαναφορά</button>
-                </div>
-              </form>
-            </div>
-          </div>
         </section>
-      </main>
-    </div>
-  </body>
+    </main>
+</div>
+</body>
 </html>
