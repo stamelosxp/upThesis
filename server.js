@@ -181,24 +181,42 @@ app.get("/professor/assignments/:id", async (req, res) => {
 app.get("/professor/invitations", async (req, res) => {
     try {
         const invitationsList = await fs.readFile(path.join(__dirname, "data", "sampleInvitations.json"), "utf-8");
+        const topicsList = await fs.readFile(path.join(__dirname, "data", "sampleTopics.json"), "utf-8");  // Adjust filename/path if different
+
         const allInvitations = JSON.parse(invitationsList);
+        const allTopics = JSON.parse(topicsList);
+
+        const topicsMap = new Map();
+        allTopics.forEach(topic => {
+            topicsMap.set(topic.id, topic);
+        });
+
 
         const professorInvitations = allInvitations.filter((inv) => inv.professorID === res.locals.professorID);
 
+        const enhancedInvitations = professorInvitations.map((inv) => {
+            const matchingTopic = topicsMap.get(Number(inv.thesisID));
+            return {
+                ...inv,
+                title: matchingTopic && matchingTopic.title ? matchingTopic.title : 'Topic not found',
+                description: matchingTopic && matchingTopic.description ? matchingTopic.description : 'Description unavailable'
+            };
+        });
+
+        enhancedInvitations.sort((a, b) => new Date(b.date) - new Date(a.date));  // Assumes 'date' is parseable
         res.render("invitations", {
             pageTitle: "Προσκλήσεις",
             userRole: "professor",
             currentPage: "invitations",
-            invitationsList: professorInvitations,
+            invitationsList: enhancedInvitations,  // Now includes topic details
         });
 
     } catch (err) {
-        console.error("Error loading invitations:", err);
+        console.error("Error loading invitations or topics:", err);
         return res.status(500).send("Error loading invitations");
     }
-
-
 });
+
 
 app.get("/professor/stats", (req, res) => {
     res.render("maintenance", {

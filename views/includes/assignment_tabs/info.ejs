@@ -1,70 +1,72 @@
 <div class="info-content">
-  <div class="info-section">
-    <!-- will change with dynamic data -->
-    <h4 class="info-label">Φοιτητής</h4>
-    <p class="info-value">ΣΤΑΜΕΛΟΣ ΧΑΡΙΛΑΟΣ ΠΑΝΑΓΙΩΤΗΣ, 1090076</p>
-  </div>
-
-  <div class="info-section">
-    <!-- will change with dynamic data -->
-    <h4 class="info-label">Μέλη Επιτροπής</h4>
-    <div>
-      <div class="info-members">
-        <p class="member-name">ΚΑΡΑΓΙΑΝΝΗΣ ΣΤΥΛΙΑΝΟΣ</p>
-        <p class="info-badge">Επιβλέπων</p>
-      </div>
-      <div class="info-members">
-        <p class="member-name">ΓΕΩΡΓΙΑ ΠΑΠΑΔΟΠΟΥΛΟΥ</p>
-        <p class="info-badge">Μέλος</p>
-      </div>
-      <div class="info-members">
-        <p class="member-name">-</p>
-        <p class="info-badge">Μέλος</p>
-      </div>
-    </div>
-  </div>
-
-  <% if (topic.status == 'completed') { %>
     <div class="info-section">
-        <h4 class="info-label">Βαθμός</h4>
-        <p class="info-value"><%= topic.completedAt || '-' %></p>
+        <!-- will change with dynamic data -->
+        <h4 class="info-label">Φοιτητής</h4>
+        <p class="info-value">ΣΤΑΜΕΛΟΣ ΧΑΡΙΛΑΟΣ ΠΑΝΑΓΙΩΤΗΣ, 1090076</p>
     </div>
 
+    <div class="info-section">
+        <!-- will change with dynamic data -->
+        <h4 class="info-label">Μέλη Επιτροπής</h4>
+        <div>
+            <div class="info-members">
+                <p class="member-name">ΚΑΡΑΓΙΑΝΝΗΣ ΣΤΥΛΙΑΝΟΣ</p>
+                <p class="info-badge">Επιβλέπων</p>
+            </div>
+            <div class="info-members">
+                <p class="member-name">ΓΕΩΡΓΙΑ ΠΑΠΑΔΟΠΟΥΛΟΥ</p>
+                <p class="info-badge">Μέλος</p>
+            </div>
+            <div class="info-members">
+                <p class="member-name">-</p>
+                <p class="info-badge">Μέλος</p>
+            </div>
+        </div>
     </div>
+
+    <% if (topic.status == 'completed') { %>
         <div class="info-section">
-        <h4 class="info-label">Αποθετήριο Νημέρτης</h4>
-        <p class="info-value"><a href="<%= topic.repositoryUrl || 'https://google.com' %>"><%= topic.repositoryUrl || 'https://google.com' %></a></p>
-    </div>
+            <h4 class="info-label">Βαθμός</h4>
+            <p class="info-value"><%= topic.completedAt || '-' %></p>
+        </div>
 
-  <% } %>
-
-  <% if(topic.status !== 'completed') { %>
-  <div class="info-section text-area">
-    <h4 class="info-label">Περιγραφή</h4>
-    <p class="info-value">
-        <%= topic.description%>
+</div>
+<div class="info-section">
+    <h4 class="info-label">Αποθετήριο Νημέρτης</h4>
+    <p class="info-value"><a
+                href="<%= topic.repositoryUrl || 'https://google.com' %>"><%= topic.repositoryUrl || 'https://google.com' %></a>
     </p>
-  </div>
+</div>
+
+<% } %>
+
+<% if(topic.status !== 'completed') { %>
     <div class="info-section text-area">
-    <h4 class="info-label">Συννημένο</h4>
-    <p class="info-value">
-        <a href="/data/dummy_pdf.pdf" target="_blank" class="attachment-link">
-          <span class="attachment-icon">📄</span>
-          dummy_pdf.pdf
-          <span class="attachment-type">PDF</span>
-        </a>
-    </p>
-  </div>
-    <% }  %>
-  <div class="info-section">
+        <h4 class="info-label">Περιγραφή</h4>
+        <p class="info-value">
+            <%= topic.description %>
+        </p>
+    </div>
+    <div class="info-section text-area">
+        <h4 class="info-label">Συννημένο</h4>
+        <p class="info-value">
+            <a href="/data/dummy_pdf.pdf" target="_blank" class="attachment-link">
+                <span class="attachment-icon">📄</span>
+                dummy_pdf.pdf
+                <span class="attachment-type">PDF</span>
+            </a>
+        </p>
+    </div>
+<% } %>
+<div class="info-section">
     <h4 class="info-label">Ημερομηνία Ανάθεσης</h4>
     <p class="info-value"><%= topic.assignmentDate %></p>
-  </div>
+</div>
 
-  <% if (topic.status === 'completed') { %>
+<% if (topic.status === 'completed') { %>
     <div class="info-section">
         <h4 class="info-label">Ημερομηνία Ολοκλήρωσης</h4>
         <p class="info-value"><%= topic.completedAt || '-' %></p>
     </div>
-    <% } %>
+<% } %>
 </div>
