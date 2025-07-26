@@ -11,6 +11,7 @@
             rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles/invitations.css"/>
+    <script src="/scripts/invitations.js" defer></script>
 </head>
 <body>
 <%- include('includes/main-header') %>
@@ -28,30 +29,40 @@
                 <% if(invitationsList && invitationsList.length > 0) { %>
                     <ul>
                         <% invitationsList.forEach(function(invItem, index) { %>
-                            <li class="invitation-item collapsed">
-                                <div class="invitation-header">
-                                    <h3 class="invitation-thesis-title">Τίτλος Διπλωματικής</h3>
-                                    <div class="badges-group">
-                                        <p class="invitation-status <%= invItem.status.toLowerCase() %>">
-                                            <%
-                                                let statusText = '';
-                                                if (invItem.status) {
-                                                    switch (invItem.status.toLowerCase()) {
-                                                        case 'pending': statusText = 'Εκκρεμής'; break;
-                                                        case 'accepted': statusText = 'Εγκεκριμένη'; break;
-                                                        case 'rejected': statusText = 'Απορριφθείσα'; break;
-                                                        default: statusText = invItem.status;
+                            <li class="invitation-item">
+                                <div class="invitation-item-collapsed">
+                                    <div class="invitation-header">
+                                        <h3 class="invitation-thesis-title"><%= invItem.title%></h3>
+                                        <div class="badges-group">
+                                            <p class="invitation-status <%= invItem.status.toLowerCase() %>">
+                                                <%
+                                                    let statusText = '';
+                                                    if (invItem.status) {
+                                                        switch (invItem.status.toLowerCase()) {
+                                                            case 'pending':
+                                                                statusText = 'Εκκρεμής';
+                                                                break;
+                                                            case 'accepted':
+                                                                statusText = 'Εγκεκριμένη';
+                                                                break;
+                                                            case 'rejected':
+                                                                statusText = 'Απορριφθείσα';
+                                                                break;
+                                                            default:
+                                                                statusText = invItem.status;
+                                                        }
                                                     }
-                                                }
-                                            %>
-                                            <%= statusText %>
-                                        </p>
-                                        <p class="invitation-date">
-                                            <%= invItem.createdAt ? invItem.createdAt.split('T')[0] : '' %>
-                                        </p>
+                                                %>
+                                                <%= statusText %>
+                                            </p>
+                                            <p class="invitation-date">
+                                                <%= invItem.createdAt ? invItem.createdAt.split('T')[0] : '' %>
+                                            </p>
+                                        </div>
                                     </div>
+                                    <small class="expand-button">Κλικ για ανάπτυξη</small>
                                 </div>
-                                <small class="expand-indicator">Κλικ για ανάπτυξη</small>
+                                <%- include('includes/expanded-invitation', {invItem: invItem})%>
                             </li>
                         <% }); %>
                     </ul>
