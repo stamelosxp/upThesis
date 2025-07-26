@@ -1,14 +1,14 @@
 [
   {
     "id": 1,
-    "thesisId": 2,
+    "thesisId": 3,
     "dateTime": "2025-07-25T10:00:00Z",
     "participants": { "student": 201, "professor": "prof_001" },
     "status": "scheduled"
   },
   {
     "id": 2,
-    "thesisId": 2,
+    "thesisId": 3,
     "dateTime": "2025-07-23T14:30:00Z",
     "participants": { "student": 202, "professor": "prof_001" },
     "status": "completed"
@@ -18,7 +18,7 @@
     "thesisId": 3,
     "dateTime": "2025-07-28T11:15:00Z",
     "participants": { "student": 203, "professor": "prof_001" },
-    "status": "scheduled"
+    "status": "cancelled"
   },
   {
     "id": 4,
