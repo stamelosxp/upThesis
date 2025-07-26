@@ -16,8 +16,8 @@
     box-shadow: 0 4px 16px rgba(28, 32, 34, 0.18);
 }
 
-.expand-indicator,
-.collapse-indicator {
+.expand-button,
+.collapse-button {
     font-size: 0.85rem;
     color: #52616b;
     font-weight: 500;
@@ -41,8 +41,8 @@
     letter-spacing: 0.3px;
 }
 
-.expand-indicator:hover,
-.collapse-indicator:hover {
+.expand-button:hover,
+.collapse-button:hover {
     background: linear-gradient(
             135deg,
             rgba(201, 214, 223, 0.5),
@@ -51,4 +51,42 @@
     transform: translateY(-1px);
     box-shadow: 0 3px 8px rgba(82, 97, 107, 0.2);
     border-color: rgba(82, 97, 107, 0.4);
+}
+
+.cancel-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border: 2px solid;
+    cursor: pointer;
+    background: #d63031;
+    color: #fff;
+    border-color: #d63031;
+}
+
+.cancel-button:hover {
+    background: #b92d2e;
+    border-color: #b92d2e;
+    color: #fff;
+}
+
+.accept-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border: 2px solid;
+    cursor: pointer;
+    background: #00b894;
+    color: #fff;
+    border-color: #00b894;
+}
+
+.accept-button:hover {
+    background: #009e74;
+    border-color: #009e74;
+    color: #fff;
 }
