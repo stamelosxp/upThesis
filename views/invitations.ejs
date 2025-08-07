@@ -18,17 +18,12 @@
 <div class="layout">
     <%- include('includes/main-menu') %>
     <main>
-        <section class="current-page-header">
-            <h2><%= pageTitle %></h2>
-            <p class="current-page-message">
-                Έχετε <%= (invitationsList || []).filter((inv) => inv.status === "pending").length %> εκκρεμείς
-                προσκλήσεις.</p>
-        </section>
+        <%- include('includes/current-page-header') %>
         <section class="invitations-content">
             <div id="invitations-list" class="invitations-container">
                 <% if(invitationsList && invitationsList.length > 0) { %>
                     <ul>
-                        <% invitationsList.forEach(function(invItem, index) { %>
+                        <% invitationsList.forEach(function(invItem) { %>
                             <li class="invitation-item">
                                 <div class="invitation-item-collapsed">
                                     <div class="invitation-header">
