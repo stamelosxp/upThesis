@@ -18,7 +18,7 @@ app.use(express.urlencoded({extended: false}));
 
 app.use(async function (req, res, next) {
     //set default user role for development
-    res.locals.userRole = "professor"; // Change to "professor" for professor role
+    res.locals.userRole = "student"; // Change to "professor" for professor role
     if (res.locals.userRole === "professor") {
         res.locals.professorID = "prof_001"; // Example professor ID
         res.locals.professorRole = "supervisor"; // Change to "supervisor" for supervisor role
@@ -191,9 +191,7 @@ app.get("/professor/invitations", async (req, res) => {
             topicsMap.set(topic.id, topic);
         });
 
-
         const professorInvitations = allInvitations.filter((inv) => inv.professorID === res.locals.professorID);
-
         const enhancedInvitations = professorInvitations.map((inv) => {
             const matchingTopic = topicsMap.get(Number(inv.thesisID));
             return {
@@ -236,10 +234,11 @@ app.get("/professor/announcements", (req, res) => {
 
 // Student routes
 app.get("/student", (req, res) => {
-    res.render("maintenance", {
+    res.render("home", {
         pageTitle: "Home",
         userRole: "student",
         currentPage: "home",
+        notification: false,
     });
 });
 
