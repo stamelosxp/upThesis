@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const datePicker = document.querySelector(".date-picker");
+  const datePicker = document.querySelector(".events-date-picker");
   if (datePicker) {
     const today = new Date();
     const yyyy = today.getFullYear();
