@@ -1,0 +1,131 @@
+/*import components*/
+@import url('shared.css');
+@import url('./components/buttons.css');
+@import url('./components/no-data.css');
+@import url('./components/status-badge.css');
+
+#topics-section {
+    margin-top: 2rem;
+    width: 90%;
+    height: 800px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #52616b #f0f5f9;
+    padding: 1rem;
+    padding-left: 0;
+}
+
+.topic-item {
+    background-color: #fff;
+    color: #52616b;
+    border: 2px solid #52616b;
+    border-radius: 12px;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(82, 97, 107, 0.15);
+    margin-bottom: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 1rem 2rem;
+}
+
+.topic-item-collapsed {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.topic-collapsed-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(82, 97, 107, 0.1);
+    margin-bottom: 0.8rem;
+}
+
+.topic-item-expanded {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 6px 24px rgba(82, 97, 107, 0.13);
+    padding: 1.5rem 2rem;
+    height: fit-content;
+    margin: 0 auto;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    /*box-sizing: border-box;*/
+}
+
+.data-section {
+    margin-bottom: 0.25rem;
+    padding: 1rem 0;
+}
+
+.data-label {
+    color: #52616b;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    letter-spacing: 0.3px;
+}
+
+.data-value {
+    color: #1e2022;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.4;
+    padding: 0.75rem 1rem;
+    background: #f8fafb;
+    border-radius: 6px;
+    border: 1px solid #e0e6ed;
+}
+
+.data-badge {
+    color: #52616b;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #e0e6ed;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    margin: 0;
+}
+
+.attachment-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #52616b;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+    background: #f0f5f9;
+    border: 1px solid #c9d6df;
+    border-radius: 6px;
+}
+
+.attachment-link:hover {
+    color: #1e2022;
+    background: #e8ecf0;
+    border-color: #52616b;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(82, 97, 107, 0.1);
+}
+
+.attachment-icon {
+    font-size: 1.1rem;
+}
+
+.attachment-type {
+    color: #6c757d;
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 0.5rem;
+}
+
