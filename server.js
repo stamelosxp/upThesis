@@ -19,7 +19,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(async function (req, res, next) {
     //set default user role for development
     res.locals.userRole = "student"; // Change to "professor" for professor role
-    if (res.locals.userRole === "professor") {
+    if (res.locals.userRole === "professor" || res.locals.userRole === "student") {
         res.locals.professorID = "prof_001"; // Example professor ID
         res.locals.professorRole = "supervisor"; // Change to "supervisor" for supervisor role
     }
@@ -55,12 +55,13 @@ app.get("/professor/topics", async (req, res) => {
             "utf-8"
         );
         const allTopics = JSON.parse(data);
-        const topics = allTopics.filter((topic) => topic.status === null);
+        const topics = allTopics.filter((topic) => topic.status === null && topic.createdBy === res.locals.professorID);
+
         res.render("available_topics", {
             pageTitle: "Θέματα",
             userRole: "professor",
             currentPage: "topics",
-            topics,
+            topics: topics,
         });
     } catch (err) {
         res.status(500).send("Error loading topics");
@@ -242,12 +243,24 @@ app.get("/student", (req, res) => {
     });
 });
 
-app.get("/student/topics", (req, res) => {
-    res.render("maintenance", {
-        pageTitle: "Θέματα",
-        userRole: "student",
-        currentPage: "topics",
-    });
+app.get("/student/topics", async (req, res) => {
+    try {
+        const data = await fs.readFile(
+            path.join(__dirname, "data", "sampleTopics.json"),
+            "utf-8"
+        );
+        const allTopics = JSON.parse(data);
+        const topics = allTopics.filter((topic) => topic.status === null);
+
+        res.render("student_topics", {
+            pageTitle: "Θέματα",
+            userRole: "student",
+            currentPage: "topics",
+            topics: topics,
+        });
+    } catch (err) {
+        res.status(500).send("Error loading topics");
+    }
 });
 
 app.get("/student/thesis", (req, res) => {
