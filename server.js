@@ -17,11 +17,22 @@ app.use("/data", express.static("data"));
 app.use(express.urlencoded({extended: false}));
 
 app.use(async function (req, res, next) {
-    //set default user role for development
+    // Set default user role for development
     res.locals.userRole = "student"; // Change to "professor" for professor role
-    if (res.locals.userRole === "professor" || res.locals.userRole === "student") {
+
+    if (res.locals.userRole === "professor") {
         res.locals.professorID = "prof_001"; // Example professor ID
         res.locals.professorRole = "supervisor"; // Change to "supervisor" for supervisor role
+    } else if (res.locals.userRole === "student") {
+        res.locals.userId = "stu_008"; // Example student ID
+
+        const userData = await fs.readFile(
+            path.join(__dirname, "data", "sampleUsers.json"),
+            "utf-8"
+        );
+        const allUsers = JSON.parse(userData);
+        const currentUser = allUsers.find(user => user.userId === res.locals.userId);
+        res.locals.userThesisId = currentUser.thesisId;
     }
     next();
 });
@@ -67,8 +78,6 @@ app.get("/professor/topics", async (req, res) => {
         res.status(500).send("Error loading topics");
     }
 });
-
-// Route to serve new topic template
 app.get("/professor/topics/new-topic-template", (req, res) => {
     res.render("includes/new_topic", {}, (err, html) => {
         if (err) {
@@ -263,12 +272,74 @@ app.get("/student/topics", async (req, res) => {
     }
 });
 
-app.get("/student/thesis", (req, res) => {
-    res.render("maintenance", {
-        pageTitle: "Διπλωματική",
-        userRole: "student",
-        currentPage: "thesis",
-    });
+app.get("/student/thesis", async (req, res) => {
+    try {
+        const userThesisRole = 'student';
+
+        const topicsData = await fs.readFile(
+            path.join(__dirname, "data", "sampleTopics.json"),
+            "utf-8"
+        );
+        const allTopics = JSON.parse(topicsData);
+        const topic = allTopics.find((topic) => topic.id === res.locals.userThesisId);
+
+        if (!topic) {
+            return res.status(404).send("Topic not found");
+        }
+
+
+
+        // Calculate showEvaluation: true if presentationDate exists and is before today
+        let showEvaluation = false;
+        if (topic.presentationDate) {
+            const [day, month, year] = topic.presentationDate.split("/").map(Number);
+            const presDate = new Date(year, month - 1, day);
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+            if (presDate < now) {
+                showEvaluation = true;
+            }
+        }
+
+        const notesData = await fs.readFile(
+            path.join(__dirname, "data", "notesSamples.json"),
+            "utf-8"
+        );
+        const allNotes = JSON.parse(notesData);
+
+        const resNotes = allNotes.filter(
+            (note) => note.topicId === topic.id
+        );
+
+        const meetingsData = await fs.readFile(
+            path.join(__dirname, "data", "sampleMeetings.json"),
+            "utf-8"
+        );
+        const allMeetings = JSON.parse(meetingsData);
+
+        // Filter meetings for this student and topic, then sort by newest date
+        const studentMeetings = allMeetings
+            .filter(
+                (meeting) =>
+                    meeting.participants.student === res.locals.userId &&
+                    String(meeting.thesisId) === String(topic.id)
+            )
+            .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+
+        res.render("student_thesis", {
+            pageTitle: "Διπλωματική",
+            currentPage: "thesis",
+            topic: topic,
+            showEvaluation: showEvaluation,
+            resNotes: resNotes,
+            professorMeetings: studentMeetings, // Placeholder for meetings, if needed
+            userThesisRole: userThesisRole,
+        });
+    } catch (err) {
+        console.error("Error loading thesis data:", err);
+        return res.status(500).send("Error loading thesis data");
+    }
+
 });
 
 app.get("/student/announcements", (req, res) => {
