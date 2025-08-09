@@ -2,22 +2,7 @@
 @import url('shared.css');
 @import url('./components/buttons.css');
 @import url('./components/filtes.css');
-
-/*will moved into shared*/
-.current-page-header {
-    padding: 1rem 0;
-    display: flex;
-    white-space: nowrap;
-}
-
-.current-page-header h2 {
-    font-size: 2rem;
-    color: #52616b;
-    margin: 0.5rem 0;
-    padding-right: 1rem;
-    margin-right: 1rem;
-    border-right: 2px solid #1e2022;
-}
+@import url('./components/current_page_header.css');
 
 .invitations-content {
     display: flex;

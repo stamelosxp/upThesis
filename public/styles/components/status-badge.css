@@ -9,3 +9,38 @@
     white-space: nowrap;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.status-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 25px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge.completed {
+    background: #4caf50;
+    color: #fff;
+}
+
+.status-badge.active {
+    background: #2196f3;
+    color: #fff;
+}
+
+.status-badge.pending {
+    background: #ff9800;
+    color: #fff;
+}
+
+.status-badge.review {
+    background: #9c27b0;
+    color: #fff;
+}
+
+.status-badge.cancelled {
+    background: #f44336;
+    color: #fff;
+}
