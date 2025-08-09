@@ -18,13 +18,12 @@ app.use(express.urlencoded({extended: false}));
 
 app.use(async function (req, res, next) {
     // Set default user role for development
-    res.locals.userRole = "student"; // Change to "professor" for professor role
+    res.locals.connectedUserRole = "professor";
 
     if (res.locals.userRole === "professor") {
-        res.locals.professorID = "prof_001"; // Example professor ID
-        res.locals.professorRole = "supervisor"; // Change to "supervisor" for supervisor role
+        res.locals.connectedUserId = "prof_001"
     } else if (res.locals.userRole === "student") {
-        res.locals.userId = "stu_008"; // Example student ID
+        res.locals.connectedUserId = "stud_001"
 
         const userData = await fs.readFile(
             path.join(__dirname, "data", "sampleUsers.json"),
@@ -34,15 +33,18 @@ app.use(async function (req, res, next) {
         const currentUser = allUsers.find(user => user.userId === res.locals.userId);
         res.locals.userThesisId = currentUser.thesisId;
     }
+    else if (res.locals.userRole === "secretary") {
+        res.locals.connectedUserId = "sec_001";
+    }
     next();
 });
 
 app.get("/", (req, res) => {
-    if (res.locals.userRole === "professor") {
+    if (res.locals.connectedUserRole === "professor") {
         return res.redirect("/professor");
-    } else if (res.locals.userRole === "student") {
+    } else if (res.locals.connectedUserRole === "student") {
         return res.redirect("/student");
-    } else if (res.locals.userRole === "secretary") {
+    } else if (res.locals.connectedUserRole === "secretary") {
         return res.redirect("/secretary");
     } else {
         return res.redirect("/login");
@@ -52,10 +54,9 @@ app.get("/", (req, res) => {
 app.get("/professor", (req, res) => {
     res.render("home", {
         pageTitle: "Home",
-        userRole: "professor",
         currentPage: "home",
-        pageContent: "Αρχική Σελίδα",
-        notification: true,
+        notificationsList: [],
+        eventsList: [],
     });
 });
 
@@ -244,11 +245,12 @@ app.get("/professor/announcements", (req, res) => {
 
 // Student routes
 app.get("/student", (req, res) => {
+    res.locals.connectedUserRole = "student"; // Set the user role to student for this session
     res.render("home", {
         pageTitle: "Home",
-        userRole: "student",
         currentPage: "home",
-        notification: false,
+        notificationsList: [],
+        eventsList: [],
     });
 });
 
