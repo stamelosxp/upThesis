@@ -1,7 +1,7 @@
 <aside id="main-menu">
     <nav>
         <ul class="menu-list">
-            <% if (locals.userRole === 'professor') { %>
+            <% if (locals.connectedUserRole === 'professor') { %>
                 <li class="menu-item <%= locals.currentPage === 'home' ? 'current' : '' %>">
                     <a href="/professor">
                         <img class="menu-icon" src="/icons/homepage.png" alt="Home Icon">
@@ -38,7 +38,7 @@
                         <span class="menu-text">Ανακοινώσεις</span>
                     </a>
                 </li>
-                <% } else if (locals.userRole === 'student') { %>
+                <% } else if (locals.connectedUserRole === 'student') { %>
                     <li class="menu-item <%= locals.currentPage === 'home' ? 'current' : '' %>">
                         <a href="/student">
                             <img class="menu-icon" src="/icons/homepage.png" alt="Home Icon">
@@ -63,7 +63,7 @@
                             <span class="menu-text">Ανακοινώσεις</span>
                         </a>
                     </li>
-                <% } else if (locals.userRole === 'secretary') { %>
+                <% } else if (locals.connectedUserRole === 'secretary') { %>
                     <li class="menu-item <%= locals.currentPage === 'home' ? 'current' : '' %>">
                         <a href="/secretary">
                             <img class="menu-icon" src="/icons/homepage.png" alt="Home Icon">

@@ -180,4 +180,8 @@ main {
         padding: 1rem 1.25rem;
         letter-spacing: -0.4px;
     }
+
+    main {
+        overflow-y: auto;
+    }
 }
