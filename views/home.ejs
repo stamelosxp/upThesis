@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title><%= pageTitle %> | upThesis</title>
+    <title><%= pageTitle %> | UpThesis</title>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link
@@ -17,18 +17,11 @@
 <body>
 <%- include('includes/main-header') %>
 <div class="layout">
-    <%- include('includes/main-menu') %>
+    <%- include('includes/main-menu', {currentPage: currentPage}) %>
     <main>
-        <section id="page-title">
-            <div id="page-title-container">
-                <h2>Αρχική</h2>
-                <p>Καλώς ήρθατε στην πλατφόρμα upThesis.</p>
-            </div>
-        </section>
-        <% if(locals.userRole === 'professor') { %>
-            <section id="dashboard">
-                <%- include('professor/dashboard_stats') %>
-            </section>
+        <%- include('includes/current-page-header', { pageTitle: 'Αρχική Σελίδα' }) %>
+        <% if(locals.connectedUserRole === 'professor') { %>
+            <%- include('professor/dashboard_stats') %>
         <% } %>
         <section id="main-content">
             <div class="box-container">
@@ -41,7 +34,7 @@
                 </div>
                 <span class="line"></span>
                 <div class="content-card-list">
-                    <% if (notification) { %>
+                    <% if (notificationsList) { %>
                         <ul>
                             <% for (let i = 0; i < 10; i++) { %>
                                 <li class="notification-item">
