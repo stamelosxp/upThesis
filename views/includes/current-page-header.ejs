@@ -1,8 +1,18 @@
 <section class="current-page-header">
     <h2><%= pageTitle %></h2>
-    <% if(locals.currentPage === 'home') { %>
+    <% if(currentPage === 'home') { %>
         <p class="current-page-message">
             Καλώς ήρθατε στην πλατφόρμα upThesis.
         </p>
+    <% } else if(currentPage === 'topics' && locals.connectedUserRole === 'professor' ) { %>
+        <p class="current-page-message">
+            Έχετε <%= topicsLength %> διαθέσιμ θέματα ανεβασμένα.
+        </p>
+    <% } else if(currentPage === 'topics' && locals.connectedUserRole === 'student') { %>
+        <p class="current-page-message">
+            Υπάρχουν <%= topicsLength %> διαθέσιμα θέματα ανεβασμένα.
+        </p>
     <% } %>
+
+
 </section>
