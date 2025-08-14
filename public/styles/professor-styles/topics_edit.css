@@ -204,7 +204,7 @@
 .student-item:hover {
     background: #e8eef2;
     border-color: #d5dee5;
-    transform: translateY(-2px);
+    /*transform: translateY(-2px);*/
 }
 
 .student-item.selected {

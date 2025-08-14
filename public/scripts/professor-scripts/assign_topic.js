@@ -65,19 +65,25 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchAvailableStudents(innerModal, studentNameSearchTerm = '') {
         const listEl = innerModal.querySelector('.student-list');
         const noResultsEl = innerModal.querySelector('.student-no-results');
+        const loadingEl = innerModal.querySelector('.student-loading');
         if (!listEl) return;
 
         if (currentFetchController) currentFetchController.abort();
         currentFetchController = new AbortController();
 
-        // Reset visibility
+        // Reset info messages
         if (noResultsEl) {
             noResultsEl.style.display = 'none';
             noResultsEl.classList.remove('error');
             noResultsEl.textContent = 'Δεν βρέθηκαν αποτελέσματα';
         }
-        listEl.style.display = 'block';
-        listEl.innerHTML = '<li class="student-item loading">Φόρτωση...</li>';
+        if (loadingEl) {
+            loadingEl.style.display = 'block';
+            loadingEl.classList.remove('error');
+            loadingEl.textContent = 'Φόρτωση...';
+        }
+        listEl.style.display = 'none';
+        listEl.innerHTML = '';
 
         const queryString = studentNameSearchTerm ? ('?studentNameSearch=' + encodeURIComponent(studentNameSearchTerm)) : '';
 
@@ -87,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await resp.json();
             if (currentFetchController.signal.aborted) return;
             const students = data.students || [];
+            if (loadingEl) loadingEl.style.display = 'none';
             if (students.length === 0) {
                 listEl.innerHTML = '';
                 listEl.style.display = 'none';
@@ -99,11 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             listEl.innerHTML = '';
             listEl.style.display = 'block';
-            if (noResultsEl) {
-                noResultsEl.style.display = 'none';
-                noResultsEl.classList.remove('error');
-                noResultsEl.textContent = 'Δεν βρέθηκαν αποτελέσματα'; // reset to default
-            }
             students.forEach(st => {
                 const li = document.createElement('li');
                 li.className = 'student-item';
@@ -116,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (err.name === 'AbortError') return;
             listEl.innerHTML = '';
             listEl.style.display = 'none';
+            if (loadingEl) loadingEl.style.display = 'none';
             if (noResultsEl) {
                 noResultsEl.textContent = 'Σφάλμα φόρτωσης';
                 noResultsEl.classList.add('error');
