@@ -8,3 +8,10 @@
     border: 1px dashed #e0e6ed;
     border-radius: 8px;
 }
+/* Error variant */
+.no-data.error {
+    color: #b00020; /* red text */
+    background: #fff5f5; /* light red background */
+    border-color: #f5c2c7; /* soft red border */
+    font-style: normal; /* optional: remove italic for errors */
+}

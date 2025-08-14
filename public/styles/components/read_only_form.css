@@ -1,0 +1,70 @@
+.data-section {
+    margin-bottom: 0.25rem;
+    padding: 1rem 0;
+}
+
+.data-label {
+    color: #52616b;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    letter-spacing: 0.3px;
+}
+
+.data-value {
+    color: #1e2022;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.4;
+    padding: 0.75rem 1rem;
+    background: #f8fafb;
+    border-radius: 6px;
+    border: 1px solid #e0e6ed;
+}
+
+.data-badge {
+    color: #52616b;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #e0e6ed;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    margin: 0;
+}
+
+.attachment-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #52616b;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+    background: #f0f5f9;
+    border: 1px solid #c9d6df;
+    border-radius: 6px;
+}
+
+.attachment-link:hover {
+    color: #1e2022;
+    background: #e8ecf0;
+    border-color: #52616b;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(82, 97, 107, 0.1);
+}
+
+.attachment-icon {
+    font-size: 1.1rem;
+}
+
+.attachment-type {
+    color: #6c757d;
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 0.5rem;
+}

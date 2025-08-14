@@ -1,440 +1,165 @@
-#topics-buttons {
-  width: 90%;
+@import url('shared.css');
+@import url('./components/current_page_header.css');
+@import url('./components/read_only_form.css');
+
+@import url('./components/buttons.css');
+@import url('./components/no-data.css');
+@import url('./components/status-badge.css');
+
+#topics-actions {
+    width: 100%;
 }
 
 .button-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    gap: 1rem;
 }
 
 .end-group {
-  display: flex;
-  justify-content: space-evenly;
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
 }
 
-/* add new topic button */
-#create-topic-btn {
-  background-color: #52616b;
-  color: #f0f5f9;
-  border: none;
-  padding: 0.8rem 1.2rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  box-shadow: 0 2px 8px rgba(82, 97, 107, 0.1);
-  white-space: nowrap;
+#topics-section {
+    margin-top: 2rem;
+    width: 100%;
+    height: 900px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #52616b #f0f5f9;
+    padding: 1rem;
+    padding-left: 0;
+    box-sizing: border-box;
 }
 
-#create-topic-btn:hover {
-  background-color: #1e2022;
-  color: #c9d6df;
-  box-shadow: 0 4px 16px rgba(28, 32, 34, 0.18);
+
+/*topic li item*/
+.topic-item {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
-/* search bar and dropdown sorting style */
-#search-bar,
-#sort-topics {
-  background-color: #f0f5f9;
-  color: #52616b;
-  border: 2px solid #52616b;
-  padding: 0.8rem 1.2rem;
-  border-radius: 6px;
-  font-size: 1rem;
-  box-shadow: 0 2px 8px rgba(82, 97, 107, 0.1);
-  outline: none;
-  width: 500px;
-}
-#search-bar {
-  background-color: #fff;
-  margin-right: 0.5rem;
+.topic-item.edit-mode, .topic-item.new-mode {
+    position: relative;
+    overflow: visible;
 }
 
-#sort-topics {
-  width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.topic-item-collapsed, .topic-item-expanded {
+    box-shadow: 0 4px 12px rgba(82, 97, 107, 0.15);
+    background-color: #fff;
+    color: #52616b;
+    border: 2.5px solid #52616b;
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    box-sizing: border-box;
 }
 
-#search-bar:hover,
-#search-bar:focus,
-#sort-topics:hover,
-#sort-topics:focus {
-  border-color: #1e2022;
-  box-shadow: 0 4px 16px rgba(28, 32, 34, 0.18);
+.topic-item-collapsed {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f8fafb;
 }
 
-#search-bar::placeholder {
-  color: #52616b;
-  opacity: 0.6;
+.topic-collapsed-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(82, 97, 107, 0.1);
+    margin-bottom: 0.8rem;
 }
 
-/* topics container style */
-/* main container of the section */
-#topics-container-list {
-  margin-top: 2rem;
-  width: 90%;
-  height: 800px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #52616b #f0f5f9;
-  padding: 1rem;
-  padding-left: 0;
+/*topic expanded style*/
+.topic-item-expanded {
+    height: fit-content;
+    display: none;
+    flex-direction: column;
+    font-size: 1rem;
 }
 
-.topic-item,
-.topic-item.new-topic {
-  background-color: #f8fafb;
-  color: #52616b;
-  border: 2px solid #52616b;
-  padding: 1.5rem 2rem;
-  border-radius: 12px;
-  font-size: 1rem;
-  box-shadow: 0 4px 12px rgba(82, 97, 107, 0.15);
-  margin-bottom: 2rem;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-}
 
-.topic-item.new-topic {
-  position: relative;
-  overflow: visible; /* Allow the badge to extend outside */
-}
-
-.topic-item.new-topic::before {
-  content: "ΝΕΟ";
-  position: absolute;
-  top: -12px;
-  left: 1rem;
-  background: #1e2022;
-  color: #fff;
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-
-/* Edit mode indicator */
-.topic-item.edit-mode {
-  position: relative;
-  overflow: visible; /* Allow the badge to extend outside */
-}
-
-.topic-item.edit-mode::before {
-  content: "ΕΠΕΞΕΡΓΑΣΙΑ";
-  position: absolute;
-  top: -12px;
-  left: 1rem;
-  background: #00b894;
-  color: #fff;
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-
-/*displayed topics on hover */
-.topic-item:hover {
-  /* moves the topic 2px up */
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(82, 97, 107, 0.25);
-  border-color: #1e2022;
-}
-
-/* styling for expanded topic */
-.topic-item.expanded {
-  box-shadow: 0 8px 25px rgba(82, 97, 107, 0.2);
-  border-color: #1e2022;
-  background-color: #fff;
-}
-
-/* styling for collapsed topic */
-.topic-content.collapsed {
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-.collapsed-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.8rem 0;
-  border-bottom: 1px solid rgba(82, 97, 107, 0.1);
-  margin-bottom: 0.8rem;
-}
-
-.topic-content.expanded {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 1.2rem;
-  box-sizing: border-box;
-}
-
-.topic-header-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-#topic-label-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.2rem;
-}
 
 .topic-header {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.topic-header-label {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin: 0;
-  color: #52616b;
+
+.topic-item-expanded label {
+    color: #1e2022;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    letter-spacing: 0.3px;
 }
 
-.topic-label,
-.topic-desc-label,
-.attachment-label,
-.assignment-label {
-  display: flex;
-  gap: 0.8rem;
-  align-items: center;
-  margin: 0;
+
+.topic-item-expanded input,
+.topic-item-expanded textarea,
+.topic-file-exists {
+    padding: 0.75rem 1rem;
+    border: 2px solid #e0e6ed;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+    font-family: inherit;
+    background: #fff;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.topic-creation-date {
-  background: #c9d6df;
-  color: #1e2022;
-  padding: 0.4rem 1rem;
-  border-radius: 25px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  margin: 0;
-  white-space: nowrap;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.topic-item-expanded textarea {
+    resize: none;
+    box-sizing: border-box;
+    height: 150px;
+    overflow-y: auto;
 }
 
-.topic-input-class,
-.new-topic-input-class {
-  padding: 0.7rem 1rem;
-  border: 2px solid #52616b;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: normal;
-  background: #f0f5f9;
-  color: #52616b;
-  box-shadow: 0 2px 8px rgba(82, 97, 107, 0.07);
-  margin: 0;
-  outline: none;
-  width: 100%;
-  box-sizing: border-box;
+.topic-item-expanded input[readonly],
+.topic-item-expanded textarea[disabled],
+.topic-file-exists {
+    color: #1e2022;
+    background: #f8fafb;
+    pointer-events: none;
 }
 
-/* Ensure readonly inputs maintain consistent styling */
-input[readonly],
-textarea[readonly] {
-  background: #f0f5f9 !important;
-  color: #52616b !important;
-  border-color: #52616b !important;
+.topic-file-exists, .topic-item-expanded textarea[disabled] {
+    pointer-events: auto;
 }
 
-.topic-description,
-.new-topic-description {
-  width: 100%;
-  min-height: 70px;
-  border: 2px solid #52616b;
-  border-radius: 6px;
-  padding: 0.7rem 1rem;
-  font-size: 1rem;
-  background: #f0f5f9;
-  resize: none;
-  margin: 0;
-  box-sizing: border-box;
-  height: 200px;
-  outline: none;
-  color: #52616b;
+.topic-file-exists.edit-mode {
+    display: flex;
+    gap: 0.3rem;
+    background: #fff;
 }
 
-.new-topic-input-class,
-.new-topic-description {
-  background-color: #fff;
-  border-color: #52616b;
+.topic-item-expanded input[readonly]:focus,
+.topic-item-expanded textarea[disabled]:focus {
+    outline: none;
 }
 
-.new-topic-input-class:focus,
-.new-topic-description:focus {
-  border-color: #1e2022;
-  background: #fff;
-  box-shadow: 0 4px 16px rgba(28, 32, 34, 0.18);
+.topic-file-exists .attachment-link {
+    flex: 0 1 auto;
+    max-width: 100%;
+    min-width: 0;
+    width: fit-content;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
 }
 
-/* Readonly textarea should match readonly input styling */
-.topic-description[readonly] {
-  background: #f0f5f9;
-  color: #52616b;
-  border-color: #52616b;
-}
-
-.attachments {
-  display: flex;
-  gap: 0.8rem;
-  align-items: center;
-  margin: 0;
-}
-
-.attachment-file,
-.new-attachment-file {
-  padding: 0.5rem 0.9rem;
-  background: #f8fafb;
-  border: 2px solid #52616b;
-  border-radius: 6px;
-  font-size: 1rem;
-  color: #52616b;
-  /* disable pointer events and cursor */
-  cursor: none;
-  pointer-events: none;
-}
-
-.attachment-file:hover,
-.new-attachment-file:hover {
-  border-color: #1e2022;
-  box-shadow: 0 2px 8px rgba(82, 97, 107, 0.1);
-}
-
-.new-attachment-file {
-  cursor: pointer;
-  pointer-events: all;
-}
-
-.assignment {
-  display: flex;
-  gap: 0.8rem;
-  align-items: center;
-  margin: 0;
-}
-
-.assignment-button,
-.edit-button {
-  background-color: #52616b;
-  color: #f0f5f9;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  box-shadow: 0 2px 8px rgba(82, 97, 107, 0.1);
-  transition: all 0.3s ease;
-}
-
-.assignment-button:hover,
-.edit-button:hover {
-  background-color: #1e2022;
-  color: #c9d6df;
-  box-shadow: 0 4px 16px rgba(28, 32, 34, 0.18);
-}
-
-.topic-actions {
-  margin: 0;
-  display: flex;
-  gap: 0.8rem;
-  justify-content: flex-end;
-}
-
-.topic-actions button {
-  border-radius: 6px;
-  padding: 0.6rem 1.4rem;
-  font-size: 1rem;
-  font-weight: bold;
-  border: 1.5px solid #52616b;
-  cursor: pointer;
-}
-
-.green-button {
-  background: #52616b !important;
-  color: #fff !important;
-  border-color: #52616b !important;
-}
-
-.green-button:hover {
-  background: #00b894 !important;
-  border-color: #00b894 !important;
-  color: #fff !important;
-}
-
-.red-button {
-  background: #fff !important;
-  color: #d63031 !important;
-  border-color: #d63031 !important;
-}
-
-.red-button:hover {
-  background: #d63031 !important;
-  border-color: #d63031 !important;
-  color: #fff !important;
-}
-
-/* collapse and expand button styles */
-.expand-indicator,
-.collapse-indicator {
-  font-size: 0.85rem;
-  color: #52616b;
-  font-weight: 500;
-  text-align: center;
-  margin-top: 0.8rem;
-  user-select: none;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  padding: 0.8rem 1.5rem;
-  border-radius: 25px;
-  background: linear-gradient(
-    135deg,
-    rgba(201, 214, 223, 0.3),
-    rgba(201, 214, 223, 0.1)
-  );
-  border: 1px solid rgba(82, 97, 107, 0.2);
-  display: inline-block;
-  width: fit-content;
-  margin: 0.8rem auto 0 auto;
-  font-style: normal;
-  letter-spacing: 0.3px;
-}
-
-.expand-indicator:hover,
-.collapse-indicator:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(201, 214, 223, 0.5),
-    rgba(201, 214, 223, 0.3)
-  );
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(82, 97, 107, 0.2);
-  border-color: rgba(82, 97, 107, 0.4);
-}
-
-@media screen and (max-width: 1350px) {
-  #search-bar {
-    width: 300px;
-  }
-}
-
-@media screen and (max-width: 1100px) {
-  #search-bar {
-    width: 150px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  #search-bar {
-    width: 120px;
-  }
+.name-content {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
 }
