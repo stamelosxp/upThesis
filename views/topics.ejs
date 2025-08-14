@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><%= pageTitle %> | upThesis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/topics.css"/>
+    <script src="/scripts/topics.js" defer></script>
+
+    <% if(locals.connectedUserRole === 'professor') { %>
+        <link rel="stylesheet" href="/styles/professor-styles/topics_edit.css"/>
+        <script src="/scripts/professor-scripts/new_topic.js" defer></script>
+        <script src="/scripts/professor-scripts/edit_topic.js" defer></script>
+        <script src="/scripts/professor-scripts/assign_topic.js" defer></script>
+    <% } %>
+
+</head>
+<body>
+<%- include('includes/main-header') %>
+<div class="layout">
+    <%- include('includes/main-menu') %>
+    <main>
+        <%- include('includes/current-page-header', {currentPage: currentPage, pageTitle: pageTitle, topicsLength: topics.length}) %>
+        <section id="topics-actions">
+            <div class="button-container">
+                <% if(locals.connectedUserRole === 'professor') { %>
+                    <button id="new-topic-button" class="standard-button">
+                        Nέο Θέμα
+                    </button>
+
+                <% } %>
+                <div class="end-group">
+                    <input
+                            type="text"
+                            class="search-bar"
+                            placeholder="Αναζήτηση Θεμάτων..."
+                    />
+                    <select class="sort-dropdown">
+                        <option value="date_created">Ημερομηνία Δημιουργίας</option>
+                        <option value="topic_title" selected>Τίτλος</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+        <section id="topics-section">
+            <ul class="topics-list">
+                <% if(locals.connectedUserRole === 'professor') { %>
+                    <li class="topic-item new-mode">
+                        <%- include('professor/new_topic') %>
+                    </li>
+                <% } %>
+
+                <% if(topics && topics.length > 0) { %>
+
+                    <% topics.forEach(function(topic, index) { %>
+                        <li class="topic-item">
+                            <div class="topic-item-collapsed">
+                                <div class="topic-collapsed-header">
+                                    <h3 class="topic-header">
+                                        <%= topic.title %>
+                                    </h3>
+                                    <p class="simple-badge"><%= topic.creationDate %></p>
+                                </div>
+                                <small class="expand-button">Κλικ για ανάπτυξη</small>
+                            </div>
+                            <%- include('includes/expanded_topic', {topic: topic}) %>
+                        </li>
+                    <% }); %>
+                <% } else { %>
+                    <p class="no-data" id="topics-not-exist">Δεν υπάρχουν διαθέσιμα θέματα.</p>
+                <% } %>
+            </ul>
+
+        </section>
+    </main>
+</div>
+</body>
+</html>

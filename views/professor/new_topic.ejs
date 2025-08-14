@@ -1,0 +1,60 @@
+<div class="topic-item-expanded new-mode">
+    <div class="topic-form-group">
+        <label for="topic-input-title-new-topic">
+            <div class="topic-header">
+                Τίτλος Θέματος
+                <p class="simple-badge"><%= (function () {
+                        var d = new Date();
+                        return (('0' + d.getDate()).slice(-2) + '/' + ('0' + (d.getMonth() + 1)).slice(-2) + '/' + d.getFullYear());
+                    })() %></p>
+            </div>
+        </label>
+        <input
+                type="text"
+                id="topic-input-title-new-topic"
+                placeholder="Εισάγετε Τίτλο Θέματος"
+                required
+        />
+    </div>
+
+    <div class="topic-form-group">
+        <label for="topic-input-desc-new-topic">Περιγραφή</label>
+        <textarea
+                id="topic-input-desc-new-topic"
+                maxlength="500"
+                placeholder="Εισάγετε Περιγραφή Θέματος"
+                required
+        ></textarea>
+    </div>
+
+    <div class="topic-form-group file">
+        <label for="topic-file-new-topic">Συννημένο</label>
+        <input
+                type="file"
+                id="topic-file-new-topic"
+                accept=".pdf,.doc,.docx,.txt"
+                class="file-input"
+                placeholder="Επιλέξτε Αρχείο"
+        />
+
+    </div>
+
+    <div class="topic-form-group">
+        <label for="topic-assignment-new-topic">Ανάθεση</label>
+        <input
+                id="topic-assignment-new-topic"
+                placeholder="Επιλέξτε Φοιτητή για Ανάθεση"
+                class="assignment"
+        />
+    </div>
+
+    <div class="assign-student-modal-container">
+        <%- include('../professor/assign_topic_modal')%>
+    </div>
+
+    <div class="topic-buttons-group">
+        <button class="light-cancel-button" id="cancel-new-topic-button">Ακύρωση
+        </button>
+        <button class="accept-button" id="submit-new-topic-button">Αποθήκευση</button>
+    </div>
+</div>

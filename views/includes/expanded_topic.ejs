@@ -1,0 +1,113 @@
+<div class="topic-item-expanded">
+    <div class="topic-form-group">
+        <label for="topic-input-title-<%= topic.id %>">
+            <div class="topic-header">
+                Τίτλος Θέματος
+                <p class="simple-badge"><%= topic.creationDate %></p>
+            </div>
+        </label>
+        <input
+                type="text"
+                id="topic-input-title-<%= topic.id %>"
+                value="<%= topic.title %>"
+                required
+                readonly
+        />
+    </div>
+
+    <div class="topic-form-group-file">
+        <label for="topic-input-desc-<%= topic.id %>">Περιγραφή</label>
+        <textarea
+                id="topic-input-desc-<%= topic.id %>"
+                maxlength="500"
+                required
+                disabled
+        ><%= topic.description %><%= topic.description %><%= topic.description %></textarea>
+    </div>
+
+    <div class="topic-form-group file">
+        <label for="topic-file-<%= topic.id %>">Συννημένο</label>
+        <% if (topic.filePath) { %>
+
+            <% const reqFileName = topic.filePath.split('/').pop(); const reqFileExt = (reqFileName && reqFileName.includes('.') ? reqFileName.split('.').pop().toUpperCase() : ''); %>
+            <p class="topic-file-exists">
+                <a href="<%= topic.filePath %>" target="_blank" class="attachment-link" title="<%= reqFileName %>">
+                    <span class="attachment-icon">📄</span>
+                    <span class="name-content"><%= reqFileName %></span>
+                    <span class="attachment-type"><%= reqFileExt %></span>
+                </a>
+                <% if(locals.connectedUserRole === 'professor') { %>
+                    <button class="x-icon">&times;</button>
+                <% } %>
+
+            </p>
+
+            <input
+                    type="file"
+                    id="update-topic-file-<%= topic.id %>"
+                    accept=".pdf,.doc,.docx,.txt"
+                    class="update-file-input"
+                    readonly
+                    hidden
+            />
+
+        <% } else { %>
+            <% if(locals.connectedUserRole === 'professor') { %>
+                <input
+                        type="file"
+                        id="topic-file-<%= topic.id %>"
+                        accept=".pdf,.doc,.docx,.txt"
+                        class="file-input"
+                        readonly
+                />
+            <% } else { %>
+                <input
+                        type="text"
+                        value="-"
+                        readonly
+
+                />
+            <% } %>
+        <% } %>
+    </div>
+
+    <% if(locals.connectedUserRole === 'professor') { %>
+        <div class="topic-form-group">
+            <label for="topic-assignment-<%= topic.id %>">Ανάθεση</label>
+            <input
+                    id="topic-assignment-<%= topic.id %>"
+                    placeholder="Επιλέξτε Φοιτητή για Ανάθεση"
+                    class="assignment"
+                    value=""
+                    readonly
+            />
+        </div>
+
+        <div class="assign-student-modal-container">
+            <%- include('../professor/assign_topic_modal') %>
+        </div>
+
+        <div class="topic-buttons-group">
+            <button class="cancel-button" id="delete-topic-button-<%= topic.id %>">Διαγραφή</button>
+            <button class="light-button edit-topic-button" id="edit-topic-button-<%= topic.id %>">Επεξεργασία</button>
+        </div>
+
+        <div class="edit-topic-buttons-group">
+            <button class="light-cancel-button cancel-edit-button" id="cancel-topic-button-<%= topic.id %>">Ακύρωση
+            </button>
+            <button class="accept-button" id="submit-topic-button-<%= topic.id %>">Αποθήκευση</button>
+        </div>
+
+    <% } else { %>
+        <div class="topic-form-group">
+            <label>Επιβλέπων</label>
+            <input
+                    type="text"
+                    value="Αλεξίου Δημήτριος"
+                    readonly
+            />
+        </div>
+    <% } %>
+
+    <small class="collapse-button">Κλικ για σύμπτηξη</small>
+</div>
