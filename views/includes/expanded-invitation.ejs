@@ -1,10 +1,5 @@
 <div class="invitation-item-expanded">
-    <% if(invItem.status === 'pending') { %>
-        <div class="pending-buttons">
-            <button class="cancel-button" data-id="<%= invItem._id %>">Απόρριψη</button>
-            <button class="accept-button" data-id="<%= invItem._id %>">Αποδοχή</button>
-        </div>
-    <% } %>
+
     <div class=" data-section">
         <h4 class="data-label">Τίτλος</h4>
         <p class="data-value"><%= invItem.title %></p>
@@ -36,5 +31,11 @@
             </a>
         </p>
     </div>
+    <% if(invItem.status === 'pending') { %>
+        <div class="pending-buttons">
+            <button class="cancel-button" data-id="<%= invItem._id %>">Απόρριψη</button>
+            <button class="accept-button" data-id="<%= invItem._id %>">Αποδοχή</button>
+        </div>
+    <% } %>
     <small class="collapse-button">Κλικ για σύμπτηξη</small>
 </div>
