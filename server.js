@@ -18,11 +18,12 @@ app.use(express.urlencoded({extended: false}));
 
 app.use(async function (req, res, next) {
     // Set default user role for development
-    res.locals.connectedUserRole = "professor";
+    res.locals.connectedUserRole = "professor"; // Change this to "professor" or "student" as needed
 
-    if (res.locals.userRole === "professor") {
+    if (res.locals.connectedUserRole === "professor") {
         res.locals.connectedUserId = "prof_001"
-    } else if (res.locals.userRole === "student") {
+        res.locals.professorRole = "memberA";
+    } else if (res.locals.connectedUserRole === "student") {
         res.locals.connectedUserId = "stud_001"
 
         const userData = await fs.readFile(
@@ -30,7 +31,7 @@ app.use(async function (req, res, next) {
             "utf-8"
         );
         const allUsers = JSON.parse(userData);
-        const currentUser = allUsers.find(user => user.userId === res.locals.userId);
+        const currentUser = allUsers.find(user => user.userId === res.locals.connectedUserId);
         res.locals.userThesisId = currentUser.thesisId;
     }
     else if (res.locals.userRole === "secretary") {
@@ -38,7 +39,6 @@ app.use(async function (req, res, next) {
     }
     next();
 });
-
 app.get("/", (req, res) => {
     if (res.locals.connectedUserRole === "professor") {
         return res.redirect("/professor");
@@ -53,7 +53,7 @@ app.get("/", (req, res) => {
 
 app.get("/professor", (req, res) => {
     res.render("home", {
-        pageTitle: "Home",
+        pageTitle: "Αρχική Σελίδα",
         currentPage: "home",
         notificationsList: [],
         eventsList: [],
@@ -67,13 +67,12 @@ app.get("/professor/topics", async (req, res) => {
             "utf-8"
         );
         const allTopics = JSON.parse(data);
-        const topics = allTopics.filter((topic) => topic.status === null && topic.createdBy === res.locals.professorID);
+        const professorTopics = allTopics.filter((topic) => topic.status === null && topic.createdBy === res.locals.connectedUserId);
 
-        res.render("available_topics", {
-            pageTitle: "Θέματα",
-            userRole: "professor",
+        res.render("topics", {
+            pageTitle: "Διαθέσιμα Θέματα",
             currentPage: "topics",
-            topics: topics,
+            topics: professorTopics,
         });
     } catch (err) {
         res.status(500).send("Error loading topics");
@@ -130,14 +129,14 @@ app.get("/professor/assignments/:id", async (req, res) => {
 
         const resNotes = allNotes.filter(
             (note) =>
-                note.topicId == currentTopicID && note.userId == res.locals.professorID
+                note.topicId == currentTopicID && note.userId == res.locals.connectedUserId
         );
 
         // Filter meetings for this professor and topic, then sort by newest date
         const professorMeetings = allMeetings
             .filter(
                 (meeting) =>
-                    meeting.participants.professor == res.locals.professorID &&
+                    meeting.participants.professor == res.locals.connectedUserId &&
                     String(meeting.thesisId) == String(currentTopicID)
             )
             .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
@@ -202,7 +201,7 @@ app.get("/professor/invitations", async (req, res) => {
             topicsMap.set(topic.id, topic);
         });
 
-        const professorInvitations = allInvitations.filter((inv) => inv.professorID === res.locals.professorID);
+        const professorInvitations = allInvitations.filter((inv) => inv.professorID === res.locals.connectedUserId);
         const enhancedInvitations = professorInvitations.map((inv) => {
             const matchingTopic = topicsMap.get(Number(inv.thesisID));
             return {
@@ -255,19 +254,19 @@ app.get("/student", (req, res) => {
 });
 
 app.get("/student/topics", async (req, res) => {
+    res.locals.connectedUserRole = "student";
     try {
         const data = await fs.readFile(
             path.join(__dirname, "data", "sampleTopics.json"),
             "utf-8"
         );
         const allTopics = JSON.parse(data);
-        const topics = allTopics.filter((topic) => topic.status === null);
+        const availableTopics = allTopics.filter((topic) => topic.status === null);
 
-        res.render("student_topics", {
-            pageTitle: "Θέματα",
-            userRole: "student",
+        res.render("topics", {
+            pageTitle: "Διαθέσιμα Θέματα",
             currentPage: "topics",
-            topics: topics,
+            topics: availableTopics,
         });
     } catch (err) {
         res.status(500).send("Error loading topics");
@@ -392,4 +391,30 @@ app.get("/announcements", (req, res) => {
         userRole: null,
         currentPage: "announcements",
     });
+});
+
+app.get("/professor/students/available", async (req, res) => {
+    try {
+        // Accept any of these query param names; default to empty string
+        const rawQuery = req.query.studentNameSearch;
+        const userInput = rawQuery ? rawQuery.toLowerCase().trim() : '';
+
+        const usersData = await fs.readFile(path.join(__dirname, "data", "sampleUsers.json"), "utf-8");
+        const allUsers = JSON.parse(usersData);
+        let available = allUsers.filter(u => u.role === 'student' && u.hasThesis === false && Number(u.yearOfStudies) >= 5);
+
+        if (userInput.length > 0) {
+            available = available.filter(u => (`${u.firstName} ${u.lastName}`).toLowerCase().includes(userInput));
+        }
+
+        const mapped = available.map(u => ({
+            userId: u.userId,
+            fullName: `${u.firstName} ${u.lastName}`
+        }));
+
+        return res.json({ success: true, students: mapped });
+    } catch (e) {
+        console.error('Error fetching available students', e);
+        return res.status(500).json({ success: false, error: 'Failed to load students' });
+    }
 });
