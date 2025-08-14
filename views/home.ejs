@@ -19,7 +19,7 @@
 <div class="layout">
     <%- include('includes/main-menu', {currentPage: currentPage}) %>
     <main>
-        <%- include('includes/current-page-header', { pageTitle: 'Αρχική Σελίδα' }) %>
+        <%- include('includes/current-page-header', {currentPage: currentPage, pageTitle: pageTitle}) %>
         <% if(locals.connectedUserRole === 'professor') { %>
             <%- include('professor/dashboard_stats') %>
         <% } %>
