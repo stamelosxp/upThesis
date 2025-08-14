@@ -21,7 +21,7 @@
     "role": "student",
     "email": "eleni.karagianni@example.com",
     "address": "Οδός Πατησίων 20, Αθήνα",
-    "yearOfStudies": 5,
+    "yearOfStudies": 3,
     "hasThesis": false,
     "thesisId": null
   },

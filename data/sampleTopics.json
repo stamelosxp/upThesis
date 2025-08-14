@@ -5,7 +5,8 @@
     "description": "Αυτή η εργασία εξετάζει τις τεχνικές μηχανικής μάθησης που χρησιμοποιούνται σε συστήματα IoT για την ανάλυση δεδομένων και τη βελτιστοποίηση της απόδοσης.",
     "creationDate": "01/01/2026",
     "status": null,
-    "createdBy": "prof_001"
+    "createdBy": "prof_001",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 2,
@@ -14,7 +15,8 @@
     "creationDate": "15/12/2025",
     "status": "pending",
     "temporaryAssignmentDate": "10/07/2025",
-    "createdBy": "prof_001"
+    "createdBy": "prof_001",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 3,
@@ -23,8 +25,9 @@
     "creationDate": "10/12/2025",
     "status": "active",
     "temporaryAssignmentDate": "10/01/2023",
-    "assignmentDate": "15/01/2023",
-    "createdBy": "prof_003"
+    "assignmentDate": "15/01/2025",
+    "createdBy": "prof_003",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 4,
@@ -32,7 +35,8 @@
     "description": "Εφαρμογή αλγορίθμων μηχανικής μάθησης για την αυτόματη διάγνωση ιατρικών παθήσεων από ιατρικές εικόνες.",
     "creationDate": "05/12/2025",
     "status": null,
-    "createdBy": "prof_004"
+    "createdBy": "prof_001",
+    "filePath": "/data/dummy_pdf_second.pdf"
   },
   {
     "id": 5,
@@ -43,7 +47,8 @@
     "temporaryAssignmentDate": "01/07/2025",
     "assignmentDate": "10/07/2025",
     "presentationDate": "20/07/2025",
-    "createdBy": "prof_005"
+    "createdBy": "prof_005",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 6,
@@ -54,7 +59,8 @@
     "temporaryAssignmentDate": "01/07/2025",
     "assignmentDate": "10/07/2025",
     "presentationDate": "30/07/2025",
-    "createdBy": "prof_006"
+    "createdBy": "prof_006",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 7,
@@ -62,7 +68,7 @@
     "description": "Ανάπτυξη συστημάτων κατανόησης και παραγωγής φυσικής γλώσσας με χρήση deep learning.",
     "creationDate": "15/11/2025",
     "status": null,
-    "createdBy": "prof_007"
+    "createdBy": "prof_001"
   },
   {
     "id": 8,
@@ -71,7 +77,8 @@
     "creationDate": "08/11/2025",
     "status": "pending",
     "temporaryAssignmentDate": "01/07/2025",
-    "createdBy": "prof_008"
+    "createdBy": "prof_008",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 9,
@@ -81,7 +88,8 @@
     "status": "active",
     "temporaryAssignmentDate": "20/09/2021",
     "assignmentDate": "25/09/2021",
-    "createdBy": "prof_009"
+    "createdBy": "prof_009",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 10,
@@ -91,7 +99,8 @@
     "status": "active",
     "temporaryAssignmentDate": "10/06/2024",
     "assignmentDate": "18/06/2024",
-    "createdBy": "prof_010"
+    "createdBy": "prof_010",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 11,
@@ -99,7 +108,8 @@
     "description": "Μελέτη αλγορίθμων κβαντικής πληροφορικής και των εφαρμογών τους στην κρυπτογραφία.",
     "creationDate": "18/10/2025",
     "status": null,
-    "createdBy": "prof_011"
+    "createdBy": "prof_011",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 12,
@@ -110,7 +120,8 @@
     "temporaryAssignmentDate": "01/07/2025",
     "assignmentDate": "10/07/2025",
     "presentationDate": "15/07/2025",
-    "createdBy": "prof_012"
+    "createdBy": "prof_012",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 13,
@@ -119,7 +130,8 @@
     "creationDate": "05/10/2025",
     "status": "pending",
     "temporaryAssignmentDate": "01/06/2025",
-    "createdBy": "prof_013"
+    "createdBy": "prof_013",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 14,
@@ -129,7 +141,8 @@
     "status": "active",
     "temporaryAssignmentDate": "01/11/2024",
     "assignmentDate": "14/11/2024",
-    "createdBy": "prof_014"
+    "createdBy": "prof_014",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 15,
@@ -137,7 +150,8 @@
     "description": "Μελέτη και υλοποίηση πρωτοκόλλων επικοινωνίας για δίκτυα πέμπτης γενιάς.",
     "creationDate": "21/09/2025",
     "status": null,
-    "createdBy": "prof_015"
+    "createdBy": "prof_015",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 16,
@@ -148,7 +162,8 @@
     "temporaryAssignmentDate": "01/07/2025",
     "assignmentDate": "10/07/2025",
     "presentationDate": "01/08/2025",
-    "createdBy": "prof_016"
+    "createdBy": "prof_016",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 17,
@@ -157,7 +172,8 @@
     "creationDate": "07/09/2025",
     "status": "pending",
     "temporaryAssignmentDate": "01/05/2025",
-    "createdBy": "prof_017"
+    "createdBy": "prof_017",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 18,
@@ -167,7 +183,8 @@
     "status": "active",
     "temporaryAssignmentDate": "01/05/2023",
     "assignmentDate": "16/05/2023",
-    "createdBy": "prof_018"
+    "createdBy": "prof_018",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 19,
@@ -175,7 +192,8 @@
     "description": "Αρχιτεκτονική και υλοποίηση διανεμημένων εφαρμογών σε υπολογιστικό νέφος.",
     "creationDate": "24/08/2025",
     "status": null,
-    "createdBy": "prof_019"
+    "createdBy": "prof_019",
+    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 20,
@@ -185,6 +203,7 @@
     "status": "active",
     "temporaryAssignmentDate": "01/12/2021",
     "assignmentDate": "03/12/2021",
-    "createdBy": "prof_020"
+    "createdBy": "prof_020",
+    "filePath": "/data/dummy_pdf.pdf"
   }
 ]
