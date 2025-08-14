@@ -78,14 +78,6 @@ app.get("/professor/topics", async (req, res) => {
         res.status(500).send("Error loading topics");
     }
 });
-app.get("/professor/topics/new-topic-template", (req, res) => {
-    res.render("includes/new_topic", {}, (err, html) => {
-        if (err) {
-            return res.status(500).json({error: "Template rendering failed"});
-        }
-        res.json({html: html});
-    });
-});
 
 app.get("/professor/assignments", async (req, res) => {
     try {
