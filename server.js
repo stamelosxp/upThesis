@@ -33,8 +33,7 @@ app.use(async function (req, res, next) {
         const allUsers = JSON.parse(userData);
         const currentUser = allUsers.find(user => user.userId === res.locals.connectedUserId);
         res.locals.userThesisId = currentUser.thesisId;
-    }
-    else if (res.locals.userRole === "secretary") {
+    } else if (res.locals.userRole === "secretary") {
         res.locals.connectedUserId = "sec_001";
     }
     next();
@@ -226,12 +225,18 @@ app.get("/professor/stats", (req, res) => {
     });
 });
 
-app.get("/professor/announcements", (req, res) => {
-    res.render("maintenance", {
-        pageTitle: "Ανακοινώσεις",
-        userRole: "professor",
-        currentPage: "announcements",
-    });
+app.get("/professor/announcements", async (req, res) => {
+    try {
+        // Minimal render; client will fetch page 1 via API
+        res.render("announcements", {
+            pageTitle: "Ανακοινώσεις",
+            userRole: "professor",
+            currentPage: "announcements"
+        });
+    } catch (e) {
+        console.error('Error rendering announcements page', e);
+        res.status(500).send('Error rendering announcements page');
+    }
 });
 
 // Student routes
@@ -266,6 +271,7 @@ app.get("/student/topics", async (req, res) => {
 });
 
 app.get("/student/thesis", async (req, res) => {
+    res.locals.connectedUserRole = "student";
     try {
         const userThesisRole = 'student';
 
@@ -279,7 +285,6 @@ app.get("/student/thesis", async (req, res) => {
         if (!topic) {
             return res.status(404).send("Topic not found");
         }
-
 
 
         // Calculate showEvaluation: true if presentationDate exists and is before today
@@ -335,16 +340,24 @@ app.get("/student/thesis", async (req, res) => {
 
 });
 
-app.get("/student/announcements", (req, res) => {
-    res.render("maintenance", {
-        pageTitle: "Ανακοινώσεις",
-        userRole: "student",
-        currentPage: "announcements",
-    });
+app.get("/student/announcements", async (req, res) => {
+    res.locals.connectedUserRole = "student";
+    try {
+        res.render("announcements", {
+            pageTitle: "Ανακοινώσεις",
+            userRole: "student",
+            currentPage: "announcements"
+        });
+    } catch (e) {
+        console.error('Error rendering announcements page', e);
+        res.status(500).send('Error rendering announcements page');
+    }
 });
 
 // Secretary routes
 app.get("/secretary", (req, res) => {
+    res.locals.connectedUserRole = "secretary";
+
     res.render("maintenance", {
         pageTitle: "Home",
         userRole: "secretary",
@@ -353,6 +366,8 @@ app.get("/secretary", (req, res) => {
 });
 
 app.get("/secretary/users", (req, res) => {
+    res.locals.connectedUserRole = "secretary";
+
     res.render("maintenance", {
         pageTitle: "Χρήστες",
         userRole: "secretary",
@@ -360,16 +375,24 @@ app.get("/secretary/users", (req, res) => {
     });
 });
 
-app.get("/secretary/announcements", (req, res) => {
-    res.render("maintenance", {
-        pageTitle: "Ανακοινώσεις",
-        userRole: "secretary",
-        currentPage: "announcements",
-    });
+app.get("/secretary/announcements", async (req, res) => {
+    res.locals.connectedUserRole = "secretary";
+    try {
+        res.render("announcements", {
+            pageTitle: "Ανακοινώσεις",
+            userRole: "secretary",
+            currentPage: "announcements"
+        });
+    } catch (e) {
+        console.error('Error rendering announcements page', e);
+        res.status(500).send('Error rendering announcements page');
+    }
 });
 
 // General routes (accessible by all roles)
 app.get("/login", (req, res) => {
+    res.locals.connectedUserRole = "guest"; // Default role for unauthenticated users
+
     res.render("maintenance", {
         pageTitle: "Είσοδος",
         userRole: null,
@@ -377,12 +400,18 @@ app.get("/login", (req, res) => {
     });
 });
 
-app.get("/announcements", (req, res) => {
-    res.render("maintenance", {
-        pageTitle: "Ανακοινώσεις",
-        userRole: null,
-        currentPage: "announcements",
-    });
+app.get("/announcements", async (req, res) => {
+    res.locals.connectedUserRole = "guest";
+    try {
+        res.render("announcements", {
+            pageTitle: "Ανακοινώσεις",
+            userRole: res.locals.connectedUserRole || null,
+            currentPage: "announcements"
+        });
+    } catch (e) {
+        console.error('Error rendering announcements page', e);
+        res.status(500).send('Error rendering announcements page');
+    }
 });
 
 app.get("/professor/students/available", async (req, res) => {
@@ -404,9 +433,49 @@ app.get("/professor/students/available", async (req, res) => {
             fullName: `${u.firstName} ${u.lastName}`
         }));
 
-        return res.json({ success: true, students: mapped });
+        return res.json({success: true, students: mapped});
     } catch (e) {
         console.error('Error fetching available students', e);
-        return res.status(500).json({ success: false, error: 'Failed to load students' });
+        return res.status(500).json({success: false, error: 'Failed to load students'});
     }
 });
+
+async function getPaginatedAnnouncements(req) {
+    const data = await fs.readFile(path.join(__dirname, "data", "sampleAnnouncements.json"), 'utf-8');
+    const allAnnouncementsRaw = JSON.parse(data);
+    const allAnnouncements = allAnnouncementsRaw.sort((a, b) => {
+        const da = new Date(a.createdDate || a.presentationDateTime || 0);
+        const db = new Date(b.createdDate || b.presentationDateTime || 0);
+        return db - da; // descending
+    });
+
+    const pageSize = 5;
+    const page = Math.max(1, parseInt(req.query.page || '1', 10));
+    const totalPages = Math.max(1, Math.ceil(allAnnouncements.length / pageSize));
+    const safePage = Math.min(page, totalPages);
+    const start = (safePage - 1) * pageSize;
+    const pageItems = allAnnouncements.slice(start, start + pageSize);
+    return {
+        allAnnouncements,
+        pageItems,
+        totalPages,
+        currentPage: safePage,
+        pageSize,
+        totalCount: allAnnouncements.length
+    };
+}
+
+app.get('/api/announcements', async (req, res) => {
+    try {
+        const {pageItems, totalPages, currentPage, totalCount, pageSize} = await getPaginatedAnnouncements(req);
+        res.json({
+            success: true,
+            announcements: pageItems,
+            pagination: { totalPages, currentPage, totalCount, pageSize }
+        });
+    } catch (e) {
+        console.error('Error loading announcements JSON', e);
+        res.status(500).json({ success: false, error: 'Failed to load announcements' });
+    }
+});
+
