@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><%= pageTitle %> | UpThesis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="/styles/announcements.css"/>
+    <script src="/scripts/announcements.js" defer></script>
+</head>
+<body>
+<%- include('includes/main-header') %>
+<div class="layout">
+    <%- include('includes/main-menu') %>
+    <main>
+        <%- include('includes/current-page-header', {currentPage: currentPage, pageTitle: pageTitle, topicsLength: (typeof totalCount !== 'undefined' ? totalCount : undefined)}) %>
+
+        <section id="announcements-section">
+            <ul class="announcements-list" id="announcements-list"></ul>
+            <p class="no-data" id="announcements-empty">Δεν υπάρχουν ανακοινώσεις.</p>
+            <div class="announcement-item-modal-container">
+                <div class="announcement-item-modal">
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            <p>Παρουσίαση</p>
+                            <button class="close-modal" type="button">&times;</button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-content-group title">
+                            <p class="modal-group-header">Τίτλος Διπλωματικής</p>
+                            <p class="modal-group-value"></p>
+                        </div>
+                        <div class="modal-content-group description">
+                            <p class="modal-group-header">Περιγραφή Παρουσίασης</p>
+                            <p class="modal-group-value"></p>
+                        </div>
+                        <div class="modal-content-group date">
+                            <p class="modal-group-header">Ημερομηνία Παρουσίασης</p>
+                            <p class="modal-group-value"></p>
+                        </div>
+                        <div class="modal-content-group place">
+                            <p class="modal-group-header">Αίθουσα</p>
+                            <p class="modal-group-value physical"></p>
+                            <p class="modal-group-value online"></p>
+                        </div>
+                        <div class="modal-content-group student">
+                            <p class="modal-group-header">Φοιτητής</p>
+                            <p class="modal-group-value"></p>
+                        </div>
+                        <div class="modal-content-group professors">
+                            <p class="modal-group-header">Μέλη</p>
+                            <div class="announcement-member">
+                                <p class="supervisor"></p>
+                                <p class="simple-badge">Επιβλέπων</p>
+                            </div>
+                            <div class="announcement-member">
+                                <p class="member-a"></p>
+                                <p class="simple-badge">Μέλος</p>
+                            </div>
+                            <div class="announcement-member">
+                                <p class="member-b"></p>
+                                <p class="simple-badge">Μέλος</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+
+        <nav id="pagination" class="pagination" aria-label="Σελιδοποίηση Ανακοινώσεων"
+             data-total-pages="1" data-current-page="0">
+            <ul class="pagination-list" id="pagination-list"></ul>
+        </nav>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,365 @@
+[
+  {
+    "id": 1,
+    "thesisTitle": "Σύστημα Ευφυούς Ανάλυσης Ακαδημαϊκών Δεδομένων",
+    "presentationDateTime": "2025-09-05T10:30:00",
+    "description": "Ανάπτυξη πλατφόρμας εξαγωγής στατιστικών από δεδομένα πτυχιακών εργασιών.",
+    "physicalPlace": "Αίθουσα 2.12",
+    "studentName": "Μαρία Παπαδοπούλου",
+    "supervisorName": "Ιωάννης Νικολάου",
+    "members": [
+      "Ελένη Ράπτη",
+      "Σπύρος Θεοχάρης"
+    ],
+    "createdDate": "2025-08-10T09:05:00",
+    "hasModified": false
+  },
+  {
+    "id": 2,
+    "thesisTitle": "Σύστημα Ευφυούς Ανάλυσης Ακαδημαϊκών Δεδομένων",
+    "presentationDateTime": "2025-09-05T10:30:00",
+    "description": "Ενημέρωση: αλλαγή φυσικού χώρου (μεγαλύτερη αίθουσα).",
+    "physicalPlace": "Αίθουσα 2.20",
+    "studentName": "Μαρία Παπαδοπούλου",
+    "supervisorName": "Ιωάννης Νικολάου",
+    "members": [
+      "Ελένη Ράπτη",
+      "Σπύρος Θεοχάρης"
+    ],
+    "createdDate": "2025-08-13T11:32:00",
+    "hasModified": true
+  },
+  {
+    "id": 61,
+    "thesisTitle": "Σύστημα Ευφυούς Ανάλυσης Ακαδημαϊκών Δεδομένων",
+    "presentationDateTime": "2025-09-05T10:45:00",
+    "description": "Δεύτερη ενημέρωση: μικρή μετατόπιση ώρας για τεχνικό έλεγχο.",
+    "physicalPlace": "Αίθουσα 2.20",
+    "onlinePlace": "https://univ.example.com/p/1",
+    "studentName": "Μαρία Παπαδοπούλου",
+    "supervisorName": "Ιωάννης Νικολάου",
+    "members": [
+      "Ελένη Ράπτη",
+      "Σπύρος Θεοχάρης"
+    ],
+    "createdDate": "2025-08-14T08:47:00",
+    "hasModified": true
+  },
+  {
+    "id": 3,
+    "thesisTitle": "Βελτιστοποίηση Ροής Εργασιών σε Microservices",
+    "presentationDateTime": "2025-09-06T12:00:00",
+    "description": "Αξιολόγηση αλγορίθμων κατανομής φορτίου σε microservices.",
+    "onlinePlace": "https://univ.example.com/p/3",
+    "studentName": "Γιώργος Αντωνίου",
+    "supervisorName": "Δέσποινα Λαμπράκη",
+    "members": [
+      "Πέτρος Οικονόμου",
+      "Κωνσταντίνα Ζήση"
+    ],
+    "createdDate": "2025-08-09T10:14:00",
+    "hasModified": false
+  },
+  {
+    "id": 4,
+    "thesisTitle": "Βελτιστοποίηση Ροής Εργασιών σε Microservices",
+    "presentationDateTime": "2025-09-06T12:15:00",
+    "description": "Ενημέρωση: μετατόπιση ώρας κατά 15 λεπτά.",
+    "onlinePlace": "https://univ.example.com/p/3",
+    "studentName": "Γιώργος Αντωνίου",
+    "supervisorName": "Δέσποινα Λαμπράκη",
+    "members": [
+      "Πέτρος Οικονόμου",
+      "Κωνσταντίνα Ζήση"
+    ],
+    "createdDate": "2025-08-14T13:22:00",
+    "hasModified": true
+  },
+  {
+    "id": 5,
+    "thesisTitle": "Ανίχνευση Ανωμαλιών σε IoT Αισθητήρες",
+    "presentationDateTime": "2025-09-07T09:00:00",
+    "description": "Autoencoders & στατιστικά μοντέλα για ανίχνευση ανωμαλιών.",
+    "physicalPlace": "Αίθουσα 2.01",
+    "studentName": "Ελένη Σταματοπούλου",
+    "supervisorName": "Χρήστος Μάνθος",
+    "members": [
+      "Αθανάσιος Κάρας",
+      "Φωτεινή Αργυρού"
+    ],
+    "createdDate": "2025-08-08T09:41:00",
+    "hasModified": false
+  },
+  {
+    "id": 6,
+    "thesisTitle": "Αυτοματοποιημένη Περίληψη Νομικών Κειμένων",
+    "presentationDateTime": "2025-09-08T11:15:00",
+    "description": "LLM fine-tuning για περίληψη αποφάσεων.",
+    "physicalPlace": "Αίθουσα 3.04",
+    "studentName": "Νικόλας Βασιλείου",
+    "supervisorName": "Ευάγγελος Παππάς",
+    "members": [
+      "Δήμητρα Φράγκου",
+      "Ανδρέας Κορδάτος"
+    ],
+    "createdDate": "2025-08-07T11:18:00",
+    "hasModified": false
+  },
+  {
+    "id": 7,
+    "thesisTitle": "Edge Computing για Προγνωστική Συντήρηση",
+    "presentationDateTime": "2025-09-09T13:30:00",
+    "description": "Ανάλυση δονήσεων σε μηχανήματα στο edge.",
+    "onlinePlace": "https://univ.example.com/p/7",
+    "studentName": "Πέτρος Ζερβός",
+    "supervisorName": "Σοφία Καλογεροπούλου",
+    "members": [
+      "Λεωνίδας Παλαιολόγος",
+      "Μάριος Σιδέρης"
+    ],
+    "createdDate": "2025-08-06T08:55:00",
+    "hasModified": false
+  },
+  {
+    "id": 8,
+    "thesisTitle": "Edge Computing για Προγνωστική Συντήρηση",
+    "presentationDateTime": "2025-09-09T13:30:00",
+    "description": "Ενημέρωση: προστέθηκε και φυσικός χώρος.",
+    "physicalPlace": "Αίθουσα 2.07",
+    "onlinePlace": "https://univ.example.com/p/7",
+    "studentName": "Πέτρος Ζερβός",
+    "supervisorName": "Σοφία Καλογεροπούλου",
+    "members": [
+      "Λεωνίδας Παλαιολόγος",
+      "Μάριος Σιδέρης"
+    ],
+    "createdDate": "2025-08-12T12:37:00",
+    "hasModified": true
+  },
+  {
+    "id": 9,
+    "thesisTitle": "Αξιολόγηση Τεχνικών Privacy Preserving ML",
+    "presentationDateTime": "2025-09-10T10:00:00",
+    "description": "Federated learning & differential privacy.",
+    "physicalPlace": "Αίθουσα 1.02",
+    "studentName": "Αγγελική Δρούγα",
+    "supervisorName": "Αλέξανδρος Καραλής",
+    "members": [
+      "Επαμ. Τσάκωνας",
+      "Στέλλα Παγώνη"
+    ],
+    "createdDate": "2025-08-05T09:12:00",
+    "hasModified": false
+  },
+  {
+    "id": 10,
+    "thesisTitle": "Γενετική Βελτιστοποίηση Δρομολόγησης Logistics",
+    "presentationDateTime": "2025-09-11T12:45:00",
+    "description": "Υβριδικοί γενετικοί αλγόριθμοι για δρομολόγηση.",
+    "physicalPlace": "Αίθουσα 1.06",
+    "studentName": "Χάρης Κουτσός",
+    "supervisorName": "Μιχαήλ Κωνσταντίνου",
+    "members": [
+      "Ρένα Δραγούνη",
+      "Τίνα Χατζή"
+    ],
+    "createdDate": "2025-08-04T10:48:00",
+    "hasModified": false
+  },
+  {
+    "id": 11,
+    "thesisTitle": "Συστήματα Συστάσεων με Graph Neural Networks",
+    "presentationDateTime": "2025-09-12T09:30:00",
+    "description": "Heterogeneous interaction graphs.",
+    "onlinePlace": "https://univ.example.com/p/11",
+    "studentName": "Ιωάννα Λάμπρου",
+    "supervisorName": "Κωνσταντίνος Φωκάς",
+    "members": [
+      "Άννα Λαγού",
+      "Κλεοπάτρα Ζώη"
+    ],
+    "createdDate": "2025-08-03T09:27:00",
+    "hasModified": false
+  },
+  {
+    "id": 12,
+    "thesisTitle": "Αυτόνομη Πλοήγηση Drones σε Εσωτερικούς Χώρους",
+    "presentationDateTime": "2025-09-13T11:00:00",
+    "description": "SLAM + Reinforcement Learning.",
+    "physicalPlace": "Αίθουσα 2.09",
+    "studentName": "Στέλιος Ντούνης",
+    "supervisorName": "Ελευθερία Μάνου",
+    "members": [
+      "Γρηγόρης Ξανθός",
+      "Νάντια Κρίκου"
+    ],
+    "createdDate": "2025-08-02T08:33:00",
+    "hasModified": false
+  },
+  {
+    "id": 13,
+    "thesisTitle": "Αυτόνομη Πλοήγηση Drones σε Εσωτερικούς Χώρους",
+    "presentationDateTime": "2025-09-13T11:00:00",
+    "description": "Ενημέρωση: προστέθηκε online σύνδεσμος.",
+    "physicalPlace": "Αίθουσα 2.09",
+    "onlinePlace": "https://univ.example.com/p/12",
+    "studentName": "Στέλιος Ντούνης",
+    "supervisorName": "Ελευθερία Μάνου",
+    "members": [
+      "Γρηγόρης Ξανθός",
+      "Νάντια Κρίκου"
+    ],
+    "createdDate": "2025-08-11T15:14:00",
+    "hasModified": true
+  },
+  {
+    "id": 14,
+    "thesisTitle": "Εντοπισμός Παραποίησης Εικόνων με Vision Transformers",
+    "presentationDateTime": "2025-09-14T14:15:00",
+    "description": "Ανίχνευση deepfake σε εικόνες ειδήσεων.",
+    "physicalPlace": "Αίθουσα 3.05",
+    "studentName": "Κατερίνα Λινάρδου",
+    "supervisorName": "Δημήτρης Ζαφείρης",
+    "members": [
+      "Λίνα Πετράκη",
+      "Σταύρος Μπότας"
+    ],
+    "createdDate": "2025-08-01T09:03:00",
+    "hasModified": false
+  },
+  {
+    "id": 15,
+    "thesisTitle": "Ανάλυση Συναισθήματος σε Ελληνικά Κείμενα",
+    "presentationDateTime": "2025-09-15T09:00:00",
+    "description": "Transformer μοντέλα σε ελληνικά datasets.",
+    "onlinePlace": "https://univ.example.com/p/15",
+    "studentName": "Θεανώ Δημητρίου",
+    "supervisorName": "Ιωάννα Καρά",
+    "members": [
+      "Αντώνης Πέπας",
+      "Μαρία Κούτρα"
+    ],
+    "createdDate": "2025-08-05T12:06:00",
+    "hasModified": false
+  },
+  {
+    "id": 16,
+    "thesisTitle": "Ανάλυση Συναισθήματος σε Ελληνικά Κείμενα",
+    "presentationDateTime": "2025-09-15T09:30:00",
+    "description": "Ενημέρωση: αλλαγή ώρας παρουσίασης.",
+    "onlinePlace": "https://univ.example.com/p/15",
+    "studentName": "Θεανώ Δημητρίου",
+    "supervisorName": "Ιωάννα Καρά",
+    "members": [
+      "Αντώνης Πέπας",
+      "Μαρία Κούτρα"
+    ],
+    "createdDate": "2025-08-12T13:55:00",
+    "hasModified": true
+  },
+  {
+    "id": 17,
+    "thesisTitle": "Ανάλυση Κυκλοφοριακών Προτύπων με Computer Vision",
+    "presentationDateTime": "2025-09-15T11:00:00",
+    "description": "Ανίχνευση οχημάτων σε ροές βίντεο.",
+    "physicalPlace": "Αίθουσα 1.11",
+    "studentName": "Χριστίνα Λιάκου",
+    "supervisorName": "Γιώργος Μπάρλος",
+    "members": [
+      "Μάρα Φίλη",
+      "Στέλιος Παππάς"
+    ],
+    "createdDate": "2025-08-04T11:11:00",
+    "hasModified": false
+  },
+  {
+    "id": 18,
+    "thesisTitle": "Blockchain για Ιχνηλασιμότητα Τροφίμων",
+    "presentationDateTime": "2025-09-16T10:00:00",
+    "description": "Αλυσίδα εφοδιασμού πάνω σε permissioned blockchain.",
+    "onlinePlace": "https://univ.example.com/p/18",
+    "studentName": "Αλέξης Βλάχος",
+    "supervisorName": "Παναγιώτης Τσής",
+    "members": [
+      "Ιάσων Μίχος",
+      "Λένα Πολύζου"
+    ],
+    "createdDate": "2025-08-06T10:09:00",
+    "hasModified": false
+  },
+  {
+    "id": 19,
+    "thesisTitle": "Αλγόριθμοι Συμπίεσης Βίντεο με ML",
+    "presentationDateTime": "2025-09-16T12:30:00",
+    "description": "Μάθηση για βέλτιστη κβάντιση καρέ.",
+    "physicalPlace": "Αίθουσα 2.04",
+    "studentName": "Σπύρος Κατσής",
+    "supervisorName": "Αργύρης Δρόσος",
+    "members": [
+      "Κάτια Λούπα",
+      "Ιφιγένεια Σούρα"
+    ],
+    "createdDate": "2025-08-03T09:44:00",
+    "hasModified": false
+  },
+  {
+    "id": 20,
+    "thesisTitle": "Ανίχνευση Κακόβουλης Δραστηριότητας σε Δίκτυα",
+    "presentationDateTime": "2025-09-16T14:00:00",
+    "description": "Graph-based anomaly detection.",
+    "physicalPlace": "Αίθουσα 1.03",
+    "studentName": "Βασίλης Μελής",
+    "supervisorName": "Κλέλια Γούτα",
+    "members": [
+      "Ηλίας Φάκος",
+      "Αννα Παλλά"
+    ],
+    "createdDate": "2025-08-02T10:52:00",
+    "hasModified": false
+  },
+  {
+    "id": 21,
+    "thesisTitle": "Συνδυαστική Βελτιστοποίηση για Last-Mile Delivery",
+    "presentationDateTime": "2025-09-17T09:00:00",
+    "description": "Metaheuristics για δρομολόγηση.",
+    "onlinePlace": "https://univ.example.com/p/21",
+    "studentName": "Νίκη Χαλκιά",
+    "supervisorName": "Στέλιος Μπάρκας",
+    "members": [
+      "Εύη Γάτου",
+      "Νίκος Ορφανός"
+    ],
+    "createdDate": "2025-08-04T09:18:00",
+    "hasModified": false
+  },
+  {
+    "id": 22,
+    "thesisTitle": "Εκτίμηση Ζήτησης Ηλεκτρικής Ενέργειας",
+    "presentationDateTime": "2025-09-17T10:30:00",
+    "description": "Χρήση LSTM και attention.",
+    "physicalPlace": "Αίθουσα 2.10",
+    "studentName": "Ηλίας Βήχος",
+    "supervisorName": "Άρης Τόλης",
+    "members": [
+      "Μαρία Σιδέρη",
+      "Δώρα Καρρά"
+    ],
+    "createdDate": "2025-08-05T08:57:00",
+    "hasModified": false
+  },
+  {
+    "id": 23,
+    "thesisTitle": "Προγνωστική Συντήρηση Αντλιών Νερού",
+    "presentationDateTime": "2025-09-17T12:00:00",
+    "description": "Time-series ταξινόμηση σφαλμάτων.",
+    "physicalPlace": "Αίθουσα 1.04",
+    "studentName": "Φώτης Γαλάνης",
+    "supervisorName": "Στέλιος Δάνης",
+    "members": [
+      "Νάνσυ Στράτου",
+      "Παναγιώτης Μέγας"
+    ],
+    "createdDate": "2025-08-06T11:24:00",
+    "hasModified": false
+  }
+]
