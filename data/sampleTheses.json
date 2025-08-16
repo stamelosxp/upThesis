@@ -1,0 +1,30 @@
+[
+  {
+    "id": 2,
+    "title": "Ανάπτυξη Web Εφαρμογών με Node.js",
+    "description": "Μελέτη και υλοποίηση σύγχρονων web εφαρμογών χρησιμοποιώντας Node.js και Express framework. Η εργασία περιλαμβάνει ανάλυση αρχιτεκτονικών προτύπων (MVC, REST), σχεδίαση και ανάπτυξη επεκτάσιμου API με βέλτιστες πρακτικές (modularization, error handling, structured logging), διαχείριση και αποδοτική μοντελοποίηση βάσης δεδομένων (σχεσιακή ή/και NoSQL), υλοποίηση μηχανισμών αυθεντικοποίησης και εξουσιοδότησης (JWT / OAuth2 / role-based access), καθώς και δημιουργία απλής αλλά σύγχρονης διεπαφής χρήστη με έμφαση στην προσβασιμότητα (WCAG) και στο UX. Θα εξεταστούν ζητήματα απόδοσης (caching, load testing, clustering), ασφάλειας (OWASP Top 10, rate limiting, input validation), και ποιότητας κώδικα μέσω αυτοματοποιημένων δοκιμών (unit, integration, API contract) και συνεχούς ολοκλήρωσης (CI). Προαιρετικά θα μελετηθεί containerization (Docker), βασικές πρακτικές παρακολούθησης (health checks, metrics) και διαδικασία deployment. Τελικός στόχος είναι μια πλήρως τεκμηριωμένη εφαρμογή παραγωγικού επιπέδου με αναλυτική αξιολόγηση αποτελεσμάτων, περιορισμών και μελλοντικών επεκτάσεων.",
+    "descFile": "/data/dummy_pdf.pdf",
+    "status": "pending",
+    "creationDate": "10/10/2025",
+    "temporaryAssignmentDate": "10/11/2025",
+    "assignmentDate": null,
+    "underReviewDate": null,
+    "presentationDate": null,
+    "completedDate": null,
+    "cancelledDate": null,
+    "studentName": "Νίκος Αναγνώστου",
+    "studentIdNumber": "10000001",
+    "supervisorName": "Δημήτρης Αλεξίου",
+    "supervisorID": "prof_001",
+    "members": [null, null],
+    "membersIDs": [null, null],
+    "grades": [null, null, null],
+    "protocolNumberAssignment": null,
+    "protocolNumberCancelled": null,
+    "reasonForCancellation": null,
+    "temporaryReportFile": null,
+    "temporaryLinks": [],
+    "nemertesLink": null,
+    "protocolGradeFile": null
+  }
+]

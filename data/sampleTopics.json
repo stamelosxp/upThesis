@@ -9,27 +9,6 @@
     "filePath": "/data/dummy_pdf.pdf"
   },
   {
-    "id": 2,
-    "title": "Ανάπτυξη Web Εφαρμογών με Node.js",
-    "description": "Μελέτη και υλοποίηση σύγχρονων web εφαρμογών χρησιμοποιώντας Node.js και Express framework.",
-    "creationDate": "15/12/2025",
-    "status": "pending",
-    "temporaryAssignmentDate": "10/07/2025",
-    "createdBy": "prof_001",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
-    "id": 3,
-    "title": "Αλγόριθμοι κρυπτογραφίας σε blockchain",
-    "description": "Ανάλυση και σύγκριση διαφορετικών αλγορίθμων κρυπτογραφίας που χρησιμοποιούνται σε τεχνολογίες blockchain.",
-    "creationDate": "10/12/2025",
-    "status": "active",
-    "temporaryAssignmentDate": "10/01/2023",
-    "assignmentDate": "15/01/2025",
-    "createdBy": "prof_003",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
     "id": 4,
     "title": "Τεχνητή νοημοσύνη στην ιατρική διάγνωση",
     "description": "Εφαρμογή αλγορίθμων μηχανικής μάθησης για την αυτόματη διάγνωση ιατρικών παθήσεων από ιατρικές εικόνες.",
@@ -37,30 +16,6 @@
     "status": null,
     "createdBy": "prof_001",
     "filePath": "/data/dummy_pdf_second.pdf"
-  },
-  {
-    "id": 5,
-    "title": "Κυβερνασφάλεια σε έξυπνα δίκτυα",
-    "description": "Μελέτη των κυβερνοαπειλών και ανάπτυξη μηχανισμών προστασίας για έξυπνα ηλεκτρικά δίκτυα.",
-    "creationDate": "28/11/2025",
-    "status": "review",
-    "temporaryAssignmentDate": "01/07/2025",
-    "assignmentDate": "10/07/2025",
-    "presentationDate": "20/07/2025",
-    "createdBy": "prof_005",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
-    "id": 6,
-    "title": "Ρομποτική και αυτόνομα συστήματα",
-    "description": "Σχεδιασμός και υλοποίηση αλγορίθμων πλοήγησης για αυτόνομα ρομποτικά συστήματα.",
-    "creationDate": "20/11/2025",
-    "status": "review",
-    "temporaryAssignmentDate": "01/07/2025",
-    "assignmentDate": "10/07/2025",
-    "presentationDate": "30/07/2025",
-    "createdBy": "prof_006",
-    "filePath": "/data/dummy_pdf.pdf"
   },
   {
     "id": 7,
@@ -71,77 +26,12 @@
     "createdBy": "prof_001"
   },
   {
-    "id": 8,
-    "title": "Αρχιτεκτονική μικροϋπηρεσιών",
-    "description": "Σχεδιασμός και υλοποίηση εφαρμογών με αρχιτεκτονική μικροϋπηρεσιών και containerization.",
-    "creationDate": "08/11/2025",
-    "status": "pending",
-    "temporaryAssignmentDate": "01/07/2025",
-    "createdBy": "prof_008",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
-    "id": 9,
-    "title": "Ανάλυση Big Data με Apache Spark",
-    "description": "Τεχνικές επεξεργασίας και ανάλυσης μεγάλων όγκων δεδομένων χρησιμοποιώντας το framework Apache Spark.",
-    "creationDate": "01/11/2025",
-    "status": "active",
-    "temporaryAssignmentDate": "20/09/2021",
-    "assignmentDate": "25/09/2021",
-    "createdBy": "prof_009",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
-    "id": 10,
-    "title": "Εικονική και επαυξημένη πραγματικότητα",
-    "description": "Ανάπτυξη εφαρμογών VR/AR για εκπαιδευτικούς και ψυχαγωγικούς σκοπούς.",
-    "creationDate": "25/10/2025",
-    "status": "active",
-    "temporaryAssignmentDate": "10/06/2024",
-    "assignmentDate": "18/06/2024",
-    "createdBy": "prof_010",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
     "id": 11,
     "title": "Κβαντική πληροφορική",
     "description": "Μελέτη αλγορίθμων κβαντικής πληροφορικής και των εφαρμογών τους στην κρυπτογραφία.",
     "creationDate": "18/10/2025",
     "status": null,
     "createdBy": "prof_011",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
-    "id": 12,
-    "title": "Αισθητήρες και IoT συστήματα",
-    "description": "Σχεδιασμός δικτύων αισθητήρων για παρακολούθηση περιβάλλοντος και έξυπνες πόλεις.",
-    "creationDate": "12/10/2025",
-    "status": "review",
-    "temporaryAssignmentDate": "01/07/2025",
-    "assignmentDate": "10/07/2025",
-    "presentationDate": "15/07/2025",
-    "createdBy": "prof_012",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
-    "id": 13,
-    "title": "Παράλληλος προγραμματισμός σε GPU",
-    "description": "Βελτιστοποίηση αλγορίθμων για εκτέλεση σε GPU με χρήση CUDA και OpenCL.",
-    "creationDate": "05/10/2025",
-    "status": "pending",
-    "temporaryAssignmentDate": "01/06/2025",
-    "createdBy": "prof_013",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
-    "id": 14,
-    "title": "Συστήματα συστάσεων",
-    "description": "Ανάπτυξη αλγορίθμων για συστήματα συστάσεων προϊόντων και περιεχομένου.",
-    "creationDate": "28/09/2025",
-    "status": "active",
-    "temporaryAssignmentDate": "01/11/2024",
-    "assignmentDate": "14/11/2024",
-    "createdBy": "prof_014",
     "filePath": "/data/dummy_pdf.pdf"
   },
   {
@@ -154,56 +44,12 @@
     "filePath": "/data/dummy_pdf.pdf"
   },
   {
-    "id": 16,
-    "title": "Βιοπληροφορική και γονιδιωματική",
-    "description": "Εφαρμογή υπολογιστικών μεθόδων για ανάλυση γενετικών δεδομένων και πρωτεϊνών.",
-    "creationDate": "14/09/2025",
-    "status": "review",
-    "temporaryAssignmentDate": "01/07/2025",
-    "assignmentDate": "10/07/2025",
-    "presentationDate": "01/08/2025",
-    "createdBy": "prof_016",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
-    "id": 17,
-    "title": "Αυτόματος έλεγχος και συστήματα",
-    "description": "Σχεδιασμός ελεγκτών για αυτόματα συστήματα ελέγχου σε βιομηχανικές εφαρμογές.",
-    "creationDate": "07/09/2025",
-    "status": "pending",
-    "temporaryAssignmentDate": "01/05/2025",
-    "createdBy": "prof_017",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
-    "id": 18,
-    "title": "Ψηφιακή επεξεργασία σημάτων",
-    "description": "Αλγόριθμοι φιλτραρίσματος και ανάλυσης ψηφιακών σημάτων για τηλεπικοινωνίες.",
-    "creationDate": "31/08/2025",
-    "status": "active",
-    "temporaryAssignmentDate": "01/05/2023",
-    "assignmentDate": "16/05/2023",
-    "createdBy": "prof_018",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
     "id": 19,
     "title": "Διανεμημένα συστήματα και cloud",
     "description": "Αρχιτεκτονική και υλοποίηση διανεμημένων εφαρμογών σε υπολογιστικό νέφος.",
     "creationDate": "24/08/2025",
     "status": null,
     "createdBy": "prof_019",
-    "filePath": "/data/dummy_pdf.pdf"
-  },
-  {
-    "id": 20,
-    "title": "Επεξεργασία εικόνας και όρασης",
-    "description": "Τεχνικές επεξεργασίας εικόνας και αλγόριθμοι υπολογιστικής όρασης για αναγνώριση αντικειμένων.",
-    "creationDate": "17/08/2025",
-    "status": "active",
-    "temporaryAssignmentDate": "01/12/2021",
-    "assignmentDate": "03/12/2021",
-    "createdBy": "prof_020",
     "filePath": "/data/dummy_pdf.pdf"
   }
 ]
