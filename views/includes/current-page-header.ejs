@@ -12,7 +12,12 @@
         <p class="current-page-message">
             Υπάρχουν <%= topicsLength %> διαθέσιμα θέματα ανεβασμένα.
         </p>
-    <% } %>
+    <% } else if(currentPage === 'assignments') {%>
+    <p class="current-page-message">
+        Υπάρχουν <%= assignmentsLenght %> αναθέσεις ανεβασμένες.
+    </p>
+    <% }%>
+
 
 
 </section>
