@@ -1,18 +1,17 @@
-/*filters-box*/
-.filters-box {
+.filters-container {
     height: 100%;
-    padding: 2rem 2.5rem 2rem 2rem;
+    padding: 2rem;
     background: #fff;
     border-radius: 18px;
     box-shadow: 0 6px 24px rgba(82, 97, 107, 0.13);
     display: flex;
     flex-direction: column;
+    gap: 1.5rem;
     border: 1.5px solid #c9d6df;
     min-width: 300px;
 }
 
-/*filters box header*/
-.filters-box h3 {
+.filters-container h3 {
     text-align: center;
     font-size: 1.3rem;
     color: #1e2022;
@@ -20,28 +19,18 @@
     margin: 0;
 }
 
-/*filters form styles*/
-.filter-form {
+.filters-form {
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
     white-space: nowrap;
 }
 
-.filter-form label {
+.filters-form label {
     font-weight: 600;
     color: #52616b;
     margin-bottom: 0.3rem;
     font-size: 1rem;
-}
-
-/* advanced form styles */
-.filter-form input[type="checkbox"] {
-    accent-color: #52616b;
-    width: 1.1rem;
-    height: 1.1rem;
-    margin-right: 0.5rem;
-    cursor: pointer;
 }
 
 .filter-header {
@@ -54,7 +43,7 @@
 }
 
 .filter-group {
-    margin-top: 1.2rem;
+    margin-top: 1rem;
     background: #f8fafb;
     border-radius: 10px;
     padding: 1.2rem 1rem;
@@ -62,15 +51,49 @@
     border: 1px solid #e0e6ed;
 }
 
-.button-form-group {
+.filters-button-group {
     margin: 1.5rem 0 0 0;
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
     justify-content: flex-end;
 }
 
-@media screen and (max-width: 1100px) {
-    .filters-box {
+.filters-form input[type="text"],
+.filters-form select {
+    padding: 0.7rem 1rem;
+    border: 2px solid #c9d6df;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #f0f5f9;
+    color: #52616b;
+    box-shadow: 0 2px 8px rgba(82, 97, 107, 0.07);
+    outline: none;
+    cursor: pointer;
+}
+
+.filters-form input[type="text"]:focus,
+.filters-form select:focus {
+    border-color: #1e2022;
+    box-shadow: 0 4px 16px rgba(28, 32, 34, 0.13);
+}
+
+.filters-form input[type="checkbox"],
+.filters-form input[type="radio"] {
+    accent-color: #52616b;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+.filters-form .button {
+    min-width: 120px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+@media screen and (max-width: 1350px) {
+    .filters-container {
         display: none;
     }
 }

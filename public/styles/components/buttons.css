@@ -1,4 +1,4 @@
-.standard-button, .cancel-button, .accept-button, .light-button, .light-cancel-button{
+.standard-button, .cancel-button, .accept-button, .light-button, .light-cancel-button {
     background-color: #52616b;
     color: #fff;
     border: none;
@@ -58,6 +58,11 @@
     border-color: #00b894;
 }
 
+.expand-button a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .accept-button:hover {
     background: #009e74;
     border-color: #009e74;
@@ -114,9 +119,9 @@
     outline: none;
 }
 
-.search-bar {
-    width: 500px;
-}
+/*.search-bar {*/
+/*    width: 500px;*/
+/*}*/
 
 .sort-dropdown {
     width: 150px;
