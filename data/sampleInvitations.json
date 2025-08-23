@@ -2,34 +2,37 @@
   {
     "invitationID": "inv1",
     "thesisID": "2",
-    "professorID": "prof_001",
+    "professorID": "prof_004",
     "createdAt": "2025-07-20T10:00:00Z",
     "modifiedAt": null,
-    "status": "pending"
+    "status": "pending",
+    "professorFullName": "Ευάγγελος Παπανικολάου"
   },
   {
     "invitationID": "inv2",
-    "thesisID": "17",
-    "professorID": "prof_001",
+    "thesisID": "2",
+    "professorID": "prof_002",
     "createdAt": "2025-07-18T12:30:00Z",
     "modifiedAt": "2025-07-19T09:00:00Z",
-    "status": "accepted"
+    "status": "accepted",
+    "professorFullName": "Αναστασία Πετρίδου"
   },
   {
     "invitationID": "inv3",
-    "thesisID": "3",
-    "professorID": "prof_001",
+    "thesisID": "2",
+    "professorID": "prof_003",
     "createdAt": "2025-07-18T12:30:00Z",
     "modifiedAt": "2025-07-16T11:20:00Z",
-    "status": "rejected"
+    "status": "accepted",
+    "professorFullName": "Γιώργος Σταματίου"
   },
   {
     "invitationID": "inv4",
-    "thesisID": "4",
-    "professorID": "prof_001",
+    "thesisID": "2",
+    "professorID": "prof_005",
     "createdAt": "2025-07-22T08:10:00Z",
     "modifiedAt": null,
-    "status": "rejected"
+    "status": "rejected",
+    "professorFullName": "Ιωάννα Κουκουβάγια"
   }
 ]
-

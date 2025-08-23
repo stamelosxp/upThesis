@@ -10,7 +10,7 @@
     "address": "Οδός Αθηνάς 10, Αθήνα",
     "yearOfStudies": 5,
     "hasThesis": true,
-    "thesisId": 9
+    "thesisId": 2
   },
   {
     "userId": "stu_002",
@@ -132,6 +132,26 @@
     "role": "professor",
     "email": "giorgos.stamatiou@example.com",
     "address": "Οδός Εγνατίας 50, Θεσσαλονίκη"
+  },
+  {
+    "userId": "prof_004",
+    "firstName": "Ευάγγελος",
+    "lastName": "Παπανικολάου",
+    "phone": "2101122334",
+    "department": "Μηχανική Υπολογιστών",
+    "role": "professor",
+    "email": "evangelos.papanikolaou@example.com",
+    "address": "Οδός Ναυαρίνου 8, Θεσσαλονίκη"
+  },
+  {
+    "userId": "prof_005",
+    "firstName": "Ιωάννα",
+    "lastName": "Κουκουβάγια",
+    "phone": "2102233445",
+    "department": "Μηχανική Υπολογιστών",
+    "role": "professor",
+    "email": "ioanna.koukouvagia@example.com",
+    "address": "Οδός Λεωφόρος Νίκης 25, Θεσσαλονίκη"
   },
   {
     "userId": "sec_001",

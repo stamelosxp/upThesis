@@ -4,27 +4,51 @@
     "title": "Ανάπτυξη Web Εφαρμογών με Node.js",
     "description": "Μελέτη και υλοποίηση σύγχρονων web εφαρμογών χρησιμοποιώντας Node.js και Express framework. Η εργασία περιλαμβάνει ανάλυση αρχιτεκτονικών προτύπων (MVC, REST), σχεδίαση και ανάπτυξη επεκτάσιμου API με βέλτιστες πρακτικές (modularization, error handling, structured logging), διαχείριση και αποδοτική μοντελοποίηση βάσης δεδομένων (σχεσιακή ή/και NoSQL), υλοποίηση μηχανισμών αυθεντικοποίησης και εξουσιοδότησης (JWT / OAuth2 / role-based access), καθώς και δημιουργία απλής αλλά σύγχρονης διεπαφής χρήστη με έμφαση στην προσβασιμότητα (WCAG) και στο UX. Θα εξεταστούν ζητήματα απόδοσης (caching, load testing, clustering), ασφάλειας (OWASP Top 10, rate limiting, input validation), και ποιότητας κώδικα μέσω αυτοματοποιημένων δοκιμών (unit, integration, API contract) και συνεχούς ολοκλήρωσης (CI). Προαιρετικά θα μελετηθεί containerization (Docker), βασικές πρακτικές παρακολούθησης (health checks, metrics) και διαδικασία deployment. Τελικός στόχος είναι μια πλήρως τεκμηριωμένη εφαρμογή παραγωγικού επιπέδου με αναλυτική αξιολόγηση αποτελεσμάτων, περιορισμών και μελλοντικών επεκτάσεων.",
     "descFile": "/data/dummy_pdf.pdf",
-    "status": "pending",
-    "creationDate": "10/10/2025",
-    "temporaryAssignmentDate": "10/11/2025",
-    "assignmentDate": null,
-    "underReviewDate": null,
-    "presentationDate": null,
-    "completedDate": null,
+    "status": "completed",
+    "creationDate": "2024-10-01T09:00:00Z",
+    "modificationDate": [
+      "2024-10-05T09:00:00Z","2024-10-10T09:00:00Z"
+    ],
+    "temporaryAssignmentDate": "2024-11-10T09:00:00Z",
+    "assignmentDate": "2024-01-15T09:00:00Z",
+    "underReviewDate": "2025-08-15T09:00:00Z",
+    "presentationDate": "2025-08-16T09:00:00Z",
+    "completedDate": "2025-08-20T09:00:00Z",
     "cancelledDate": null,
-    "studentName": "Νίκος Αναγνώστου",
-    "studentIdNumber": "10000001",
-    "supervisorName": "Δημήτρης Αλεξίου",
-    "supervisorID": "prof_001",
-    "members": [null, null],
-    "membersIDs": [null, null],
-    "grades": [null, null, null],
-    "protocolNumberAssignment": null,
+    "student": {
+      "fullName": "Νίκος Αναγνώστου",
+      "idNumber": "10000001",
+      "id": "stud_001"
+    },
+    "professors": {
+      "supervisor": {
+        "fullName": "Δημήτρης Αλεξίου",
+        "id": "prof_001"
+      },
+      "memberA": {
+        "fullName": "Αναστασία Πετρίδου",
+        "id": "prof_002"
+      },
+      "memberB": {
+        "fullName": "Γιώργος Σταματίου",
+        "id": "prof_003"
+      }
+    },
+    "gradesExists": [
+      true,
+      true,
+      true
+    ],
+    "protocolNumberAssignment": "12345/2025",
     "protocolNumberCancelled": null,
     "reasonForCancellation": null,
-    "temporaryReportFile": null,
-    "temporaryLinks": [],
-    "nemertesLink": null,
-    "protocolGradeFile": null
+    "temporaryReportFile": "/data/dummy_report.pdf",
+    "temporaryLinks": [
+      "https://google.com",
+      "https://github.com"
+    ],
+    "protocolExists": true,
+    "nemertesLink": "https://nemertes.library.upatras.gr/home",
+    "finalGrade": "10"
   }
 ]

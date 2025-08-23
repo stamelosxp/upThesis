@@ -1,38 +1,38 @@
 [
   {
     "id": 1,
-    "thesisId": 3,
-    "dateTime": "2025-07-25T10:00:00Z",
+    "thesisId": 2,
+    "dateTime": "2025-08-25T10:00:00Z",
     "participants": { "student": 201, "professor": "prof_001" },
     "status": "scheduled"
   },
   {
     "id": 2,
-    "thesisId": 3,
+    "thesisId": 2,
     "dateTime": "2025-07-23T14:30:00Z",
     "participants": { "student": 202, "professor": "prof_001" },
     "status": "completed"
   },
   {
     "id": 3,
-    "thesisId": 3,
+    "thesisId": 2,
     "dateTime": "2025-07-28T11:15:00Z",
     "participants": { "student": 203, "professor": "prof_001" },
     "status": "cancelled"
   },
   {
     "id": 4,
-    "thesisId": 5,
+    "thesisId": 2,
     "dateTime": "2025-08-02T15:00:00Z",
     "participants": { "student": 205, "professor": 304 },
-    "status": "scheduled"
+    "status": "completed"
   },
   {
     "id": 5,
-    "thesisId": 6,
+    "thesisId": 2,
     "dateTime": "2025-07-30T16:30:00Z",
     "participants": { "student": 206, "professor": 302 },
-    "status": "scheduled"
+    "status": "completed"
   },
   {
     "id": 6,
@@ -53,14 +53,14 @@
     "thesisId": 10,
     "dateTime": "2025-08-10T11:30:00Z",
     "participants": { "student": 210, "professor": 307 },
-    "status": "scheduled"
+    "status": "completed"
   },
   {
     "id": 9,
     "thesisId": 12,
     "dateTime": "2025-08-12T15:45:00Z",
     "participants": { "student": 212, "professor": 308 },
-    "status": "scheduled"
+    "status": "completed"
   },
   {
     "id": 10,
@@ -81,7 +81,7 @@
     "thesisId": 18,
     "dateTime": "2025-08-20T09:30:00Z",
     "participants": { "student": 218, "professor": 311 },
-    "status": "completed"
+    "status": "scheduled"
   },
   {
     "id": 13,
