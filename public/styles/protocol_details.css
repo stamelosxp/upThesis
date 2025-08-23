@@ -1,0 +1,80 @@
+@import url('./components/buttons.css');
+
+body {
+    background: #fff;
+    color: #222;
+    font-family: "Times New Roman", Times, serif;
+    line-height: 1.2;
+    margin: 0 2rem;
+    padding: 0;
+    font-size: 1.25rem;
+
+
+}
+
+p {
+    margin: 0;
+    text-align: left;
+
+}
+
+main {
+    max-width: 820px;
+    margin: 2rem auto;
+}
+
+.protocol-header {
+
+    font-weight: bold;
+}
+.protocol-header p {
+    text-align: center;
+}
+
+.protocol-group-content.student-header p {
+    text-align: center;
+}
+
+
+.protocol-group-content ol, .protocol-group-content ul {
+    margin: 8px 0 8px 30px;
+    padding: 0;
+}
+
+ol {
+    list-style-type: decimal;
+}
+
+.protocol-professors-table {
+    width: 100%;
+    margin-top: 0.5rem;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.protocol-professors-table th,
+.protocol-professors-table td {
+    border: 1px solid #222;
+    padding: 0.75rem;
+}
+
+.protocol-professors-table th {
+    background: #f5f9ff; /* light white-blue */
+    font-weight: bold;
+}
+br {
+    line-height: 1.5;
+}
+
+span {
+    padding: 0 2px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+    color: #000; /* darker for emphasis */
+    opacity: 1;  /* remove fade */
+    font-weight: 600; /* semi-bold for readability */
+}
+.protocol-group-content.button {
+    display: flex;
+    justify-content: flex-end;
+}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Πρακτικό Συνεδρίασης</title>
+    <link rel="stylesheet" href="/styles/protocol_details.css">
+</head>
+<body>
+<main>
+    <div class="protocol-header">
+        <div class="protocol-group-content">
+            <p>
+                ΠΡΟΓΡΑΜΜΑ ΣΠΟΥΔΩΝ
+                <br>
+                &laquo;ΤΜΗΜΑΤΟΣ ΜΗΧΑΝΙΚΩΝ, ΗΛΕΚΤΡΟΝΙΚΩΝ ΥΠΟΛΟΓΙΣΤΩΝ ΚΑΙ
+                ΠΛΗΡΟΦΟΡΙΚΗΣ&raquo;
+            </p>
+        </div>
+        <br>
+        <div class="protocol-group-content">
+            <p>ΠΡΑΚΤΙΚΟ ΣΥΝΕΔΡΙΑΣΗΣ</p>
+            <p>ΤΗΣ ΤΡΙΜΕΛΟΥΣ ΕΠΙΤΡΟΠΗΣ</p>
+            <p>ΓΙΑ ΤΗΝ ΠΑΡΟΥΣΙΑΣΗ ΚΑΙ ΚΡΙΣΗ ΤΗΣ ΔΙΠΛΩΜΑΤΙΚΗΣ ΕΡΓΑΣΙΑΣ</p>
+        </div>
+    </div>
+    <br>
+    <div class="protocol-group-content student-header">
+        <p><%= protocol.student.gender === "male" ? "του φοιτητή" : "της φοιτήτριας" %></p>
+        <p>κ. <span class="protocol-student-name"> <%= protocol.student.fullName %></span></p>
+    </div>
+    <br>
+    <div class="protocol-group-content">
+        <p>
+            Η συνεδρίαση πραγματοποιήθηκε στην αίθουσα
+            <span id="protocol-place"><%= protocol.protocolPlace %></span>, στις
+            <span id="protocol-date"><%= protocolFormattedDate %></span>, ημέρα
+            <span id="protocol-day"><%= protocolDay %></span> και ώρα
+            <span id="protocol-time"><%= protocolTime %></span>.
+        </p>
+    </div>
+    <br>
+    <%
+    // Build Map from nested member objects
+    const membersMap = new Map();
+    const membersObj = protocol.members || {};
+    if (membersObj.supervisor && membersObj.supervisor.fullName) {
+        membersMap.set('supervisor', membersObj.supervisor);
+    }
+    if (membersObj.memberA && membersObj.memberA.fullName) {
+        membersMap.set('memberA', membersObj.memberA);
+    }
+    if (membersObj.memberB && membersObj.memberB.fullName) {
+        membersMap.set('memberB', membersObj.memberB);
+    }
+    // Sort entries by member.fullName (value is at index 1)
+    const sortedMembers = Array.from(membersMap.entries())
+            .filter(([, m]) => m && m.fullName)
+            .sort((a, b) => a[1].fullName.localeCompare(b[1].fullName, 'el', {sensitivity: 'base'}));
+    const supervisorName = membersMap.get('supervisor')?.fullName || '';
+    function roleLabel(roleKey) {
+        return roleKey === 'supervisor' ? 'Επιβλέπων' : 'Μέλος';
+    }
+    %>
+    <div class="protocol-group-content">
+        <p>
+            Στην συνεδρίαση είναι παρόντα τα μέλη της Τριμελούς Επιτροπής, κ.κ.:
+        </p>
+        <ol>
+            <% if (sortedMembers.length === 0) { %>
+                <li>-</li>
+            <% } else { sortedMembers.forEach(([key, member], idx) => { %>
+                <li class="protocol-member-1">
+                    <span><%= member.fullName %></span><%= idx < sortedMembers.length - 1 ? ',' : '' %></li>
+            <% }) } %>
+        </ol>
+    </div>
+    <br>
+    <div class="protocol-group-content">
+        <p>
+            οι οποίοι ορίσθηκαν από την Συνέλευση του ΤΜΗΥΠ, στην συνεδρίαση της
+            με αριθμό <span id="protocol-assignment-number"><%= protocol.protocolNumberAssignment %></span>.
+        </p>
+    </div>
+    <br>
+    <div class="protocol-group-content">
+        <p>
+            <%= protocol.student.gender === "male" ? "Ο φοιτητής" : "Η φοιτήτρια" %> κ.
+            <span class="protocol-student-name"><%= protocol.student.fullName %></span> ανέπτυξε το θέμα της
+            Διπλωματικής  <%= protocol.student.gender === "male" ? "του" : "της" %> Εργασίας με τίτλο
+            <br/>
+            &laquo;<span class="protocol-thesis-title"><%= protocol.thesisTitle %></span>&raquo;.
+        </p>
+    </div>
+    <br>
+    <div class="protocol-group-content">
+        <p>Στην συνέχεια υποβλήθηκαν ερωτήσεις στον υποψήφιο από τα μέλη της Τριμελούς Επιτροπής και τους άλλους
+            παρευρισκόμενους, προκειμένου να διαμορφώσουν σαφή άποψη για το περιεχόμενο της εργασίας, για την
+            επιστημονική συγκρότηση του μεταπτυχιακού φοιτητή.</p>
+    </div>
+    <br>
+    <div class="protocol-group-content">
+        <p>Μετά το τέλος της ανάπτυξης της εργασίας του και των ερωτήσεων, ο υποψήφιος αποχωρεί.</p>
+    </div>
+    <br>
+    <div class="protocol-group-content">
+        <p>Ο Επιβλέπων καθηγητής κ. <span class="protocol-supervisor-name"><%= supervisorName %></span>, προτείνει στα
+            μέλη της Τριμελούς
+            Επιτροπής, να ψηφίσουν για το αν εγκρίνεται η διπλωματική
+            εργασία <%= protocol.student.gender === "male" ? "του" : "της" %> <span
+                    class="protocol-student-name"><%= protocol.student.fullName %></span></p>
+    </div>
+    <br>
+    <div class="protocol-group-content">
+        <p>
+            Τα μέλη της Τριμελούς Επιτροπής, ψηφίζουν κατ’ αλφαβητική σειρά:
+        </p>
+        <ol>
+            <% if (sortedMembers.length === 0) { %>
+                <li>-</li>
+            <% } else { sortedMembers.forEach(([key, member], idx) => { %>
+                <li class="protocol-member-1">
+                    <span><%= member.fullName %></span><%= idx < sortedMembers.length - 1 ? ',' : '' %></li>
+            <% }) } %>
+        </ol>
+    </div>
+    <br>
+    <div class="protocol-group-content">
+        <p>υπέρ της εγκρίσεως της Διπλωματικής
+            Εργασίας <%= protocol.student.gender === "male" ? "του φοιτητή" : "της φοιτήτριας" %>
+            <span class="protocol-student-name"><%= protocol.student.fullName %></span>, επειδή θεωρούν επιστημονικά
+            επαρκή και το
+            περιεχόμενό της ανταποκρίνεται στο θέμα που του δόθηκε.</p>
+    </div>
+    <br>
+    <div class="protocol-group-content">
+        <p>Μετά της έγκριση, ο εισηγητής κ. <span class="protocol-supervisor-name"><%= supervisorName %></span>,
+            προτείνει στα μέλη της
+            Τριμελούς Επιτροπής, να
+            απονεμηθεί <%= protocol.student.gender === "male" ? "στον φοιτητή" : "στη φοιτήτρια" %> κ. <span
+                    class="protocol-student-name"><%= protocol.student.fullName %></span> ο βαθμός <span
+                    id="protocol-suggested-grade"><%= protocol.suggestedGrade %></span>.</p>
+    </div>
+    <br>
+    <div class="protocol-group-content">
+        <p>Τα μέλη της Τριμελούς Επιτροπής, απομένουν την παρακάτω βαθμολογία:</p>
+        <table class="protocol-professors-table">
+            <thead>
+            <tr>
+                <th>ΟΝΟΜΑΤΕΠΩΝΥΜΟ</th>
+                <th>ΙΔΙΟΤΗΤΑ</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if (sortedMembers.length === 0) { %>
+                <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            <% } else { sortedMembers.forEach(([key, member]) => { %>
+                <tr>
+                    <td class="protocol-member-name"><span><%= member.fullName %></span></td>
+                    <td class="protocol-member-professor-type"><span><%= member.typeProfessor %></span></td>
+                </tr>
+            <% }) } %>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div class="protocol-group-content">
+        <p>Μετά την έγκριση και την απονομή του βαθμού <span id="protocol-final-grade"><%= protocol.finalGrade %></span>,
+            η Τριμελής Επιτροπή,
+            προτείνει να
+            προχωρήσει στην διαδικασία για να ανακηρύξει <%= protocol.student.gender === "male" ? "τον" : "την" %> κ. <span
+                    class="protocol-student-name"><%= protocol.student.fullName %></span>, σε
+            διπλωματούχο του Προγράμματος Σπουδών του &laquo;ΤΜΗΜΑΤΟΣ ΜΗΧΑΝΙΚΩΝ, ΗΛΕΚΤΡΟΝΙΚΩΝ
+            ΥΠΟΛΟΓΙΣΤΩΝ ΚΑΙ ΠΛΗΡΟΦΟΡΙΚΗΣ ΠΑΝΕΠΙΣΤΗΜΙΟΥ ΠΑΤΡΩΝ&raquo; και να του απονέμει το Δίπλωμα
+            Μηχανικού Η/Υ το οποίο αναγνωρίζεται ως Ενιαίος Τίτλος Σπουδών Μεταπτυχιακού Επιπέδου.</p>
+    </div>
+    <br>
+    <div class="protocol-group-content button">
+        <button class="standard-button">Κατέβασμα</button>
+    </div>
+</main>
+
+
+</body>
+</html>
