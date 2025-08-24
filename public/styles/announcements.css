@@ -249,7 +249,7 @@ p {
 .modal-group-value, .announcement-member {
     padding: 0.75rem 1rem;
     border: 2px solid #e0e6ed;
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 1rem;
     font-family: inherit;
     width: 100%;
