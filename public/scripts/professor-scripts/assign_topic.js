@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const queryString = studentNameSearchTerm ? ('?studentNameSearch=' + encodeURIComponent(studentNameSearchTerm)) : '';
 
         try {
-            const resp = await fetch(`/professor/students/available${queryString}`, { signal: currentFetchController.signal });
+            const resp = await fetch(`/api/students/available${queryString}`, { signal: currentFetchController.signal });
             if (!resp.ok) throw new Error('Network');
             const data = await resp.json();
             if (currentFetchController.signal.aborted) return;
