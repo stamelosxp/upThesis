@@ -1,106 +1,76 @@
 <aside id="main-menu">
     <nav>
         <ul class="menu-list">
-            <% if (locals.connectedUserRole === 'professor') { %>
+            <% if (locals.isAuth) { %>
                 <li class="menu-item <%= currentPage === 'home' ? 'current' : '' %>">
-                    <a href="/professor">
+                    <a href="/home">
                         <img class="menu-icon" src="/icons/homepage.png" alt="Home Icon">
                         <span class="menu-text">Αρχική</span>
                     </a>
                 </li>
-                <li class="menu-item <%= currentPage === 'topics' ? 'current' : '' %>">
-                    <a href="/professor/topics">
-                        <img class="menu-icon" src="/icons/topics.png" alt="Available Topics Icon">
-                        <span class="menu-text">Θέματα</span>
-                    </a>
-                </li>
-                <li class="menu-item <%= currentPage === 'assignments' ? 'current' : '' %>">
-                    <a href="/professor/assignments">
-                        <img class="menu-icon" src="/icons/assignments.png" alt="Assignments Icon">
-                        <span class="menu-text">Αναθέσεις</span>
-                    </a>
-                </li>
-                <li class="menu-item <%= currentPage === 'invitations' ? 'current' : '' %>">
-                    <a href="/professor/invitations">
-                        <img class="menu-icon" src="/icons/invitations.png" alt="Invitations Icon">
-                        <span class="menu-text">Προσκλήσεις</span>
-                    </a>
-                </li>
-                <li class="menu-item <%= currentPage === 'stats' ? 'current' : '' %>">
-                    <a href="/professor/stats">
-                        <img class="menu-icon" src="/icons/stats.png" alt="Statistics Icon">
-                        <span class="menu-text">Στατιστικά</span>
-                    </a>
-                </li>
-                <li class="menu-item <%= currentPage === 'announcements' ? 'current' : '' %>">
-                    <a href="/professor/announcements">
-                        <img class="menu-icon" src="/icons/announcements.png" alt="Announcements Icon">
-                        <span class="menu-text">Ανακοινώσεις</span>
-                    </a>
-                </li>
-            <% } else if (locals.connectedUserRole === 'student') { %>
-                <li class="menu-item <%= currentPage === 'home' ? 'current' : '' %>">
-                    <a href="/student">
-                        <img class="menu-icon" src="/icons/homepage.png" alt="Home Icon">
-                        <span class="menu-text">Αρχική</span>
-                    </a>
-                </li>
-                <li class="menu-item <%= currentPage === 'topics' ? 'current' : '' %>">
-                    <a href="/student/topics">
-                        <img class="menu-icon" src="/icons/topics.png" alt="Available Topics Icon">
-                        <span class="menu-text">Θέματα</span>
-                    </a>
-                </li>
-                <li class="menu-item <%= currentPage === 'thesis' ? 'current' : '' %>">
-                    <a href="/student/thesis">
-                        <img class="menu-icon" src="/icons/my_thesis.png" alt="My Thesis Icon">
-                        <span class="menu-text">Διπλωματική</span>
-                    </a>
-                </li>
-                <li class="menu-item <%= currentPage === 'announcements' ? 'current' : '' %>">
-                    <a href="/student/announcements">
-                        <img class="menu-icon" src="/icons/announcements.png" alt="Announcements Icon">
-                        <span class="menu-text">Ανακοινώσεις</span>
-                    </a>
-                </li>
-            <% } else if (locals.connectedUserRole === 'secretary') { %>
-                <li class="menu-item <%= currentPage === 'home' ? 'current' : '' %>">
-                    <a href="/secretary">
-                        <img class="menu-icon" src="/icons/homepage.png" alt="Home Icon">
-                        <span class="menu-text">Αρχική</span>
-                    </a>
-                </li>
-                <li class="menu-item <%= currentPage === 'users' ? 'current' : '' %>">
-                    <a href="/secretary/users">
-                        <img class="menu-icon" src="/icons/users_sec.png" alt="Users Icon">
-                        <span class="menu-text">Χρήστες</span>
-                    </a>
-                </li>
-                <li class="menu-item <%= currentPage === 'assignments' ? 'current' : '' %>">
-                    <a href="/secretary/assignments">
-                        <img class="menu-icon" src="/icons/assignments.png" alt="Assignments Icon">
-                        <span class="menu-text">Αναθέσεις</span>
-                    </a>
-                </li>
-                <li class="menu-item <%= currentPage === 'announcements' ? 'current' : '' %>">
-                    <a href="/secretary/announcements">
-                        <img class="menu-icon" src="/icons/announcements.png" alt="Announcements Icon">
-                        <span class="menu-text">Ανακοινώσεις</span>
-                    </a>
-                </li>
+
+                <% if (locals.connectedUserRole === 'professor' || locals.connectedUserRole === 'student') { %>
+                    <li class="menu-item <%= currentPage === 'topics' ? 'current' : '' %>">
+                        <a href="/topics">
+                            <img class="menu-icon" src="/icons/topics.png" alt="Available Topics Icon">
+                            <span class="menu-text">Θέματα</span>
+                        </a>
+                    </li>
+                <% } %>
+
+                <% if(locals.connectedUserRole === 'secretary') { %>
+                    <li class="menu-item <%= currentPage === 'users' ? 'current' : '' %>">
+                        <a href="/users">
+                            <img class="menu-icon" src="/icons/users_sec.png" alt="Users Icon">
+                            <span class="menu-text">Χρήστες</span>
+                        </a>
+                    </li>
+                <% } %>
+
+                <% if (locals.connectedUserRole === 'student') { %>
+                    <li class="menu-item <%= currentPage === 'thesis' ? 'current' : '' %>">
+                        <a href="/thesis">
+                            <img class="menu-icon" src="/icons/my_thesis.png" alt="My Thesis Icon">
+                            <span class="menu-text">Διπλωματική</span>
+                        </a>
+                    </li>
+                <% } %>
+
+                <% if (locals.connectedUserRole === 'professor' || locals.connectedUserRole === 'secretary'){ %>
+                    <li class="menu-item <%= currentPage === 'assignments' ? 'current' : '' %>">
+                        <a href="/assignments">
+                            <img class="menu-icon" src="/icons/assignments.png" alt="Assignments Icon">
+                            <span class="menu-text">Αναθέσεις</span>
+                        </a>
+                    </li>
+                <% } %>
+                <% if (locals.connectedUserRole === 'professor') { %>
+                    <li class="menu-item <%= currentPage === 'invitations' ? 'current' : '' %>">
+                        <a href="/invitations">
+                            <img class="menu-icon" src="/icons/invitations.png" alt="Invitations Icon">
+                            <span class="menu-text">Προσκλήσεις</span>
+                        </a>
+                    </li>
+                    <li class="menu-item <%= currentPage === 'stats' ? 'current' : '' %>">
+                        <a href="/stats">
+                            <img class="menu-icon" src="/icons/stats.png" alt="Statistics Icon">
+                            <span class="menu-text">Στατιστικά</span>
+                        </a>
+                    </li>
+                <% } %>
             <% } else { %>
                 <li class="menu-item <%= currentPage === 'login' ? 'current' : '' %>">
                     <a href="/login">
                         <span class="menu-text">Είσοδος</span>
                     </a>
                 </li>
-                <li class="menu-item <%= currentPage === 'announcements' ? 'current' : '' %>">
-                    <a href="/announcements">
-                        <img class="menu-icon" src="/icons/announcements.png" alt="Announcements Icon">
-                        <span class="menu-text">Ανακοινώσεις</span>
-                    </a>
-                </li>
             <% } %>
+            <li class="menu-item <%= currentPage === 'announcements' ? 'current' : '' %>">
+                <a href="/announcements">
+                    <img class="menu-icon" src="/icons/announcements.png" alt="Announcements Icon">
+                    <span class="menu-text">Ανακοινώσεις</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </aside>
