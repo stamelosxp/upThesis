@@ -10,38 +10,39 @@
             href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
             rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles/shared.css"/>
-    <link rel="stylesheet" href="/styles/assignments_details.css"/>
-    <script src="/scripts/assignment_detail.js" defer></script>
+
+    <link rel="stylesheet" href="/styles/assignment.css"/>
+    <script src="/scripts/assignment.js" defer></script>
 </head>
 <body>
 <%- include('includes/main-header') %>
 <div class="layout">
     <%- include('includes/main-menu') %>
     <main>
-        <section id="back-section">
-            <a href="/professor/assignments">
-                <img
-                        class="back-icon"
-                        src="/icons/back_arrow.png"
-                        alt="Back Icon"
-                />
-                <span class="back-icon-text">Πίσω στις Αναθέσεις</span>
-            </a>
-        </section>
+        <% if (locals.connectedUserRole !== 'student') { %>
+            <section class="back-section">
+                <a href="<%= locals.connectedUserRole === 'professor' ? '/professor/assignments' : '/secretary/assignments' %>">
+                    <img
+                            class="back-icon"
+                            src="/icons/back_arrow.png"
+                            alt="Back Icon"
+                    />
+                    <span class="back-icon-text">Πίσω στις Αναθέσεις</span>
+                </a>
+            </section>
+        <% } %>
         <section id="assignment-detail">
             <div class="assignment-header">
                 <div class="title-status-container">
-                    <h2><%= topic.title %></h2>
-                    <p class="topic-status <%= topic.status %>">
-                        <% let statusText = ''; if (topic.status) {
-                            switch (topic.status.toLowerCase()) {
+                    <h2><%= thesis.title %></h2>
+                    <p class="status-badge <%= thesis.status %>">
+                        <% let statusText = ''; if (thesis.status) {
+                            switch (thesis.status.toLowerCase()) {
                                 case 'completed':
                                     statusText = 'Ολοκληρωμένη';
                                     break;
                                 case 'active':
-                                    statusText =
-                                            'Ενεργή';
+                                    statusText = 'Ενεργή';
                                     break;
                                 case 'pending':
                                     statusText = 'Υπό-Ανάθεση';
@@ -49,93 +50,111 @@
                                 case 'review':
                                     statusText = 'Υπό-Εξέταση';
                                     break;
-                                case
-                                'cancelled':
+                                case 'cancelled':
                                     statusText = 'Ακυρωμένη';
                                     break;
                                 default:
-                                    statusText = topic.status;
+                                    statusText = thesis.status;
                             }
                         } %>
                         <%= statusText %>
                     </p>
                 </div>
-                <% if (topic.status !== 'completed' && topic.status !== 'cancelled'
-                        && topic.status !== 'review') { %> <% if (canCancel) { %>
-                    <button class="cancel-assignment-button enabled">
+
+                <%
+                let showEvaluation = false;
+                if (thesis.presentationDate) {
+                    const _pres = new Date(thesis.presentationDate);
+                    if (!isNaN(_pres) && _pres.getTime() <= Date.now()) {
+                        showEvaluation = true;
+                    }
+                }
+                let canCancel = false;
+                if (thesis.assignmentDate) {
+                    const _cancelProf = new Date(thesis.assignmentDate);
+                    if (!isNaN(_cancelProf) && _cancelProf.getTime() <= Date.now()) {
+                        canCancel = true;
+                    }
+                }
+                %>
+
+                <% if ( (thesis.status === 'pending' || thesis.status === 'active') && userThesisRole === 'supervisor'){ %>
+                    <button class="cancel-button <%= canCancel ? 'enabled' : 'disabled' %>">
                         Ακύρωση Ανάθεσης
                     </button>
-                <% } else { %>
-                    <button class="cancel-assignment-button disabled" disabled>
+                <% } else if (thesis.status === 'pending' && userThesisRole === 'secretary' && thesis.professors.memberA.id && thesis.professors.memberB.id) { %>
+                    <button class="standard-button">
+                        Επίσημη Ανάθεση
+                    </button>
+                <% } else if (thesis.status === 'active' && userThesisRole === 'secretary') { %>
+                    <button class="cancel-button enabled">
                         Ακύρωση Ανάθεσης
                     </button>
-                <% } %>
-                <% } else if (topic.status === 'review' && !showEvaluation) { %>
-                    <button class="presentation-button">Παρουσίαση</button>
+                <% } else if (thesis.status === 'review' && (userThesisRole === 'supervisor' || userThesisRole === 'student') && !showEvaluation ){ %>
+                    <button class="standard-button">Παρουσίαση</button>
+                <% } else if (thesis.status === 'review' && userThesisRole === 'secretary' && thesis.finalGrade && thesis.nemertesLink) { %>
+                    <button class="accept-button">Ολοκλήρωση</button>
                 <% } %>
             </div>
 
-            <div id="assignment-detail-container">
+            <div class="assignment-detail-container" data-thesis-id="<%= thesis.id %>"
+                 data-user-role="<%= userThesisRole %>">
                 <ul class="sub-menu-assignment-details">
-                    <% if (topic.status === 'pending' || topic.status === 'completed'
-                            || topic.status === 'cancelled') { %>
-                        <li>
-                            <a class="tab-link active" data-tab="info">Πληροφορίες</a>
-                        </li>
-                        <li><a class="tab-link" data-tab="timeline">Χρονολόγιο</a></li>
-                    <% } else if (topic.status === 'active' || topic.status ===
-                            'review') { %>
-                        <li>
-                            <a class="tab-link active" data-tab="info">Πληροφορίες</a>
-                        </li>
-                        <li>
-                            <a class="tab-link" data-tab="notes">Σημειώσεις</a>
-                        </li>
-                        <% if (locals.professorRole === 'supervisor') { %>
+                    <li>
+                        <a class="tab-link active" data-tab="info" href="#info">Πληροφορίες</a>
+                    </li>
+                    <% if (locals.connectedUserRole !== 'secretary') { %>
+                        <% if(thesis.status === 'active' || thesis.status === 'review') { %>
                             <li>
-                                <a class="tab-link" data-tab="meetings">Συναντήσεις</a>
+                                <a class="tab-link" data-tab="notes" href="#notes">Σημειώσεις</a>
                             </li>
-                        <% } %>
-                        <li>
-                            <a class="tab-link" data-tab="evaluation">Αξιολόγιση</a>
-                        </li>
-                        <% if (topic.status === 'review') { %>
+                            <% if (userThesisRole === 'supervisor' || userThesisRole === 'student') { %>
+                                <li>
+                                    <a class="tab-link" data-tab="meetings" href="#meetings">Συναντήσεις</a>
+                                </li>
+                            <% } %>
                             <li>
-                                <a class="tab-link" data-tab="protocol">Πρακτικό</a>
+                                <a class="tab-link" data-tab="evaluation" href="#evaluation">Αξιολόγιση</a>
                             </li>
+
+                            <% if (thesis.status === 'review') { %>
+                                <li>
+                                    <a class="tab-link" data-tab="protocol" href="#protocol">Πρακτικό</a>
+                                </li>
+                            <% } %>
                         <% } %>
-                        <li>
-                            <a class="tab-link" data-tab="timeline">Χρονολόγιο</a>
-                        </li>
                     <% } %>
+                    <li>
+                        <a class="tab-link" data-tab="timeline" href="#timeline">Χρονολόγιο</a>
+                    </li>
                 </ul>
 
                 <div class="tab-content-area">
                     <div id="info" class="tab-content active">
-                        <%- include('includes/assignment_tabs/info', { topic: topic }) %>
+                        <%- include('includes/assignment_tabs/info', { thesis: thesis, userThesisRole: userThesisRole }) %>
                     </div>
-
-                    <% if (topic.status === 'active' || topic.status === 'review') {
-                    %>
-                        <div id="notes" class="tab-content">
-                            <%- include('includes/assignment_tabs/notes', { notes: resNotes }) %>
-                        </div>
-                        <% if (locals.professorRole === 'supervisor') { %>
-                            <div id="meetings" class="tab-content">
-                                <%- include('includes/assignment_tabs/meetings', { professorMeetings: professorMeetings }) %>
+                    <% if (locals.connectedUserRole !== 'secretary') { %>
+                        <% if(thesis.status === 'active' || thesis.status === 'review') { %>
+                            <div id="notes" class="tab-content">
+                                <%- include('includes/assignment_tabs/notes') %>
                             </div>
-                        <% } %>
-                        <div id="evaluation" class="tab-content ">
-                            <%- include('includes/assignment_tabs/evaluation', { topic: topic, showEvaluation: showEvaluation }) %>
-                        </div>
-                        <% if (topic.status === 'review') { %>
-                            <div id="protocol" class="tab-content">
-                                <%- include('includes/assignment_tabs/grade_protocol', { topic: topic, showEvaluation: showEvaluation, existsProtocol: false }) %>
+                            <% if (userThesisRole === 'supervisor' || userThesisRole === 'student') { %>
+                                <div id="meetings" class="tab-content">
+                                    <%- include('includes/assignment_tabs/meetings') %>
+                                </div>
+                            <% } %>
+                            <div id="evaluation" class="tab-content ">
+                                <%- include('includes/assignment_tabs/evaluation', { userThesisRole: userThesisRole, thesis: thesis, showEvaluation: showEvaluation}) %>
                             </div>
+                            <% if (thesis.status === 'review' ) { %>
+                                <div id="protocol" class="tab-content">
+                                    <%- include('includes/assignment_tabs/grade_protocol', { thesis: thesis, userThesisRole: userThesisRole}) %>
+                                </div>
+                            <% } %>
                         <% } %>
                     <% } %>
                     <div id="timeline" class="tab-content">
-                        <%- include('includes/assignment_tabs/timeline') %>
+                        <%- include('includes/assignment_tabs/timeline', { userThesisRole: userThesisRole, thesis: thesis}) %>
                     </div>
                 </div>
             </div>
