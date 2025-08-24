@@ -21,7 +21,7 @@
     <main>
         <% if (locals.connectedUserRole !== 'student') { %>
             <section class="back-section">
-                <a href="<%= locals.connectedUserRole === 'professor' ? '/professor/assignments' : '/secretary/assignments' %>">
+                <a href="/assignments">
                     <img
                             class="back-icon"
                             src="/icons/back_arrow.png"

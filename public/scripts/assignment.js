@@ -104,6 +104,11 @@ function attachNoteItemHandlers() {
     if (overlay) overlay.addEventListener('click', e => {
         if (e.target === overlay) overlay.classList.remove('active');
     });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            overlay && overlay.classList.remove('active')
+        }
+    });
 }
 
 async function loadNotes() {
@@ -977,7 +982,7 @@ function selectProfessor(professorElelement) {
     professorElelement.classList.add('selected');
 }
 
-function searchProfessor(innerModal, existingProfessors,currentFetchController) {
+function searchProfessor(innerModal, existingProfessors, currentFetchController) {
     const searchInput = innerModal.querySelector('.professor-search-bar');
     if (!searchInput || searchInput.dataset.bound) return;
     searchInput.dataset.bound = 'true';
@@ -988,9 +993,9 @@ function searchProfessor(innerModal, existingProfessors,currentFetchController) 
     searchInput.addEventListener('keyup', (e) => {
         if (e.key === 'Escape') {
             searchInput.value = '';
-            fetchAvailableProfessors(existingProfessors,currentFetchController, '');
+            fetchAvailableProfessors(existingProfessors, currentFetchController, '');
         } else if (searchInput.value === '') {
-            fetchAvailableProfessors(existingProfessors,currentFetchController, '');
+            fetchAvailableProfessors(existingProfessors, currentFetchController, '');
         }
     });
 }
