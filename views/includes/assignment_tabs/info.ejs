@@ -93,20 +93,20 @@
 
 
         <% if(!thesis.completedDate && !thesis.cancelledDate) { %>
-            <div class="content-group student">
+            <div class="content-group">
                 <p class="group-header">Χρόνος Επίσημης Ανάθεσης</p>
 
                 <p class="group-value"><%= humanAssignmentDuration(thesis.assignmentDate, null) %></p>
             </div>
         <% } else if (thesis.completedDate) { %>
-            <div class="content-group student">
+            <div class="content-group">
                 <p class="group-header">Χρόνος ολοκλήρωσης</p>
 
                 <p class="group-value"><%= humanAssignmentDuration(thesis.assignmentDate, thesis.completedDate) %></p>
             </div>
 
         <% } else if (thesis.cancelledDate) { %>
-            <div class="content-group student">
+            <div class="content-group">
                 <p class="group-header">Χρόνος Περάττωσης</p>
                 <p class="group-value"><%= humanAssignmentDuration(thesis.assignmentDate, thesis.cancelledDate) %></p>
             </div>
@@ -114,18 +114,17 @@
 
         <% if((thesis.status === 'review' && userThesisRole === 'secretary') || thesis.status === 'completed' ) { %>
             <% if(thesis.finalGrade) { %>
-                <div class="content-group student">
+                <div class="content-group">
                     <p class="group-header">Τελικός Βαθμός</p>
                     <p class="group-value"><%= thesis.finalGrade %></p>
                 </div>
             <% } %>
             <% if(thesis.nemertesLink) { %>
-                <div class="content-group student">
+                <div class="content-group">
                     <p class="group-header">Νημέρτης Αποθετήριο</p>
                     <% const trimmedNemertes = String(thesis.nemertesLink).trim(); if (trimmedNemertes) { const displayName = trimmedNemertes.split('?')[0].split('#')[0].split('/').filter(Boolean).pop() || trimmedNemertes; %>
                     <p class="group-value">
-                        <a href="<%= trimmedNemertes %>" class="attachment-link" target="_blank"
-                           rel="noopener noreferrer">
+                        <a href="<%= trimmedNemertes %>" class="attachment-link" target="_blank" rel="noopener noreferrer">
                             <span class="attachment-icon" title="Link">📎</span>
                             <span class="name-content"><%= displayName %></span>
                             <span class="attachment-type">LINK</span>
@@ -134,9 +133,9 @@
                     <% } %>
                 </div>
 
-                <div class="content-group student">
+                <div class="content-group">
                     <p class="group-header">Πρακτικό Συνεδρίασης</p>
-                    <% const test = "/professor/protocol/" + thesis.id;
+                    <% const test = "/protocol/" + thesis.id;
                         const trimmed = String(test).trim(); if (trimmed) { const displayName = trimmed.split('?')[0].split('#')[0].split('/').filter(Boolean).pop() || trimmed; %>
                     <p class="group-value">
                         <a href="<%= trimmed %>" class="attachment-link" target="_blank" rel="noopener noreferrer">
