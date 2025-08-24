@@ -6,18 +6,15 @@
         </p>
     <% } else if(currentPage === 'topics' && locals.connectedUserRole === 'professor' ) { %>
         <p class="current-page-message">
-            Έχετε <%= topicsLength %> διαθέσιμ θέματα ανεβασμένα.
+            Έχετε <%= topicsLength %> <%= topicsLength === 1 ? 'διαθέσιμο θέμα ανεβασμένο.' : "διαθέσιμα θέματα ανεβασμένα." %>
         </p>
     <% } else if(currentPage === 'topics' && locals.connectedUserRole === 'student') { %>
         <p class="current-page-message">
-            Υπάρχουν <%= topicsLength %> διαθέσιμα θέματα ανεβασμένα.
+            Υπάρχουν <%= topicsLength %> <%= topicsLength === 1 ? 'διαθέσιμο θέμα ανεβασμένο.' : "διαθέσιμα θέματα ανεβασμένα." %>
         </p>
-    <% } else if(currentPage === 'assignments') {%>
-    <p class="current-page-message">
-        Υπάρχουν <%= assignmentsLenght %> αναθέσεις ανεβασμένες.
-    </p>
-    <% }%>
-
-
-
+    <% } else if(currentPage === 'assignments') { %>
+        <p class="current-page-message">
+            Έχετε <%= assignmentsLenght %> <%= assignmentsLenght === 1 ? 'ανάθεση.' : "αναθέσεις." %>
+        </p>
+    <% } %>
 </section>
