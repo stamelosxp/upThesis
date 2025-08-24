@@ -7,6 +7,8 @@
     background: #f8fafb;
     border: 1px dashed #e0e6ed;
     border-radius: 8px;
+    margin: 0 0 1rem 0;
+    vertical-align: middle;
 }
 /* Error variant */
 .no-data.error {

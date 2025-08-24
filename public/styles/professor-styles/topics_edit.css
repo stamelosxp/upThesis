@@ -140,26 +140,6 @@
     font-size: 2rem;
 }
 
-
-.close-modal {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    color: #6c757d;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-}
-
-.close-modal:hover {
-    color: #52616b;
-    transform: scale(1.1);
-}
-
 .student-search-bar {
     background-color: #fff;
     color: #52616b;
