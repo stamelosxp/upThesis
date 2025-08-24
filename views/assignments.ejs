@@ -20,14 +20,16 @@
         <%- include('includes/current-page-header', {currentPage: currentPage, pageTitle: pageTitle, assignmentsLenght: theses.length}) %>
         <section class="assignments-content-section">
             <div class="assignments-content-container">
-                <section class="assignments-actions">
-                    <input
-                            type="text"
-                            class="search-bar"
-                            placeholder="Αναζήτηση Αναθέσεων..."
-                    />
-                    <button id="export-theses" class="standard-button">Εξαγωγή</button>
-                </section>
+                <% if(locals.connectedUserRole === 'professor') { %>
+                    <section class="assignments-actions">
+                        <input
+                                type="text"
+                                class="search-bar"
+                                placeholder="Αναζήτηση Αναθέσεων..."
+                        />
+                        <button id="export-theses" class="standard-button">Εξαγωγή</button>
+                    </section>
+                <% } %>
                 <section class="assignments-content">
                     <% if(theses && theses.length > 0) { %>
                         <ul id="assignments-list">
@@ -66,24 +68,25 @@
                                                 <%= statusText %>
                                             </p>
                                         </div>
-                                        <small class="expand-button">
-                                            <a href="/professor/assignment/<%= thesisItem.id %>">
-                                                Κλικ για άνοιγμα
-                                            </a>
-                                        </small>
+                                        <a href="/assignment/<%= thesisItem.id %>"
+                                           class="expand-button">
+                                            Κλικ για άνοιγμα
+                                        </a>
                                     </div>
                                 </li>
                             <% }); %>
                         </ul>
 
                     <% } else { %>
-                        <p class="no-data">Δεν υπάρχουν διαθέσιμα θέματα.</p>
+                        <p class="no-data">Δεν υπάρχουν αποτελέσματα.</p>
                     <% } %>
                 </section>
             </div>
-            <div class="filters-container">
-                <%- include('professor/assignments_filters') %>
-            </div>
+            <% if(locals.connectedUserRole === 'professor') { %>
+                <div class="filters-container">
+                    <%- include('professor/assignments_filters') %>
+                </div>
+            <% } %>
         </section>
     </main>
 </div>
