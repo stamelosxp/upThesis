@@ -1,91 +1,155 @@
 <div class="protocol-content">
-    <div class="protocol-container">
-        <% if (!showEvaluation) { %>
-            <div class="no-data">
-                <p>
-                    Το πρακτικό θα εμφανιστεί μετά την ημέρα της παρουσίασης και την
-                    οριστικοποίηση των βαθμολογιών.
+    <p class="group-header">Πρακτικό Εξέτασης</p>
+    <div class="protocol-container <%= thesis.protocolExists ? 'get-protocol-api' : '' %>">
+        <% if (userThesisRole !== 'supervisor' && !thesis.protocolExists) { %>
+            <p class="no-data">
+                Το πρακτικό εξέτασης θα εμφανιστεί μετά την οριστικοποίηση του από τον Επιβλέπων.
+            </p>
+        <% } else if(userThesisRole === 'supervisor' && !thesis.protocolExists) { %>
+            <% if(!thesis.gradesExists[0] || !thesis.gradesExists[1] || !thesis.gradesExists[2]) { %>
+                <p class="no-data">
+                    Το πρακτικό εξέτασης θα εμφανιστεί μετά την οριστικοποίηση του των βαθμών.
                 </p>
+            <% } else { %>
+                <div class="content-group">
+                    <p class="group-header">Φοιτητής</p>
+                    <p class="group-value"><%= thesis.studentName %></p>
+                </div>
+                <div class="content-group">
+                    <p class="group-header">Αρ. Μητρώου Φοιτητή</p>
+                    <p class="group-value"><%= thesis.studentIdNumber %></p>
+                </div>
+                <div class="content-group">
+                    <label for="protocolDate" class="group-header">Ημερομηνία</label>
+                    <input
+                            type="date"
+                            id="protocolDate"
+                            name="protocolDate"
+                    />
+                </div>
+                <div class="content-group">
+                    <label for="protocolTime" class="group-header">Ώρα</label>
+                    <input
+                            type="time"
+                            id="protocolTime"
+                            name="protocolTime"
+                    />
+                </div>
+                <div class="content-group">
+                    <label for="protocolRoom" class="group-header">Αίθουσα</label>
+                    <input
+                            type="text"
+                            id="protocolRoom"
+                            name="protocolRoom"
+                    />
+                </div>
+
+                <div class="content-group professors">
+                    <p class="group-header">Μέλη</p>
+                    <%
+                        const membersMap = new Map();
+                        if (thesis.professors.supervisor.fullName && thesis.professors.memberA.fullName, thesis.professors.memberB.fullName) {
+                            membersMap.set(thesis.professors.supervisor.fullName, 'Επιβλέπων');
+                            membersMap.set(thesis.professors.memberA.fullName, 'Μέλος');
+                            membersMap.set(thesis.professors.memberB.fullName, 'Μέλος');
+
+                        }
+                        const sortedMembers = Array.from(membersMap.entries()).sort((a, b) => a[0].localeCompare(b[0], 'el', {sensitivity: 'base'}));
+                    %>
+                    <% if (sortedMembers.length === 0) { %>
+                        <div class="info-member">
+                            <p class="member-name">-</p>
+                        </div>
+                    <% } else { %>
+                        <% sortedMembers.forEach(([name, role]) => { %>
+                            <div class="info-member">
+                                <p class="member-name"><%= name %></p>
+                                <p class="info-badge"><%= role %></p>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                </div>
+                <div class="content-group">
+                    <p class="group-header">Αρ. Πρωτοκόλλου Ανάθεσης</p>
+                    <p class="group-value"><%= thesis.protocolNumberAssignment %></p>
+                </div>
+
+                <div class="content-group">
+                    <label for="tmpGrade" class="group-header">Προτεινόμενος Βαθμός</label>
+                    <input
+                            type="number"
+                            id="tmpGrade"
+                            name="tmpGrade"
+                            min="0"
+                            max="10"
+                            step="0.1"
+                    />
+                </div>
+
+
+                <div class="content-group">
+                    <label for="finalGrade" class="group-header">Τελικός Βαθμός</label>
+                    <input
+                            type="number"
+                            id="finalGrade"
+                            name="finalGrade"
+                            min="0"
+                            max="10"
+                            step="0.1"
+                            class="protocol-input"
+                    />
+                </div>
+
+                <div class="grade-protocol-buttons-group">
+                    <button type="submit" class="accept-button">Οριστικοποίηση</button>
+                </div>
+
+        <% }} else if (thesis.protocolExists) { %>
+            <div class="content-group">
+                <p class="group-header">Φοιτητής</p>
+                <p class="group-value" id="protocol-student-name"></p>
             </div>
-        <% } else { %>
-            <% let readOnlyCheck = true; %>
-            <% if (locals.professorRole === 'supervisor') {
-                readOnlyCheck = false;
-            } %>
-            <div class="protocol-info-section">
-                <label for="protocolDate" class="protocol-label">Ημερομηνία</label>
-                <input type="date" id="protocolDate" name="protocolDate"
-                       class="protocol-input" <%= readOnlyCheck ? 'readonly' : '' %> />
+            <div class="content-group">
+                <p class="group-header">Αρ. Μητρώου Φοιτητή</p>
+                <p class="group-value" id="protocol-student-id"></p>
             </div>
-            <div class="protocol-info-section">
-                <label for="protocolTime" class="protocol-label">Ώρα</label>
-                <input type="time" id="protocolTime" name="protocolTime"
-                       class="protocol-input" <%= readOnlyCheck ? 'readonly' : '' %> />
+            <div class="content-group">
+                <p class="group-header">Ημερομηνία</p>
+                <p class="group-value" id="protocol-date-time"></p>
             </div>
-            <div class="protocol-info-section">
-                <label for="protocolRoom" class="protocol-label">Αίθουσα</label>
-                <input type="text" id="protocolRoom" name="protocolRoom"
-                       class="protocol-input" <%= readOnlyCheck ? 'readonly' : '' %> />
-            </div>
-        <div class="vote-section">
-            <label class="protocol-label">Ψηφοφορία</label>
-            <table class="vote-table">
-                <tr>
-                    <td>
-                        <label for="voteSupervisor" class="protocol-label">Επιβλέπων</label>
-                        <select id="voteSupervisor" name="voteSupervisor" class="protocol-input" <%= readOnlyCheck ? 'disabled' : '' %>>
-                            <option>ΥΠΕΡ</option>
-                            <option>ΚΑΤΑ</option>
-                        </select>
-                    </td>
-                    <td>
-                        <label for="voteMemberA" class="protocol-label">Μέλος Α</label>
-                        <select id="voteMemberA" name="voteMemberA" class="protocol-input" <%= readOnlyCheck ? 'disabled' : '' %>>
-                            <option>ΥΠΕΡ</option>
-                            <option>ΚΑΤΑ</option>
-                        </select>
-                    </td>
-                    <td>
-                        <label for="voteMemberB" class="protocol-label">Μέλος Β</label>
-                        <select id="voteMemberB" name="voteMemberB" class="protocol-input" <%= readOnlyCheck ? 'disabled' : '' %>>
-                            <option>ΥΠΕΡ</option>
-                            <option>ΚΑΤΑ</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <div class="protocol-info-section">
-                <label for="proposedGrade" class="protocol-label">Πρόταση Βαθμού</label>
-                <input type="number" id="proposedGrade" name="proposedGrade" min="0" max="10" step="0.1"
-                       class="protocol-input" <%= readOnlyCheck ? 'readonly' : '' %> />
+            <div class="content-group">
+                <p class="group-header">Αίθουσα</p>
+                <p class="group-value" id="protocol-place"></p>
             </div>
 
-            <div class="protocol-info-section">
-                <label for="finalGrade" class="protocol-label">Τελικός Βαθμός</label>
-                <input type="number" id="finalGrade" name="finalGrade" min="0" max="10" step="0.1"
-                       class="protocol-input" <%= readOnlyCheck ? 'readonly' : '' %> />
+            <div class="content-group professors" id="protocol-professors">
+                <p class="group-header">Μέλη</p>
+                <div class="info-member">
+                    <p class="member-name"></p>
+                    <p class="member-name"></p>
+                    <p class="info-badge"></p>
+
+                </div>
+            </div>
+            <div class="content-group">
+                <p class="group-header">Αρ. Πρωτοκόλλου Ανάθεσης</p>
+                <p class="group-value" id="protocol-assignment-number"></p>
             </div>
 
-            <% } %>
-        </div>
-    </div>
-    <div class="button-group">
-        <% if (existsProtocol) { %>
-            <button type="button" class="protocol-button">Προβολή</button>
-        <% } else if(!existsProtocol && locals.professorRole === 'supervisor') { %>
-            <button type="submit" class="green-button">Οριστικοποίηση</button>
+            <div class="content-group">
+                <p class="group-header">Προτεινόμενος Βαθμός</p>
+                <p class="group-value" id="protocol-suggested-grade"></p>
+            </div>
+
+            <div class="content-group">
+                <p class="group-header">Τελικός Βαθμός</p>
+                <p class="group-value" id="protocol-final-grade"></p>
+            </div>
+
+            <div class="grade-protocol-buttons-group">
+                <a href="/professor/protocol/<%= thesis.id%>" target="_blank" class="standard-button">Προβολή</a>
+            </div>
         <% } %>
+
     </div>
 </div>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var dateInput = document.getElementById('protocolDate');
-    if (dateInput && !dateInput.value) {
-      var today = new Date();
-      var yyyy = today.getFullYear();
-      var mm = String(today.getMonth() + 1).padStart(2, '0');
-      var dd = String(today.getDate()).padStart(2, '0');
-      dateInput.value = yyyy + '-' + mm + '-' + dd;
-    }
-  });
-</script>

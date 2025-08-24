@@ -1,72 +1,156 @@
-<div class="info-content">
-    <div class="info-section">
-        <!-- will change with dynamic data -->
-        <h4 class="info-label">Φοιτητής</h4>
-        <p class="info-value">ΣΤΑΜΕΛΟΣ ΧΑΡΙΛΑΟΣ ΠΑΝΑΓΙΩΤΗΣ, 1090076</p>
+<section class="info-content">
+    <% if(userThesisRole !== 'secretary' && thesis.status !== 'completed' && thesis.status !== 'cancelled') { %>
+        <div class="content-group">
+            <p class="group-header">Περιγραφή</p>
+            <p class="group-value"><%= thesis.description %></p>
+        </div>
+
+
+        <% if(thesis.descFile) { %>
+            <div class="content-group">
+                <p class="group-header">Συννημένο</p>
+                <% const reqFileName = thesis.descFile.split('/').pop(); const reqFileExt = (reqFileName && reqFileName.includes('.') ? reqFileName.split('.').pop().toUpperCase() : ''); %>
+                <p class="group-value">
+                    <a href="<%= thesis.descFile %>" target="_blank" class="attachment-link" title="<%= reqFileName %>">
+                        <span class="attachment-icon">📄</span>
+                        <span class="name-content"><%= reqFileName %></span>
+                        <span class="attachment-type"><%= reqFileExt %></span>
+                    </a>
+                </p>
+            </div>
+        <% } %>
+    <% } %>
+    <div class="content-group">
+        <p class="group-header">Φοιτητής</p>
+        <p class="group-value"><%= thesis.student.fullName %>, <%= thesis.student.idNumber %></p>
     </div>
 
-    <div class="info-section">
-        <!-- will change with dynamic data -->
-        <h4 class="info-label">Μέλη Επιτροπής</h4>
-        <div>
-            <div class="info-members">
-                <p class="member-name">ΚΑΡΑΓΙΑΝΝΗΣ ΣΤΥΛΙΑΝΟΣ</p>
-                <p class="info-badge">Επιβλέπων</p>
-            </div>
-            <div class="info-members">
-                <p class="member-name">ΓΕΩΡΓΙΑ ΠΑΠΑΔΟΠΟΥΛΟΥ</p>
-                <p class="info-badge">Μέλος</p>
-            </div>
-            <div class="info-members">
-                <p class="member-name">-</p>
-                <p class="info-badge">Μέλος</p>
-            </div>
+    <div class="content-group">
+        <p class="group-header">Μέλη</p>
+        <div class="info-member">
+            <p class="supervisor"><%= thesis.professors.supervisor.fullName %></p>
+            <p class="info-badge">Επιβλέπων</p>
+        </div>
+        <div class="info-member">
+            <p class="member-a"><%= thesis.professors.memberA.fullName %></p>
+            <p class="info-badge">Μέλος</p>
+        </div>
+        <div class="info-member">
+            <p class="member-b"><%= thesis.professors.memberB.fullName %></p>
+            <p class="info-badge">Μέλος</p>
         </div>
     </div>
 
-    <% if (topic.status == 'completed') { %>
-        <div class="info-section">
-            <h4 class="info-label">Βαθμός</h4>
-            <p class="info-value"><%= topic.completedAt || '-' %></p>
+    <% function humanAssignmentDuration(isofirst, isosecond) {
+        if (!isofirst) return '-';
+        const start = new Date(isofirst);
+        if (isNaN(start)) return '-';
+        let now;
+        if (!isosecond) {
+            now = new Date();
+
+        } else {
+            now = new Date(isosecond);
+        }
+        if (now < start) return '0 ημέρες';
+        const msPerDay = 1000 * 60 * 60 * 24;
+        const diffDays = Math.floor((now - start) / msPerDay);
+        if (diffDays <= 31) {
+            return diffDays + ' ' + (diffDays === 1 ? 'ημέρα' : 'ημέρες');
+        }
+        // Calculate total months difference
+        let years = now.getFullYear() - start.getFullYear();
+        let months = now.getMonth() - start.getMonth();
+        if (now.getDate() < start.getDate()) {
+            months -= 1; // not completed current month yet
+        }
+        let totalMonths = years * 12 + months;
+        if (totalMonths < 12) {
+            return totalMonths + ' ' + (totalMonths === 1 ? 'μήνα' : 'μήνες');
+        }
+        years = Math.floor(totalMonths / 12);
+        const remMonths = totalMonths % 12;
+        const yearPart = years + ' ' + (years === 1 ? 'έτος' : 'έτη');
+        if (remMonths === 0) return yearPart;
+        return yearPart + ' και ' + remMonths + ' ' + (remMonths === 1 ? 'μήνα' : 'μήνες');
+    } %>
+
+    <% if (thesis.status !== 'pending') { %>
+        <div class="content-group">
+            <p class="group-header">Αρ. Πρωτοκόλλου Ανάθεσης</p>
+            <p class="group-value"><%= thesis.protocolNumberAssignment %></p>
         </div>
+        <% if(thesis.status === 'cancelled') { %>
+            <div class="content-group">
+                <p class="group-header">Αρ. Πρωτοκόλλου Ακύρωσης</p>
+                <p class="group-value"><%= thesis.protocolNumberCancelled %></p>
+            </div>
+            <div class="content-group">
+                <p class="group-header">Αιτιολογία Ακύρωσης</p>
+                <p class="group-value"><%= thesis.reasonForCancellation %></p>
+            </div>
+        <% } %>
 
-</div>
-<div class="info-section">
-    <h4 class="info-label">Αποθετήριο Νημέρτης</h4>
-    <p class="info-value"><a
-                href="<%= topic.repositoryUrl || 'https://google.com' %>"><%= topic.repositoryUrl || 'https://google.com' %></a>
-    </p>
-</div>
 
-<% } %>
+        <% if(!thesis.completedDate && !thesis.cancelledDate) { %>
+            <div class="content-group student">
+                <p class="group-header">Χρόνος Επίσημης Ανάθεσης</p>
 
-<% if(topic.status !== 'completed') { %>
-    <div class="info-section text-area">
-        <h4 class="info-label">Περιγραφή</h4>
-        <p class="info-value">
-            <%= topic.description %>
-        </p>
-    </div>
-    <div class="info-section text-area">
-        <h4 class="info-label">Συννημένο</h4>
-        <p class="info-value">
-            <a href="/data/dummy_pdf.pdf" target="_blank" class="attachment-link">
-                <span class="attachment-icon">📄</span>
-                dummy_pdf.pdf
-                <span class="attachment-type">PDF</span>
-            </a>
-        </p>
-    </div>
-<% } %>
-<div class="info-section">
-    <h4 class="info-label">Ημερομηνία Ανάθεσης</h4>
-    <p class="info-value"><%= topic.assignmentDate %></p>
-</div>
+                <p class="group-value"><%= humanAssignmentDuration(thesis.assignmentDate, null) %></p>
+            </div>
+        <% } else if (thesis.completedDate) { %>
+            <div class="content-group student">
+                <p class="group-header">Χρόνος ολοκλήρωσης</p>
 
-<% if (topic.status === 'completed') { %>
-    <div class="info-section">
-        <h4 class="info-label">Ημερομηνία Ολοκλήρωσης</h4>
-        <p class="info-value"><%= topic.completedAt || '-' %></p>
-    </div>
-<% } %>
-</div>
+                <p class="group-value"><%= humanAssignmentDuration(thesis.assignmentDate, thesis.completedDate) %></p>
+            </div>
+
+        <% } else if (thesis.cancelledDate) { %>
+            <div class="content-group student">
+                <p class="group-header">Χρόνος Περάττωσης</p>
+                <p class="group-value"><%= humanAssignmentDuration(thesis.assignmentDate, thesis.cancelledDate) %></p>
+            </div>
+        <% } %>
+
+        <% if((thesis.status === 'review' && userThesisRole === 'secretary') || thesis.status === 'completed' ) { %>
+            <% if(thesis.finalGrade) { %>
+                <div class="content-group student">
+                    <p class="group-header">Τελικός Βαθμός</p>
+                    <p class="group-value"><%= thesis.finalGrade %></p>
+                </div>
+            <% } %>
+            <% if(thesis.nemertesLink) { %>
+                <div class="content-group student">
+                    <p class="group-header">Νημέρτης Αποθετήριο</p>
+                    <% const trimmedNemertes = String(thesis.nemertesLink).trim(); if (trimmedNemertes) { const displayName = trimmedNemertes.split('?')[0].split('#')[0].split('/').filter(Boolean).pop() || trimmedNemertes; %>
+                    <p class="group-value">
+                        <a href="<%= trimmedNemertes %>" class="attachment-link" target="_blank"
+                           rel="noopener noreferrer">
+                            <span class="attachment-icon" title="Link">📎</span>
+                            <span class="name-content"><%= displayName %></span>
+                            <span class="attachment-type">LINK</span>
+                        </a>
+                    </p>
+                    <% } %>
+                </div>
+
+                <div class="content-group student">
+                    <p class="group-header">Πρακτικό Συνεδρίασης</p>
+                    <% const test = "/professor/protocol/" + thesis.id;
+                        const trimmed = String(test).trim(); if (trimmed) { const displayName = trimmed.split('?')[0].split('#')[0].split('/').filter(Boolean).pop() || trimmed; %>
+                    <p class="group-value">
+                        <a href="<%= trimmed %>" class="attachment-link" target="_blank" rel="noopener noreferrer">
+                            <span class="attachment-icon" title="Link">📎</span>
+                            <span class="name-content"><%= displayName %></span>
+                            <span class="attachment-type">LINK</span>
+                        </a>
+                    </p>
+                    <% } %>
+                </div>
+
+
+            <% } %>
+        <% } %>
+    <% } %>
+
+</section>

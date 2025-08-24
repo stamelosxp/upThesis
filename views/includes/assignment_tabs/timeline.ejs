@@ -1,137 +1,126 @@
 <div class="timeline-content">
-    <% if (locals.professorRole === "supervisor") { %>
-        <div class="info-section">
-            <div class="section-header">
-                <h4 class="info-label">Ενεργές Προσκλήσεις</h4>
-                <button class="green-button">Πρόσκληση</button>
-            </div>
-
-            <div class="info-list">
-                <% if (topic.activeInvitations && topic.activeInvitations.length > 0) { %>
-                    <% topic.activeInvitations.forEach(function(invitation) { %>
-                        <div class="info-members">
-                            <p class="member-name">
-                                <%= invitation.professorName || 'ΠΑΠΑΔΟΠΟΥΛΟΣ ΝΙΚΟΛΑΟΣ' %>
-                            </p>
-                            <p class="info-badge">
-                                <%= invitation.invitationDate ? new
-                                        Date(invitation.invitationDate).toLocaleDateString('el-GR') :
-                                        '10/01/2025' %>
-                            </p>
-                        </div>
-                    <% }); %>
-                <% } else { %>
-                    <div class="info-members">
-                        <p class="member-name">ΠΑΠΑΔΟΠΟΥΛΟΣ ΝΙΚΟΛΑΟΣ</p>
-                        <p class="info-badge">10/01/2025</p>
-                    </div>
-                    <div class="info-members">
-                        <p class="member-name">ΚΩΝΣΤΑΝΤΙΝΟΥ ΜΑΡΙΑ</p>
-                        <p class="info-badge">12/01/2025</p>
-                    </div>
-                <% } %>
-            </div>
-        </div>
-
-        <!-- Rejected Invitations Card -->
-        <div class="info-section">
-            <h4 class="info-label">Απορριφθείσες Προσκλήσεις</h4>
-            <div class="info-list">
-                <% if (topic.rejectedInvitations && topic.rejectedInvitations.length > 0)
-                { %> <% topic.rejectedInvitations.forEach(function(invitation) { %>
-                    <div class="info-members">
-                        <p class="member-name">
-                            <%= invitation.professorName || 'ΓΕΩΡΓΙΟΥ ΑΝΑΣΤΑΣΙΟΣ' %>
-                        </p>
-                        <p class="info-badge">
-                            <%= invitation.rejectedDate ? new
-                                    Date(invitation.rejectedDate).toLocaleDateString('el-GR') :
-                                    '08/01/2025' %>
-                        </p>
-                    </div>
-                <% }); %>
-                <% } else { %>
-                    <div class="info-members">
-                        <p class="member-name">ΓΕΩΡΓΙΟΥ ΑΝΑΣΤΑΣΙΟΣ</p>
-                        <p class="info-badge">08/01/2025</p>
-                    </div>
-                <% } %>
-            </div>
-        </div>
-
-    <% } %>
-
+    <% /* Zero-padded date formatter: accepts d/m/yyyy, dd/mm/yyyy, ISO, Date */
+    const formatDate = (d) => {
+        if (!d) return '-';
+        let day, month, year;
+        if (typeof d === 'string') {
+            const s = d.trim();
+            const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+            if (m) {
+                day = m[1];
+                month = m[2];
+                year = m[3];
+            } else {
+                const dt = new Date(s);
+                if (isNaN(dt)) return '-';
+                day = '' + dt.getDate();
+                month = '' + (dt.getMonth() + 1);
+                year = '' + dt.getFullYear();
+            }
+        } else {
+            const dt = new Date(d);
+            if (isNaN(dt)) return '-';
+            day = '' + dt.getDate();
+            month = '' + (dt.getMonth() + 1);
+            year = '' + dt.getFullYear();
+        }
+        if (day.length < 2) day = '0' + day;
+        if (month.length < 2) month = '0' + month;
+        return day + '/' + month + '/' + year;
+    };
+    %>
     <div class="info-section">
-        <h4 class="info-label">Ιστορικό Καταστάσεων</h4>
-        <div class="info-list">
-            <div class="info-members">
-                <p class="member-name">Δημιουργία Θέματος</p>
-                <p class="info-badge">
-                    <%= topic.createdDate ? new
-                    Date(topic.createdDate).toLocaleDateString('el-GR') : '05/01/2025' %>
-                </p>
-            </div>
-
-            <!-- Assignment -->
-            <% if (topic.assignmentDate || topic.status !== 'pending') { %>
-                <div class="info-members">
-                    <p class="member-name">Ανάθεση</p>
-                    <p class="info-badge">
-                        <%= topic.assignmentDate ? new
-                        Date(topic.assignmentDate).toLocaleDateString('el-GR') : '15/01/2025'
-                        %>
-                    </p>
+        <div class="content-group">
+            <p class="group-header">Ιστορικό Καταστάσεων</p>
+            <% if (thesis.creationDate) { %>
+                <div class="info-member">
+                    <p>Δημιουργία Θέματος</p>
+                    <p class="info-badge"><%= formatDate(thesis.creationDate) %></p>
                 </div>
             <% } %>
 
-            <!-- Official Assignment -->
-            <% if (topic.officialAssignmentDate || (topic.status !== 'pending' &&
-                    topic.status !== 'active')) { %>
-                <div class="info-members">
-                    <p class="member-name">Επίσημη Ανάθεση</p>
-                    <p class="info-badge">
-                        <%= topic.officialAssignmentDate ? new
-                                Date(topic.officialAssignmentDate).toLocaleDateString('el-GR') :
-                                '20/01/2025' %>
-                    </p>
+            <% if (Array.isArray(thesis.modificationDate) && thesis.modificationDate.length > 0 && (userThesisRole === 'supervisor')) { thesis.modificationDate.forEach(function(modDateItem) { if(modDateItem !== null) { %>
+
+                <div class="info-member">
+                    <p>Τροποποίηση Θέματος</p>
+                    <p class="info-badge"><%= formatDate(modDateItem) %></p>
+                </div>
+            <% } }); } %>
+
+            <% if(thesis.temporaryAssignmentDate){ %>
+                <div class="info-member">
+                    <p>Προσωρινή Ανάθεση</p>
+                    <p class="info-badge"><%= formatDate(thesis.temporaryAssignmentDate) %></p>
                 </div>
             <% } %>
 
-            <!-- Active Status -->
-            <% if (topic.activeDate || (topic.status === 'active' || topic.status ===
-                    'review' || topic.status === 'completed')) { %>
-                <div class="info-members">
-                    <p class="member-name">Ενεργή</p>
-                    <p class="info-badge">
-                        <%= topic.activeDate ? new
-                        Date(topic.activeDate).toLocaleDateString('el-GR') : '25/01/2025' %>
-                    </p>
+            <% if(thesis.assignmentDate){ %>
+                <div class="info-member">
+                    <p>Επίσημη Ανάθεση</p>
+                    <p class="info-badge"><%= formatDate(thesis.assignmentDate) %></p>
                 </div>
             <% } %>
 
-            <!-- Under Review Status -->
-            <% if (topic.reviewDate || (topic.status === 'review' || topic.status ===
-                    'completed')) { %>
-                <div class="info-members">
-                    <p class="member-name">Υπό Εξέταση</p>
-                    <p class="info-badge">
-                        <%= topic.reviewDate ? new
-                        Date(topic.reviewDate).toLocaleDateString('el-GR') : '15/06/2025' %>
-                    </p>
+            <% if(thesis.underReviewDate){ %>
+                <div class="info-member">
+                    <p>Υπό Εξέταση</p>
+                    <p class="info-badge"><%= formatDate(thesis.underReviewDate) %></p>
                 </div>
             <% } %>
 
-            <!-- Completed Status -->
-            <% if (topic.completedDate || topic.status === 'completed') { %>
-                <div class="info-members">
-                    <p class="member-name">Ολοκληρωμένη</p>
-                    <p class="info-badge">
-                        <%= topic.completedDate ? new
-                        Date(topic.completedDate).toLocaleDateString('el-GR') : '20/06/2025'
-                        %>
-                    </p>
+            <%
+            let showPresentationEntry = false;
+            if (thesis.presentationDate) {
+                const _pres = new Date(thesis.presentationDate);
+                if (!isNaN(_pres) && _pres.getTime() <= Date.now()) {
+                    showPresentationEntry = true;
+                }
+            }
+            %>
+            <% if(showPresentationEntry){ %>
+                <div class="info-member">
+                    <p>Παρουσίαση</p>
+                    <p class="info-badge"><%= formatDate(thesis.presentationDate) %></p>
+                </div>
+            <% } %>
+            <% if(thesis.completedDate){ %>
+                <div class="info-member">
+                    <p>Ολοκλήρωση</p>
+                    <p class="info-badge"><%= formatDate(thesis.completedDate) %></p>
+                </div>
+            <% } %>
+            <% if(thesis.cancelledDate){ %>
+                <div class="info-member">
+                    <p>Ακύρωση Ανάθεσης</p>
+                    <p class="info-badge"><%= formatDate(thesis.cancelledDate) %></p>
                 </div>
             <% } %>
         </div>
+
+        <% if (userThesisRole === "supervisor" || userThesisRole === 'student') { %>
+
+            <% if(thesis.status === 'pending' && (!thesis.professors.memberA.id || !thesis.professors.memberB.id)) { %>
+                <div class="content-group pending-invitations">
+                    <p class="group-header invite">Εκκρεμείς Προσκλήσεις
+                        <button class="standard-button" id="new-invitation-button">Πρόσκληση</button>
+                    </p>
+                    <div class="invite-professor-modal-container">
+                        <%- include('../invite_professor_modal', {professors: thesis.professors}) %>
+                    </div>
+                    <div class="invitation-items pending-list"></div>
+                </div>
+
+                <div class="content-group completed-invitations">
+                    <p class="group-header invite">Ολοκληρωμένες Προσκλήσεις</p>
+                    <div class="invitation-items completed-list"></div>
+                </div>
+            <% } else { %>
+                <div class="content-group completed-invitations">
+                    <p class="group-header invite">Ιστορικό Προσκλήσεων</p>
+                    <div class="invitation-items completed-list"></div>
+                </div>
+
+        <% } } %>
+
     </div>
 </div>

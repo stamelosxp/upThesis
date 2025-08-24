@@ -1,110 +1,199 @@
 <div class="evaluation-content">
-  <% if (topic.status === 'active') { %> <% if (locals.professorRole ===
-  'supervisor') { %>
-  <div class="no-data">
-    <p>
-      Ορίστε την διπλωματική σε Υπό-Εξέταση για να ξεκινήσει η διαδικασία
-      αξιολόγησης.
-    </p>
-    <button class="green-button">Ορισμός σε Υπό-Εξέταση</button>
-  </div>
-  <% } else { %>
-  <div class="no-data">
-    <p>Περιμένετε τον Επιβλέπων να ορίσει την διπλωματική σε Υπό-Εξέταση.</p>
-  </div>
-  <% } %> <% } else if (topic.status === 'review') { %>
-  <div class="info-section">
-    <h4 class="info-label">Αξιολόγηση</h4>
-    <div class="grades-container">
-      <% if (showEvaluation) { %>
-      <table class="evaluation-table">
-        <thead>
-          <tr>
-            <th>Κατηγορία</th>
-            <th
-              class="<%= locals.professorRole !== 'supervisor' ? 'readonly-col' : '' %>"
-            >
-              Επιβλέπων
-            </th>
-            <th
-              class="<%= locals.professorRole !== 'memberA' ? 'readonly-col' : '' %>"
-            >
-              Μέλος Α
-            </th>
-            <th
-              class="<%= locals.professorRole !== 'memberB' ? 'readonly-col' : '' %>"
-            >
-              Μέλος Β
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <% const categories = ["Ποιότητα", "Διάρκεια", "Κείμενο",
-          "Παρουσίαση"]; %> <% categories.forEach(function(cat, rowIdx) { %>
-          <tr>
-            <td><%= cat %></td>
-            <td
-              class="<%= locals.professorRole !== 'supervisor' ? 'readonly-col' : '' %>"
-            >
-              <input type="number" min="0" max="10" step="0.1" required
-              name="supervisor_<%= rowIdx %>" class="topic-input-class" <%=
-              locals.professorRole === 'supervisor' ? '' : 'readonly disabled'
-              %> />
-            </td>
-            <td
-              class="<%= locals.professorRole !== 'memberA' ? 'readonly-col' : '' %>"
-            >
-              <input type="number" min="0" max="10" step="0.1" required
-              name="memberA_<%= rowIdx %>" class="topic-input-class" <%=
-              locals.professorRole === 'memberA' ? '' : 'readonly disabled' %>
-              />
-            </td>
-            <td
-              class="<%= locals.professorRole !== 'memberB' ? 'readonly-col' : '' %>"
-            >
-              <input type="number" min="0" max="10" step="0.1" required
-              name="memberB_<%= rowIdx %>" class="topic-input-class" <%=
-              locals.professorRole === 'memberB' ? '' : 'readonly disabled' %>
-              />
-            </td>
-          </tr>
-          <% }); %>
-        </tbody>
-      </table>
-      <div class="button-group" style="margin-top: 0.5rem">
-        <button type="submit" class="green-button">Αποθήκευση</button>
-      </div>
-      <% } else { %>
-      <div class="no-data">
-        <p>
-          Το βαθμολόγιο της διπλωματικής θα εμφανιστεί μετά την παρουσίαση της.
-        </p>
-      </div>
-      <% } %>
-    </div>
-    <div class="info-section text-area">
-      <h4 class="info-label">Πρόχειρο Κείμενο</h4>
-      <p class="info-value">
-        <a href="/data/dummy_pdf.pdf" target="_blank" class="attachment-link">
-          <span class="attachment-icon">📄</span>
-          dummy_pdf.pdf
-          <span class="attachment-type">PDF</span>
-        </a>
-      </p>
-    </div>
-    <div class="info-section">
-      <h4 class="info-label">Σύνδεσμοι</h4>
-      <p class="info-value">
-        <a href="<%= topic.repositoryUrl || 'https://google.com' %>"
-          ><%= topic.repositoryUrl || 'https://google.com' %></a
-        >
-      </p>
-      <p class="info-value" style="margin-top: 0.5rem">
-        <a href="<%= topic.repositoryUrl || 'https://google.com' %>"
-          ><%= topic.repositoryUrl || 'https://google.com' %></a
-        >
-      </p>
-    </div>
-  </div>
-  <% } %>
+    <% if (thesis.status === 'active') { %>
+        <% if (userThesisRole === 'supervisor') { %>
+            <div class="no-data">
+                <p class="simple-message">
+                    Ορίστε τη διπλωματική σε Υπό-Εξέταση για να ξεκινήσει η διαδικασία
+                    αξιολόγησης.
+                </p>
+                <button class="accept-button">Ορισμός σε Υπό-Εξέταση</button>
+            </div>
+        <% } else { %>
+            <p class="no-data">Περιμένετε τον Επιβλέπων να ορίσει τη Διπλωματική Εργασία σε Υπό-Εξέταση.</p>
+        <% } %>
+    <% } else if (thesis.status === 'review') { %>
+        <div class="info-section">
+            <p class="group-header">Αξιολόγηση</p>
+            <div class="grades-container">
+                <% if (showEvaluation) { %>
+                    <div class="mobile-navigation-table">
+                        <button type="button" class="nav-arrow back-arrow" disabled> &larr;</button>
+                        <span class="current-table-professor">
+                            <% if (userThesisRole === 'supervisor' || userThesisRole === 'student') { %>
+                                Επιβλέπων
+                            <% } else if (userThesisRole === 'memberA') { %>
+                                Μέλος Α
+                            <% } else if (userThesisRole === 'memberB') { %>
+                                Μέλος Β
+                            <% } %>
+                        </span>
+                        <button type="button" class="nav-arrow front-arrow"> &rarr;</button>
+                    </div>
+                    <table class="evaluation-table">
+                        <thead>
+                        <tr>
+                            <th>Κατηγορία</th>
+                            <th class="<%= userThesisRole !== 'supervisor' ? 'hidden' : '' %>">Επιβλέπων
+                            </th>
+                            <th class="<%= userThesisRole !== 'memberA' ? 'hidden' : '' %>">Μέλος Α</th>
+                            <th class="<%= userThesisRole !== 'memberB' ? 'hidden' : '' %>">Μέλος Β</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% const categories = ["Ποιότητα", "Διάρκεια", "Κείμενο", "Παρουσίαση"]; const metricKeys = ["quality", "duration", "report", "presentation"]; %>
+                        <% categories.forEach(function(category, idx) { %>
+                            <% const metricKey = metricKeys[idx]; %>
+                            <tr>
+                                <td><%= category %></td>
+                                <td class="<%= userThesisRole !== 'supervisor' ? 'hidden' : '' %>">
+                                    <input type="number" min="0" max="10" step="0.1"
+                                           class="evaluation-input"
+                                           data-role="supervisor" data-metric="<%= metricKey %>"
+                                           value="" <%= userThesisRole === 'supervisor' && !thesis.gradesExists[0] ? '' : 'readonly' %> />
+                                </td>
+                                <td class="<%= userThesisRole !== 'memberA' ? 'hidden' : '' %>">
+                                    <input type="number" min="0" max="10" step="0.1"
+                                           class="evaluation-input"
+                                           data-role="memberA" data-metric="<%= metricKey %>"
+                                           value="" <%= userThesisRole === 'memberA' && !thesis.gradesExists[1] ? '' : 'readonly' %> />
+                                </td>
+                                <td class="<%= userThesisRole !== 'memberB' ? 'hidden' : '' %>">
+                                    <input type="number" min="0" max="10" step="0.1"
+                                           class="evaluation-input"
+                                           data-role="memberB" data-metric="<%= metricKey %>"
+                                           value="" <%= userThesisRole === 'memberB' && !thesis.gradesExists[2] ? '' : 'readonly' %> />
+                                </td>
+                            </tr>
+                        <% }); %>
+                        </tbody>
+                    </table>
+                    <% if((userThesisRole === 'supervisor' && !thesis.gradesExists[0]) || (userThesisRole === 'memberA' && !thesis.gradesExists[1]) || (userThesisRole === 'memberB' && !thesis.gradesExists[2])){ %>
+                        <div class="grades-buttons-group">
+                            <button type="button" class="accept-button">Αποθήκευση</button>
+                        </div>
+                    <% } %>
+                <% } else { %>
+                    <div class="no-data-container">
+                        <p class="no-data">
+                            Το βαθμολόγιο της Διπλωματικής Εργασίας θα ενεργοποιηθεί μετά την παρουσίαση της.
+                        </p>
+                    </div>
+                <% } %>
+            </div>
+
+            <% if (!thesis.protocolExists) { %>
+                <%
+                    let fileExists = false
+                    let linkExists = false
+                %>
+                <div class="content-group">
+                    <label for="temporary-report-file" class="group-header">Πρόχειρο Αρχείο</label>
+                    <% if(thesis.temporaryReportFile){ fileExists = true %>
+                    <p class="group-value">
+                        <a href="/download/temporary-report/<%= thesis.temporaryReportFile %>"
+                           class="attachment-link"
+                           target="_blank">
+                            <span class="attachment-icon">📄</span>
+                            <span class="name-content"><%= thesis.temporaryReportFile.split('/').pop() %></span>
+                            <span class="attachment-type">
+                            <%= thesis.temporaryReportFile.split('.').pop().toUpperCase() %>
+                        </span>
+                        </a>
+                    </p>
+                    <% } else { %>
+                        <% if (userThesisRole !== 'student') { %>
+                            <p class="no-data">Ο φοιτητής δεν έχει αναρτήσει πρόχειρο κείμενο.</p>
+                        <% } else { %>
+                            <% if(showEvaluation) { %>
+                                <p class="no-data">Δεν έχετε αναρτήσει πρόχειρο κείμενο.</p>
+                            <% } else { %>
+                                <input
+                                        type="file"
+                                        id="temporary-report-file"
+                                        accept=".pdf,.doc,.docx,.txt"
+                                        class="file-input"
+                                        placeholder="Επιλέξτε Αρχείο"
+                                />
+                            <% } %>
+
+                        <% } %>
+                    <% } %>
+
+                </div>
+                <div class="content-group">
+                    <p class="group-header">Πρόσθετοι Σύνδεσμοι</p>
+                    <% if (thesis.temporaryLinks && thesis.temporaryLinks.length > 0) { linkExists = true %>
+                    <ul class="links-list">
+                        <% thesis.temporaryLinks.forEach(function(l){ if(l){ const trimmed = l.trim(); const displayName = trimmed.split('?')[0].split('#')[0].split('/').filter(Boolean).pop() || trimmed; %>
+                        <li class="group-value">
+                            <a href="<%= trimmed %>" class="attachment-link" target="_blank"
+                               rel="noopener noreferrer">
+                                <span class="attachment-icon" title="Link">📎</span>
+                                <span class="name-content"><%= displayName %></span>
+                                <span class="attachment-type">LINK</span>
+                            </a>
+                        </li>
+                        <% } }); %>
+                    </ul>
+                    <% } else { %>
+                        <% if (userThesisRole !== 'student') { %>
+                            <p class="no-data">Ο φοιτητής δεν έχει αναρτήσει πρόσθετους συνδέσμους.</p>
+                        <% } else { %>
+                            <% if(showEvaluation) { %>
+                                <p class="no-data">Δεν έχετε αναρτήσει πρόσθετους συνδέσμους.</p>
+                            <% } else { %>
+                                <div class="student-add-links">
+                                    <div class="added-link-inputs">
+                                    </div>
+                                    <div class="link-buttons-group">
+                                        <button type="button" class="nav-arrow add-link-input">+</button>
+                                        <button type="button" class="nav-arrow remove-link-input" disabled>-</button>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } %>
+                    <% } %>
+                </div>
+                <% if(userThesisRole === 'student' && (!fileExists || !linkExists)) { %>
+                    <div class="grades-buttons-group" data-file-exists="<%= fileExists %>"
+                         data-link-exists="<%= linkExists %>">
+                        <button type="button" class="accept-button" id="student-upload-button">Αποθήκευση</button>
+                    </div>
+                <% } %>
+            <% } else { %>
+                <div class="content-group">
+                    <label for="nemertes-link-input" class="group-header">Νημέρτης</label>
+
+                    <% if(thesis.nemertesLink) { %>
+                        <% const trimmed = String(thesis.nemertesLink).trim(); if (trimmed) { const displayName = trimmed.split('?')[0].split('#')[0].split('/').filter(Boolean).pop() || trimmed; %>
+                        <p class="group-value">
+                            <a href="<%= trimmed %>" class="attachment-link" target="_blank" rel="noopener noreferrer">
+                                <span class="attachment-icon" title="Link">📎</span>
+                                <span class="name-content"><%= displayName %></span>
+                                <span class="attachment-type">LINK</span>
+                            </a>
+                        </p>
+                        <% } %>
+                    <% } else { %>
+                        <% if (userThesisRole !== 'student') { %>
+                            <p class="no-data">Ο φοιτητής δεν έχει αναρτήσει το σύνδεσμου το αποθετηρίου Νημέρτης.</p>
+                        <% } else { %>
+                            <input
+                                    type="url"
+                                    id="nemertes-link-input"
+                                    class="link-exist-container"
+                                    placeholder="Προσθέστε Σύνδεσμο Νημέρτης"
+                            />
+                            <div class="grades-buttons-group">
+                                <button type="button" class="accept-button" id="nemertes-upload-button">Αποθήκευση
+                                </button>
+                            </div>
+                        <% } %>
+                    <% } %>
+                </div>
+
+            <% } %>
+
+        </div>
+    <% } %>
 </div>
