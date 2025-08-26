@@ -18,7 +18,7 @@ app.use("/data", express.static("data"));
 app.use(express.urlencoded({extended: false}));
 
 app.use(async function (req, res, next) {
-    res.locals.connectedUserRole = "professor";
+    res.locals.connectedUserRole = "secretary";
     if (res.locals.connectedUserRole === "professor" || res.locals.connectedUserRole === "student" || res.locals.connectedUserRole === "secretary") {
         res.locals.isAuth = true;
     } else {
@@ -26,7 +26,7 @@ app.use(async function (req, res, next) {
     }
 
     if (res.locals.connectedUserRole === "professor") {
-        res.locals.connectedUserId = "prof_001"
+        res.locals.connectedUserId = "prof_002"
     } else if (res.locals.connectedUserRole === "student") {
         res.locals.connectedUserId = "stu_001"
     } else if (res.locals.connectedUserRole === "secretary") {
@@ -209,33 +209,42 @@ app.get("/protocol/:id", async (req, res) => {
 
 app.get("/invitations", async (req, res) => {
     try {
-        const invitationsList = await fs.readFile(path.join(__dirname, "data", "sampleInvitations.json"), "utf-8");
-        const topicsList = await fs.readFile(path.join(__dirname, "data", "sampleTopics.json"), "utf-8");  // Adjust filename/path if different
+        const invitationsListRaw = await fs.readFile(path.join(__dirname, "data", "sampleInvitations.json"), "utf-8");
+        const thesesListRaw = await fs.readFile(path.join(__dirname, "data", "sampleTheses.json"), "utf-8");
 
-        const allInvitations = JSON.parse(invitationsList);
-        const allTopics = JSON.parse(topicsList);
+        const allInvitations = JSON.parse(invitationsListRaw);
+        const allTheses = JSON.parse(thesesListRaw);
 
-        const topicsMap = new Map();
-        allTopics.forEach(topic => {
-            topicsMap.set(topic.id, topic);
+        // Map thesis id to thesis data for quick lookup
+        const thesesMap = new Map();
+        allTheses.forEach(thesis => {
+            thesesMap.set(thesis.id, thesis);
         });
 
-        const professorInvitations = allInvitations.filter((inv) => inv.professorID === res.locals.connectedUserId);
-        const enhancedInvitations = professorInvitations.map((inv) => {
-            const matchingTopic = topicsMap.get(Number(inv.thesisID));
-            return {
-                ...inv,
-                title: matchingTopic && matchingTopic.title ? matchingTopic.title : 'Topic not found',
-                description: matchingTopic && matchingTopic.description ? matchingTopic.description : 'Description unavailable'
-            };
-        });
+        // Filter invitations for the connected professor
+        const professorInvitations = allInvitations.filter((inv) => inv.professor.id === res.locals.connectedUserId);
 
-        enhancedInvitations.sort((a, b) => new Date(b.date) - new Date(a.date));  // Assumes 'date' is parseable
+        // Sort invitations: pending first, then by newest createdAt
+        const responseInvitations = professorInvitations
+            .map(invitation => {
+                const thesisData = thesesMap.get(Number(invitation.thesisID));
+                return {
+                    ...invitation,
+                    thesis: thesisData || null
+                };
+            })
+            .sort((a, b) => {
+                // Pending first
+                if (a.status === 'pending' && b.status !== 'pending') return -1;
+                if (a.status !== 'pending' && b.status === 'pending') return 1;
+                // Then by date (newest first)
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            });
+
         res.render("invitations", {
             pageTitle: "Προσκλήσεις",
-            userRole: "professor",
             currentPage: "invitations",
-            invitationsList: enhancedInvitations,  // Now includes topic details
+            invitationsList: responseInvitations,
         });
 
     } catch (err) {
@@ -416,13 +425,14 @@ app.get('/api/thesis/:id/invitations', async (req, res) => {
         const thesisId = req.params.id;
         const invitationsRaw = await fs.readFile(path.join(__dirname, 'data', 'sampleInvitations.json'), 'utf-8');
         const invitations = JSON.parse(invitationsRaw).filter(inv => String(inv.thesisID) === String(thesisId));
+
         if (!invitations.length) {
             return res.json({success: true, pending: [], completed: []});
         }
         const pending = invitations.filter(inv => inv.status === 'pending')
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         const completed = invitations.filter(inv => inv.status !== 'pending')
-            .sort((a, b) => (a.professorFullName || '').localeCompare(b.professorFullName || '', 'el', {sensitivity: 'base'}));
+            .sort((a, b) => (a.professor.fullName || '').localeCompare(b.professor.fullName || '', 'el', {sensitivity: 'base'}));
         return res.json({success: true, pending, completed});
     } catch (e) {
         console.error('Error loading thesis invitations', e);
@@ -591,18 +601,12 @@ app.get('/api/professors/available/:existingProfessors', async (req, res) => {
     try {
         const rawQuery = req.query.professorNameSearch;
         const userInput = rawQuery ? rawQuery.toLowerCase().trim() : '';
-        console.log('User input:', userInput);
         let professorsJSON = {};
         professorsJSON = JSON.parse(req.params.existingProfessors);
 
-        const supID = professorsJSON?.supervisor?.id || null;
-        const memAID = professorsJSON?.memberA?.id || null;
-        const memBID = professorsJSON?.memberB?.id || null;
-
         const usersData = await fs.readFile(path.join(__dirname, 'data', 'sampleUsers.json'), 'utf-8');
         const allUsers = JSON.parse(usersData);
-
-        let availableProfessors = allUsers.filter(u => u.role === 'professor' && u.userId !== supID && u.userId !== memAID && u.userId !== memBID);
+        let availableProfessors = allUsers.filter(u => u.role === 'professor' && !professorsJSON.includes(u.userId));
 
         // Optional name search (case-insensitive substring on full name)
         if (userInput) {
