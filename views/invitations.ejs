@@ -1,89 +1,90 @@
 <!DOCTYPE html>
 <html lang="el">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><%= pageTitle %> | eThesis</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
+            rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles/invitations.css" />
+    <link rel="stylesheet" href="/styles/invitations.css"/>
     <script src="/scripts/invitations.js" defer></script>
-  </head>
-  <body>
-    <%- include('includes/main-header') %>
-    <div class="layout">
-      <%- include('includes/main-menu') %>
-      <main>
-        <%- include('includes/current-page-header') %>
+</head>
+<body>
+<%- include('includes/main-header') %>
+<div class="layout">
+    <%- include('includes/main-menu') %>
+    <main>
+        <%- include('includes/current-page-header', {invitationsLengh: invitationsList.length}) %>
         <section class="invitations-content">
-          <div id="invitations-list" class="invitations-container">
-            <% if(invitationsList && invitationsList.length > 0) { %>
-            <ul>
-              <% invitationsList.forEach(function(invItem) { %>
-              <li class="invitation-item">
-                <div class="invitation-item-collapsed">
-                  <div class="invitation-header">
-                    <h3 class="invitation-thesis-title"><%= invItem.title%></h3>
-                    <div class="badges-group">
-                      <p
-                        class="invitation-status <%= invItem.status.toLowerCase() %>"
-                      >
-                        <% let statusText = ''; if (invItem.status) { switch
-                        (invItem.status.toLowerCase()) { case 'pending':
-                        statusText = 'Εκκρεμής'; break; case 'accepted':
-                        statusText = 'Εγκεκριμένη'; break; case 'rejected':
-                        statusText = 'Απορριφθείσα'; break; default: statusText
-                        = invItem.status; } } %> <%= statusText %>
-                      </p>
-                      <p class="invitation-date">
-                        <%= invItem.createdAt ? invItem.createdAt.split('T')[0]
-                        : '' %>
-                      </p>
-                    </div>
-                  </div>
-                  <small class="expand-button">Κλικ για ανάπτυξη</small>
-                </div>
-                <%- include('professor/expanded-invitation', {invItem:
-                invItem})%>
-              </li>
-              <% }); %>
-            </ul>
-            <% } else { %>
-            <p class="no-data">Δεν υπάρχουν προσκλήσεις.</p>
-            <% } %>
-          </div>
-          <div class="filters-container">
-            <h3>Φίλτρα</h3>
-            <form class="filters-form">
-              <div class="filter-group">
-                <label for="filter-status" class="filter-header"
-                  >Κατάσταση</label
-                >
-                <div>
-                  <input type="checkbox" id="filter-status-pending" />
-                  <label for="filter-status-pending">Εκκρεμής</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="filter-status-accepted" />
-                  <label for="filter-status-accepted">Εγκεκριμένη</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="filter-status-rejected" />
-                  <label for="filter-status-rejected">Απορριφθείσα</label>
-                </div>
-              </div>
+            <div id="invitations-list" class="invitations-container">
+                <% if(invitationsList && invitationsList.length > 0) { %>
+                    <ul>
+                        <% invitationsList.forEach(function(invItem) { %>
+                            <li class="invitation-item">
+                                <div class="invitation-item-collapsed">
+                                    <div class="invitation-header">
+                                        <h3 class="invitation-thesis-title"><%= invItem.thesis.title %></h3>
+                                        <div class="badges-group">
+                                            <p class="simple-badge">
+                                                <% if (invItem.createdAt) {
+                                                    const dateObj = new Date(invItem.createdAt);
+                                                    const day = String(dateObj.getDate()).padStart(2, '0');
+                                                    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                                                    const year = dateObj.getFullYear();
+                                                %>
+                                                <%= day %>/<%= month %>/<%= year %>
+                                                <% } else { %>
+                                                    -
+                                                <% } %>
+                                            </p>
+                                            <p class="status-badge <%= invItem.status %>"><%= invItem.status === 'pending' ? 'Εκκρεμής' : (invItem.status === 'rejected' ? 'Απορριφθείσα' : 'Αποδεκτή') %></p>
+                                        </div>
+                                    </div>
+                                    <small class="expand-button">Κλικ για ανάπτυξη</small>
+                                </div>
+                                <%- include('professor/expanded_invitation', {invItem: invItem}) %>
+                            </li>
+                        <% }); %>
+                    </ul>
+                <% } else { %>
+                    <p class="no-data">Δεν υπάρχουν προσκλήσεις.</p>
+                <% } %>
+            </div>
 
-              <div class="filters-button-group">
-                <button type="reset" class="standard-button">Επαναφορά</button>
-              </div>
-            </form>
-          </div>
+
+            <aside class="filters-container">
+                <h3>Φίλτρα</h3>
+                <form class="filters-form">
+                    <div class="filter-group">
+                        <label for="filter-status" class="filter-header"
+                        >Κατάσταση</label
+                        >
+
+                        <div>
+                            <input type="checkbox" id="filter-status-pending"/>
+                            <label for="filter-status-active">Εκκρεμής</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="filter-status-accepted"/>
+                            <label for="filter-status-completed">Αποδεκτή</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="filter-status-rejected"/>
+                            <label for="filter-status-rejected">Απορριφθείσα</label>
+                        </div>
+                    </div>
+                    <div class="filters-button-group">
+                        <button type="reset" class="standard-button">Επαναφορά</button>
+                    </div>
+                </form>
+            </aside>
         </section>
-      </main>
-    </div>
-  </body>
+    </main>
+
+</div>
+</body>
 </html>
