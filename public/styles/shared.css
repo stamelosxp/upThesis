@@ -18,6 +18,7 @@ header {
     margin: 0;
     text-align: left;
     box-shadow: 0 2px 4px rgba(82, 97, 107, 0.06);
+    height: 80px;
 }
 
 #main-logo {
@@ -40,9 +41,10 @@ header {
     border-left: none;
     border-radius: 0 8px 8px 0;
     text-align: left;
+    /*height: 85vh;*/
     height: calc(100vh - 80px);
-    max-height: calc(100vh - 80px);
-    min-height: calc(100vh - 80px);
+    /*max-height: calc(100vh - 80px);*/
+    /*min-height: calc(100vh - 80px);*/
     overflow-y: auto;
     box-shadow: 2px 0 8px rgba(82, 97, 107, 0.08);
     display: flex;
@@ -100,8 +102,8 @@ header {
 }
 
 .menu-icon {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
     display: block;
     flex-shrink: 0;
     opacity: 0.75;
@@ -120,6 +122,7 @@ header {
     font-family: "Noto Sans Greek", sans-serif;
     letter-spacing: 0.2px;
     display: block;
+    font-size: 1.1rem;
 
 }
 
