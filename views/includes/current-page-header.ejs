@@ -16,5 +16,9 @@
         <p class="current-page-message">
             Έχετε <%= assignmentsLenght %> <%= assignmentsLenght === 1 ? 'ανάθεση.' : "αναθέσεις." %>
         </p>
+    <% } else if(currentPage === 'invitations') { %>
+        <p class="current-page-message">
+            Έχετε <%= invitationsLengh %> <%= invitationsLengh === 1 ? 'πρόσκληση.' : "προσκλήσεις." %>
+        </p>
     <% } %>
 </section>
