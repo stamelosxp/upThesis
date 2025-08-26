@@ -13,7 +13,6 @@ invitationItems.forEach(function (invitationItem) {
             e.stopPropagation();
             collapsedContent.style.display = "none";
             expandedContent.style.display = "flex";
-            liItem.style.padding = "0";
         };
 
         collapseButton.onclick = function (e) {
@@ -21,7 +20,6 @@ invitationItems.forEach(function (invitationItem) {
             e.stopPropagation();
             collapsedContent.style.display = "flex";
             expandedContent.style.display = "none";
-            liItem.style.padding = "1.5rem 2rem";
         };
     }
 });

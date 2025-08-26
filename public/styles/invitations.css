@@ -4,65 +4,51 @@
 @import url('./components/filtes.css');
 @import url('./components/current_page_header.css');
 @import url('./components/no-data.css');
+@import url('./components/status-badge.css');
+@import url('./components/read_only_form.css');
+
 
 .invitations-content {
     display: flex;
     flex-direction: row;
-    margin-right: 1.5rem;
+    gap: 1.5rem;
 }
 
-#invitations-list {
+.invitations-container {
+    width: 100%;
+    height: 80vh;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #52616b #f0f5f9;
-    padding: 0.2rem 1rem 0 0;
+    padding: 0 1rem 0 0;
     box-sizing: border-box;
-    margin-right: 2rem;
-    height: 1000px;
-    width: 100%;
 }
 
 .invitation-item {
-    background-color: #f8fafb;
-    color: #52616b;
-    border: 2px solid #52616b;
-    padding: 1.5rem 2rem;
-    border-radius: 12px;
     font-size: 1rem;
-    box-shadow: 0 4px 12px rgba(82, 97, 107, 0.15);
     margin-bottom: 2rem;
-    width: 100%;
-    box-sizing: border-box;
     overflow: hidden;
+    box-sizing: border-box;
+}
+
+.invitation-item-collapsed, .invitation-item-expanded {
+    box-shadow: 0 4px 12px rgba(82, 97, 107, 0.15);
+    background-color: #fff;
+    color: #52616b;
+    border: 2.5px solid #52616b;
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    box-sizing: border-box;
 }
 
 .invitation-item-collapsed {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: #f8fafb;
 }
 
-.invitation-item-expanded {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 6px 24px rgba(82, 97, 107, 0.13);
-    padding: 1.5rem 2rem;
-    height: fit-content;
-    margin: 0 auto;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    /*box-sizing: border-box;*/
-}
-
-.pending-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-    margin-top: 1.5rem;
-}
-
-.invitation-header {
+.invitation-collapsed-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -72,126 +58,77 @@
     margin-bottom: 0.8rem;
 }
 
-.invitation-thesis-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin: 0;
-}
-
-.badges-group {
+.invitation-header {
     display: flex;
-    flex-direction: row-reverse;
-    gap: 0.5rem;
-    /*align-items: center;*/
-}
-
-.invitation-date, .invitation-status {
-    max-width: fit-content;
-    background: #c9d6df;
-    color: #1e2022;
-    padding: 0.4rem 1rem;
-    border-radius: 25px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin: 0;
-    /*flex: 0 0 auto;*/
-    width: auto;
-    white-space: nowrap;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-
-/* Status-specific colors */
-.invitation-status.accepted {
-    background: #4caf50;
-    color: #fff;
-}
-
-.invitation-status.rejected {
-    background: #f44336;
-    color: #fff;
-}
-
-.invitation-status.pending {
-    background: #ff9800;
-    color: #fff;
-}
-
-.data-section {
-    margin-bottom: 0.25rem;
-    padding: 1rem 0;
-}
-
-.data-label {
-    color: #52616b;
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin: 0 0 0.75rem 0;
-    letter-spacing: 0.3px;
-}
-
-.data-value {
-    color: #1e2022;
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0;
-    line-height: 1.4;
-    padding: 0.75rem 1rem;
-    background: #f8fafb;
-    border-radius: 6px;
-    border: 1px solid #e0e6ed;
-}
-
-.data-badge {
-    color: #52616b;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    background: #e0e6ed;
-    padding: 0.25rem 0.75rem;
-    border-radius: 15px;
-    margin: 0;
-}
-
-.attachment-link {
-    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    color: #52616b;
-    font-weight: 500;
-    padding: 0.5rem 0.75rem;
-    background: #f0f5f9;
-    border: 1px solid #c9d6df;
-    border-radius: 6px;
 }
 
-.attachment-link:hover {
+
+/*invitation expanded style*/
+.invitation-item-expanded {
+    height: fit-content;
+    display: none;
+    flex-direction: column;
+    font-size: 1rem;
+}
+
+.content-group {
+    margin-bottom: 1.5rem;
+}
+.group-title-badges{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.group-header {
     color: #1e2022;
-    background: #e8ecf0;
-    border-color: #52616b;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(82, 97, 107, 0.1);
-}
-
-.attachment-icon {
+    font-weight: 600;
     font-size: 1.1rem;
+    display: block;
+    letter-spacing: 0.3px;
+    margin: 0 0 0.5rem 0;
+}
+.group-title-badges p {
+    margin: 0;
 }
 
-.attachment-type {
-    color: #6c757d;
-    font-size: 0.8rem;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-left: 0.5rem;
+.group-value {
+    position: relative;
+    padding: 0.85rem 1rem;
+    border: 1px solid #d5dde5;
+    border-radius: 4px;
+    font-size: 0.98rem;
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 2.75rem;
+    color: #1e2022;
+    background: #f8fafb;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.45;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+
+.pending-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
 }
 
 @media screen and (max-width: 768px) {
-    .pending-buttons {
-        justify-content: center;
+    .badges-group.expanded {
+        flex-direction: row;
     }
 
+    .invitation-collapsed-header {
+        gap: 1rem;
+    }
 }
