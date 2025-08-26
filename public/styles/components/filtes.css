@@ -11,6 +11,7 @@
     min-width: 300px;
 }
 
+
 .filters-container h3 {
     text-align: center;
     font-size: 1.3rem;
@@ -92,8 +93,44 @@
     letter-spacing: 0.5px;
 }
 
+.filters-icon {
+    width: 2rem;
+    height: 2rem;
+    display: none;
+    background: #f8fafb;
+    color: #52616b;
+    padding: 0.5rem;
+    border: 2px solid #e0e6ed;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(82, 97, 107, 0.1);
+    transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.filters-icon:hover {
+    background: #f0f5f9;
+    color: #fff;
+    border-color: #1e2022;
+    box-shadow: 0 4px 16px rgba(28, 32, 34, 0.18);
+}
+
 @media screen and (max-width: 1350px) {
     .filters-container {
         display: none;
+    }
+
+    .filters-icon {
+        display: block;
+    }
+
+    .filters-scroll-container {
+        margin-top: 1rem;
+        height: 100%;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #52616b #f0f5f9;
+    }
+    .filters-form {
+        padding: 0 0.5rem 0 0;
     }
 }
