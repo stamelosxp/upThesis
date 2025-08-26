@@ -72,8 +72,12 @@
                 let canCancel = false;
                 if (thesis.assignmentDate) {
                     const _cancelProf = new Date(thesis.assignmentDate);
-                    if (!isNaN(_cancelProf) && _cancelProf.getTime() <= Date.now()) {
-                        canCancel = true;
+                    if (!isNaN(_cancelProf)) {
+                        const now = new Date();
+                        const twoYearsMs = 2 * 365 * 24 * 60 * 60 * 1000;
+                        if (now.getTime() - _cancelProf.getTime() >= twoYearsMs) {
+                            canCancel = true;
+                        }
                     }
                 }
                 %>
@@ -91,6 +95,7 @@
                         Ακύρωση Ανάθεσης
                     </button>
                 <% } else if (thesis.status === 'review' && (userThesisRole === 'supervisor' || userThesisRole === 'student') && !showEvaluation ){ %>
+                    <% /* need to change the condition to check if not exists temporary report and links (links are optional) show enable or disable button */  %>
                     <button class="standard-button">Παρουσίαση</button>
                 <% } else if (thesis.status === 'review' && userThesisRole === 'secretary' && thesis.finalGrade && thesis.nemertesLink) { %>
                     <button class="accept-button">Ολοκλήρωση</button>

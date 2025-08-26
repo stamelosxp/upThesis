@@ -203,9 +203,14 @@ function renderInvitations(pending, completed) {
         data.forEach(inv => {
             const memberDiv = document.createElement('div');
             memberDiv.className = `info-member ${type === 'pending' ? 'invite' : 'complete-invite'}`;
+
+            if(type === 'pending') {
+                memberDiv.setAttribute('data-professors-pending', inv.professor.id);
+            }
+
             if (inv.invitationID) memberDiv.setAttribute('data-invitation-id', inv.invitationID);
             const nameP = document.createElement('p');
-            nameP.textContent = inv.professorFullName;
+            nameP.textContent = inv.professor.fullName;
             memberDiv.appendChild(nameP);
             const badgeP = document.createElement('p');
             if (inv.status === 'pending') {
@@ -906,7 +911,22 @@ function openInviteModal() {
     const innerModal = document.querySelector('.invite-professor-modal');
 
     const rawProfessors = innerModal.getAttribute('data-thesis-professors');
-    const professorData = rawProfessors ? JSON.parse(rawProfessors) : [];
+    const jsonProfessorData = JSON.parse(rawProfessors);
+    const professorData = [];
+
+    for(const key in jsonProfessorData) {
+        if(jsonProfessorData[key].id) {
+            professorData.push(jsonProfessorData[key].id);
+        }
+    }
+    const pendingElements = document.querySelectorAll('[data-professors-pending]');
+    for(const el of pendingElements) {
+        const pid = el.getAttribute('data-professors-pending');
+        if(pid && !professorData.includes(pid)) {
+            professorData.push(pid);
+        }
+    }
+
     const searchInput = modalContainer.querySelector('.professor-search-bar');
     if (searchInput) setTimeout(() => searchInput.focus(), 40);
 
