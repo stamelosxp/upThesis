@@ -8,6 +8,8 @@
     margin: 0;
     white-space: nowrap;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    align-self: center;
+
 }
 
 .info-badge {
@@ -20,6 +22,8 @@
     padding: 0.25rem 0.75rem;
     border-radius: 15px;
     margin: 0;
+    align-self: center;
+    /*text-align: center;*/
 }
 
 .info-badge.completed {
@@ -50,7 +54,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.status-badge.completed {
+.status-badge.completed, .status-badge.accepted  {
     background: #4caf50;
     color: #fff;
 }
@@ -70,7 +74,23 @@
     color: #fff;
 }
 
-.status-badge.cancelled {
+.status-badge.cancelled, .status-badge.rejected {
     background: #f44336;
     color: #fff;
+}
+
+.badges-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+    .badges-group {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    .badges-group.expanded {
+        flex-direction: row;
+    }
 }
