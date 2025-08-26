@@ -11,6 +11,9 @@
             rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles/assignments.css"/>
+    <% if(locals.connectedUserRole === 'professor') { %>
+        <script src="/scripts/assignments.js" defer></script>
+    <% } %>
 </head>
 <body>
 <%- include('includes/main-header') %>
@@ -27,7 +30,10 @@
                                 class="search-bar"
                                 placeholder="Αναζήτηση Αναθέσεων..."
                         />
-                        <button id="export-theses" class="standard-button">Εξαγωγή</button>
+                        <div class="group-end">
+                            <button id="export-theses" class="standard-button">Εξαγωγή</button>
+                            <img class="filters-icon" src="/icons/filters_icon.png" alt="filters"/>
+                        </div>
                     </section>
                 <% } %>
                 <section class="assignments-content">
@@ -40,33 +46,38 @@
                                             <h3 class="thesis-header">
                                                 <%= thesisItem.title %>
                                             </h3>
-                                            <p class="status-badge <%= thesisItem.status %>">
-                                                <%
-                                                    let statusText = '';
-                                                    if (thesisItem.status) {
-                                                        switch (thesisItem.status.toLowerCase()) {
-                                                            case 'completed':
-                                                                statusText = 'Ολοκληρωμένη';
-                                                                break;
-                                                            case 'active':
-                                                                statusText = 'Ενεργή';
-                                                                break;
-                                                            case 'pending':
-                                                                statusText = 'Υπό-Ανάθεση';
-                                                                break;
-                                                            case 'review':
-                                                                statusText = 'Υπό-Εξέταση';
-                                                                break;
-                                                            case 'cancelled':
-                                                                statusText = 'Ακυρωμένη';
-                                                                break;
-                                                            default:
-                                                                statusText = thesisItem.status;
+                                            <div class="badges-group">
+                                                <p class="status-badge <%= thesisItem.status %>">
+                                                    <%
+                                                        let statusText = '';
+                                                        if (thesisItem.status) {
+                                                            switch (thesisItem.status.toLowerCase()) {
+                                                                case 'completed':
+                                                                    statusText = 'Ολοκληρωμένη';
+                                                                    break;
+                                                                case 'active':
+                                                                    statusText = 'Ενεργή';
+                                                                    break;
+                                                                case 'pending':
+                                                                    statusText = 'Υπό-Ανάθεση';
+                                                                    break;
+                                                                case 'review':
+                                                                    statusText = 'Υπό-Εξέταση';
+                                                                    break;
+                                                                case 'cancelled':
+                                                                    statusText = 'Ακυρωμένη';
+                                                                    break;
+                                                                default:
+                                                                    statusText = thesisItem.status;
+                                                            }
                                                         }
-                                                    }
-                                                %>
-                                                <%= statusText %>
-                                            </p>
+                                                    %>
+                                                    <%= statusText %>
+                                                </p>
+                                                <% if(locals.connectedUserRole === 'professor') { %>
+                                                    <p class="info-badge"><%= locals.connectedUserId === thesisItem.professors.supervisor.id ? ' Επιβλέπων' : 'Μέλος' %></p>
+                                                <% } %>
+                                            </div>
                                         </div>
                                         <a href="/assignment/<%= thesisItem.id %>"
                                            class="expand-button">
@@ -83,9 +94,7 @@
                 </section>
             </div>
             <% if(locals.connectedUserRole === 'professor') { %>
-                <div class="filters-container">
-                    <%- include('professor/assignments_filters') %>
-                </div>
+                <%- include('professor/assignments_filters') %>
             <% } %>
         </section>
     </main>
