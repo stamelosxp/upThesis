@@ -1,16 +1,17 @@
-const notificationItems = document.querySelectorAll('.notification-content');
+const notificationItems = document.querySelectorAll('.notification-item');
 notificationItems.forEach(function (notificationItem) {
     notificationItem.onclick = function (e) {
         e.preventDefault();
         e.stopPropagation();
-        if (notificationItem.classList.contains('collapsed')) {
-            notificationItem.classList.remove('collapsed');
-            notificationItem.add('expanded');
+        const content = notificationItem.querySelector('.notification-content');
+        if (!content) return;
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            content.classList.add('expanded');
         } else {
-            notificationItem.classList.remove('expanded');
-            notificationItem.classList.add('collapsed');
+            content.classList.remove('expanded');
+            content.classList.add('collapsed');
         }
-
     }
 
 });
