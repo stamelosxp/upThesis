@@ -41,7 +41,7 @@
                         <ul id="assignments-list">
                             <% theses.forEach(function(thesisItem) { %>
                                 <li class="thesis-item">
-                                    <div class="thesis-item-collapsed">
+                                    <div class="thesis-item-collapsed" data-thesis-id="<%= thesisItem.id %>">
                                         <div class="thesis-collapsed-header">
                                             <h3 class="thesis-header">
                                                 <%= thesisItem.title %>
