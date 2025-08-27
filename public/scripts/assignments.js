@@ -29,7 +29,15 @@ function exportUIData() {
                 downloadAnchorNode.setAttribute("href", dataStr);
                 const now = new Date();
                 // Always use Europe/Athens timezone, format in Greek with 24h
-                const options = { timeZone: 'Europe/Athens', hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric', hour12: false };
+                const options = {
+                    timeZone: 'Europe/Athens',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour12: false
+                };
                 const parts = new Intl.DateTimeFormat('el-GR', options).formatToParts(now);
                 const getPart = type => parts.find(p => p.type === type)?.value;
                 const formattedDate = `${getPart('hour')}:${getPart('minute')}-${getPart('day')}-${getPart('month')}-${getPart('year')}`;
@@ -48,23 +56,25 @@ async function fetchExportData(currentUIThesesIDs, currentFetchController) {
     if (currentFetchController) currentFetchController.abort();
     currentFetchController = new AbortController();
 
-	try {
-		// Encode the IDs as a comma-separated string for the query parameter
-		const currentTheses = JSON.stringify(currentUIThesesIDs);
+    try {
+        // Send IDs in POST body as JSON
+        const response = await fetch('/api/export-theses', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ids: currentUIThesesIDs}),
+            signal: currentFetchController.signal
+        });
 
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
 
-        const response = await fetch(`/api/export-theses/${currentTheses}`, {signal: currentFetchController.signal});
-
-		if (!response.ok) {
-			throw new Error("Network response was not ok");
-		}
-
-		const data = await response.json();
+        const data = await response.json();
         return data.theses;
-	} catch (err) {
-		console.error("Export error:", err);
-		alert("Σφάλμα κατά την εξαγωγή των δεδομένων.");
-	}
+    } catch (err) {
+        console.error("Export error:", err);
+        alert("Σφάλμα κατά την εξαγωγή των δεδομένων.");
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function () {

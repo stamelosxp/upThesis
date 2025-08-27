@@ -16,6 +16,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static("public"));
 app.use("/data", express.static("data"));
 app.use(express.urlencoded({extended: false}));
+app.use(express.json()); // Add this to parse JSON bodies
 
 app.use(async function (req, res, next) {
     res.locals.connectedUserRole = "professor";
@@ -593,41 +594,24 @@ app.get('/api/thesis/:id/protocol', async (req, res) => {
     }
 });
 
-app.get('/api/export-theses/:currentTheses', async (req, res) => {
-    // NEED AUTHENTICATION CHECK HERE and AUTHORIZATION CHECK
+// Export theses data API endpoint (POST)
+app.post('/api/export-theses', async (req, res) => {
     try {
-        let currentThesesJSON = {};
-        currentThesesJSON = JSON.parse(req.params.currentTheses);
-
-        const thesesData = await fs.readFile(path.join(__dirname, 'data', 'sampleTheses.json'), 'utf-8');
-        const allTheses = JSON.parse(thesesData);
-        let filterTheses = allTheses.filter((thesisItem) => currentThesesJSON.includes(String(thesisItem.id)));
-
-        let responseTheses = filterTheses.map(thesis => ({
-            title: thesis.title,
-            description: thesis.description,
-            status: thesis.status,
-            student: {
-                fullName: thesis.student.fullName,
-                idNumber: thesis.student.idNumber
-            },
-            professors: {
-                supervisor: thesis.professors.supervisor.fullName,
-                memberA: thesis.professors.memberA.fullName,
-                memberB: thesis.professors.memberB.fullName
-            },
-            assignmentData: thesis.assignmentDate,
-            completionData: thesis.completionDate || '-',
-        }));
-
-
-        return res.json({ success: true, message: 'Theses exported successfully', theses: responseTheses});
-    } catch (e) {
-        console.error('Error exporting theses', e);
-        return res.status(500).json({ success: false, error: 'Failed to export theses' });
+        const ids = req.body.ids;
+        if (!Array.isArray(ids) || ids.length === 0) {
+            return res.status(400).json({ success: false, error: 'No thesis IDs provided.' });
+        }
+        const data = await fs.readFile(path.join(__dirname, 'data', 'sampleTheses.json'), 'utf-8');
+        const allTheses = JSON.parse(data);
+        // IDs may be string or number, so normalize for comparison
+        const idSet = new Set(ids.map(id => String(id)));
+        const filteredTheses = allTheses.filter(thesis => idSet.has(String(thesis.id)));
+        return res.json({ success: true, theses: filteredTheses });
+    } catch (err) {
+        console.error('Error exporting theses:', err);
+        return res.status(500).json({ success: false, error: 'Failed to export theses.' });
     }
 });
-
 
 app.get('/api/professors/available/:existingProfessors', async (req, res) => {
     //NEED AUTHENTICATION CHECK HERE and AUTHORIZATION CHECK
