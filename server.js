@@ -18,7 +18,7 @@ app.use("/data", express.static("data"));
 app.use(express.urlencoded({extended: false}));
 
 app.use(async function (req, res, next) {
-    res.locals.connectedUserRole = "secretary";
+    res.locals.connectedUserRole = "professor";
     if (res.locals.connectedUserRole === "professor" || res.locals.connectedUserRole === "student" || res.locals.connectedUserRole === "secretary") {
         res.locals.isAuth = true;
     } else {

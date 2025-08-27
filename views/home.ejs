@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="/styles/home.css"/>
     <script src="/scripts/date-picker.js" defer></script>
     <script src="/scripts/notifications.js" defer></script>
+    <% if(locals.connectedUserRole === 'professor') { %>
+        <link rel="stylesheet" href="/styles/professor-styles/dashboard_stats.css"/>
+        <script src="/scripts/professor-scripts/dashboard_stats.js" defer></script>
+    <% } %>
 </head>
 <body>
 <%- include('includes/main-header') %>
