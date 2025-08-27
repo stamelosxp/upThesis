@@ -26,7 +26,7 @@ app.use(async function (req, res, next) {
     }
 
     if (res.locals.connectedUserRole === "professor") {
-        res.locals.connectedUserId = "prof_002"
+        res.locals.connectedUserId = "prof_001"
     } else if (res.locals.connectedUserRole === "student") {
         res.locals.connectedUserId = "stu_001"
     } else if (res.locals.connectedUserRole === "secretary") {
@@ -626,3 +626,36 @@ app.get('/api/professors/available/:existingProfessors', async (req, res) => {
     }
 });
 
+app.get('/api/dashboard/:professorId', async (req, res) => {
+    //NEED AUTHENTICATION CHECK HERE and AUTHORIZATION CHECK
+    try {
+        const professorId = req.params.professorId;
+
+        const topicsData = await fs.readFile(path.join(__dirname, 'data', 'sampleTopics.json'), 'utf-8');
+        const allTopics = JSON.parse(topicsData);
+        const thesesData = await fs.readFile(path.join(__dirname, 'data', 'sampleTheses.json'), 'utf-8');
+        const allTheses = JSON.parse(thesesData);
+        const invitationsData = await fs.readFile(path.join(__dirname, 'data', 'sampleInvitations.json'), 'utf-8');
+        const allInvitations = JSON.parse(invitationsData);
+
+        // Calculate statistics
+        const totalThesesSupervising = allTheses.filter(thesis => thesis.professors.supervisor.id === professorId).length;
+        const totalThesesMember = allTheses.filter(thesis => thesis.professors.memberA.id === professorId || thesis.professors.memberB.id === professorId).length;
+
+        const totalTheses = totalThesesMember + totalThesesSupervising;
+        const totalPendingInvitations = allInvitations.filter(inv => inv.professor.id === professorId && inv.status === 'pending').length;
+        const totalAvailableTopics = allTopics.filter(topic => topic.createdBy === professorId).length;
+
+        const stats = {
+            totalThesesSupervising,
+            totalTheses,
+            totalPendingInvitations,
+            totalAvailableTopics
+        };
+        return res.json(stats);
+    } catch (e) {
+        console.error('Error fetching dashboard stats', e);
+        return res.status(500).json({error: 'Failed to load dashboard stats'});
+    }
+
+});
