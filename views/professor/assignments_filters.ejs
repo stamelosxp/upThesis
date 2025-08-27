@@ -13,22 +13,23 @@
                 <div class="radio-group">
                     <input
                             type="radio"
-                            id="sort-method-date"
+                            id="sort-method-title"
                             name="sort-method"
-                            value="date"
+                            value="title"
                             checked
                     />
-                    <label for="sort-method-date">Ημερομηνία</label>
+                    <label for="sort-method-title">Τίτλος</label>
                 </div>
                 <div class="radio-group">
                     <input
                             type="radio"
-                            id="sort-method-title"
+                            id="sort-method-date"
                             name="sort-method"
-                            value="title"
+                            value="date"
                     />
-                    <label for="sort-method-title">Τίτλος</label>
+                    <label for="sort-method-date">Ημερομηνία</label>
                 </div>
+
             </div>
             <div class="filter-group">
                 <label for="filter-status" class="filter-header"
@@ -86,7 +87,7 @@
                 </div>
             </div>
             <div class="filters-button-group">
-                <button type="reset" class="standard-button">Επαναφορά</button>
+                <button id="clear-filters-button" type="reset" class="standard-button">Επαναφορά</button>
             </div>
         </form>
 
