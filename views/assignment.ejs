@@ -82,7 +82,7 @@
                 }
                 %>
 
-                <% if ( (thesis.status === 'pending' || thesis.status === 'active') && userThesisRole === 'supervisor'){ %>
+                <% if ( thesis.status === 'pending' && userThesisRole === 'supervisor'){ %>
                     <button class="cancel-button <%= canCancel ? 'enabled' : 'disabled' %>">
                         Ακύρωση Ανάθεσης
                     </button>
@@ -92,6 +92,10 @@
                     </button>
                 <% } else if (thesis.status === 'active' && userThesisRole === 'secretary') { %>
                     <button class="cancel-button enabled">
+                        Ακύρωση Ανάθεσης
+                    </button>
+                <% } else if (thesis.status === 'active' && userThesisRole === 'supervisor' ) { %>
+                    <button class="cancel-button <%= canCancel ? 'enabled' : 'disabled' %>">
                         Ακύρωση Ανάθεσης
                     </button>
                 <% } else if (thesis.status === 'review' && (userThesisRole === 'supervisor' || userThesisRole === 'student') && !showEvaluation ){ %>
