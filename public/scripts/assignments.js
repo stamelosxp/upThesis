@@ -1,8 +1,22 @@
-// Move DOM references outside functions for reuse
 const filtersIcon = document.querySelector('.filters-icon');
 const filtersContainer = document.getElementById('assignments-filters-container');
 const closeBtn = document.getElementById('close-mobile-filters');
 const exportButton = document.getElementById('export-theses');
+
+const searchInput = document.getElementById('search-theses');
+
+let exportFetchController = null;
+let filterFetchController = null;
+
+
+let jsonFilters = {
+    searchInput: '',
+    sortBy: 'title',
+    status: {},
+    year: {},
+    professorRole: {},
+};
+
 
 function exportUIData() {
     const noDataExists = document.querySelector('.no-data');
@@ -23,9 +37,12 @@ function exportUIData() {
             }
         });
     }
-    let currentFetchController = null;
 
-    fetchExportData(currentThesesIDs, currentFetchController).then(
+    // Abort previous export fetch if exists
+    if (exportFetchController) exportFetchController.abort();
+    exportFetchController = new AbortController();
+
+    fetchExportData(currentThesesIDs, exportFetchController.signal).then(
         (data) => {
             if (data && data.length > 0) {
                 const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
@@ -56,17 +73,13 @@ function exportUIData() {
     )
 }
 
-async function fetchExportData(currentUIThesesIDs, currentFetchController) {
-    if (currentFetchController) currentFetchController.abort();
-    currentFetchController = new AbortController();
-
+async function fetchExportData(currentUIThesesIDs, signal) {
     try {
-        // Send IDs in POST body as JSON
         const response = await fetch('/api/export-theses', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ids: currentUIThesesIDs}),
-            signal: currentFetchController.signal
+            signal: signal
         });
 
         if (!response.ok) {
@@ -76,9 +89,118 @@ async function fetchExportData(currentUIThesesIDs, currentFetchController) {
         const data = await response.json();
         return data.theses;
     } catch (err) {
-        console.error("Export error:", err);
-        alert("Σφάλμα κατά την εξαγωγή των δεδομένων.");
+        if (err.name !== 'AbortError') {
+            console.error("Export error:", err);
+            alert("Σφάλμα κατά την εξαγωγή των δεδομένων.");
+        }
     }
+}
+
+async function fetchFilteredTheses(filters, signal) {
+    try {
+        const response = await fetch('/api/theses/filters', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(filters),
+            signal: signal
+        });
+
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        return data.theses;
+    } catch (err) {
+        if (err.name !== 'AbortError') {
+            throw err;
+        }
+        // If abort, return undefined (no update)
+    }
+}
+
+function applyFilters() {
+    if (filterFetchController) filterFetchController.abort();
+    filterFetchController = new AbortController();
+    fetchFilteredTheses(jsonFilters, filterFetchController.signal)
+        .then((data) => {
+            const thesesList = document.getElementById('assignments-list');
+            if (thesesList) {
+                thesesList.innerHTML = '';
+                if (data && data.length > 0) {
+                    data.forEach(thesis => {
+                        //create li item
+                        const thesisLiItem = document.createElement('li');
+                        thesisLiItem.classList.add('thesis-item');
+
+                        //create div collapsed item
+                        const thesisItemCollapsed = document.createElement('div');
+                        thesisItemCollapsed.classList.add('thesis-item-collapsed');
+                        thesisItemCollapsed.setAttribute('data-thesis-id', thesis.id);
+
+                        //create header div
+                        const divThesisCollapsedHeader = document.createElement('div');
+                        divThesisCollapsedHeader.classList.add('thesis-collapsed-header');
+
+                        const thesisHeader = document.createElement('h3');
+                        thesisHeader.classList.add('thesis-header');
+                        thesisHeader.textContent = thesis.title;
+
+                        const badgesGroup = document.createElement('div');
+                        badgesGroup.classList.add('badges-group');
+
+                        const statusBadge = document.createElement('p');
+                        statusBadge.classList.add('status-badge', `${thesis.status}`);
+                        if (thesis.status === 'pending') {
+                            statusBadge.textContent = 'Υπό-Ανάθεση';
+                        } else if (thesis.status === 'active') {
+                            statusBadge.textContent = 'Ενεργή';
+                        } else if (thesis.status === 'completed') {
+                            statusBadge.textContent = 'Ολοκληρωμένη';
+                        } else if (thesis.status === 'cancelled') {
+                            statusBadge.textContent = 'Ακυρωμένη';
+                        } else if (thesis.status === 'review') {
+                            statusBadge.textContent = 'Υπό-Εξέταση';
+                        }
+
+                        const professorBadge = document.createElement('p');
+                        professorBadge.classList.add('info-badge');
+                        if (thesis.professorRole === 'supervisor') {
+
+                            professorBadge.textContent = 'ΕΠΙΒΛΕΠΩΝ';
+                        } else {
+                            professorBadge.textContent = 'ΜΕΛΟΣ';
+                        }
+
+                        badgesGroup.appendChild(statusBadge);
+                        badgesGroup.appendChild(professorBadge);
+
+                        divThesisCollapsedHeader.appendChild(thesisHeader);
+                        divThesisCollapsedHeader.appendChild(badgesGroup);
+
+                        const thesisLink = document.createElement('a');
+                        thesisLink.href = `/assignment/${thesis.id}`;
+                        thesisLink.classList.add('expand-button');
+                        thesisLink.textContent = 'Κλικ για άνοιγμα';
+
+                        thesisItemCollapsed.appendChild(divThesisCollapsedHeader);
+                        thesisItemCollapsed.appendChild(thesisLink);
+
+                        thesisLiItem.appendChild(thesisItemCollapsed);
+                        thesesList.appendChild(thesisLiItem);
+                    });
+                } else {
+                    thesesList.innerHTML = '<p class="no-data">Δεν βρέθηκαν δεδομένα με τα επιλεγμένα φίλτρα.</p>';
+                }
+            }
+        })
+        .catch((err) => {
+            if (err.name === 'AbortError') return;
+            const thesesList = document.getElementById('assignments-list');
+            if (thesesList) {
+                thesesList.innerHTML = '<p class="no-data error">Σφάλμα φόρτωσης δεδομένων. Προσπαθήστε ξανά</p>';
+            }
+        });
 }
 
 function clearAllFilters() {
@@ -86,39 +208,33 @@ function clearAllFilters() {
     filtersInputs.forEach(input => {
         if (input.type === 'checkbox') {
             input.checked = false;
-        } else {
+        } else if (input.type === 'radio' && input.name === 'sort-method') {
+            if (input.id === 'sort-method-title') {
+                input.checked = true;
+            } else {
+                input.checked = false;
+            }
+        } else if (input.type === 'text' || input.type === 'number') {
             input.value = '';
         }
-        if (input.type === 'radio' && input.id === 'sort-method-title') {
-            input.checked = true;
-            console.log(input);
-
-        }
     });
-    const sortSelect = document.getElementById('sort-select');
-    const statusSelect = document.getElementById('status-select');
-    if (sortSelect) sortSelect.value = 'title'; // Select sort by title by default
-    if (statusSelect) statusSelect.value = '';
-}
 
-// function filterTheses() {
-//     const filtersInputs = document.querySelectorAll('input');
-//     filtersInputs.forEach(input => {
-//         input.addEventListener('change', () => {
-//             console.log(input.value);
-//         });
-//     });
-//     const sortSelect = document.getElementById('sort-select');
-//     const statusSelect = document.getElementById('status-select');
-//
-//     console.log(statusSelect);
-//     console.log(sortSelect);
-// }
+    // Reset global filter state
+    jsonFilters = {
+        sortBy: 'title',
+        status: {},
+        year: {},
+        professorRole: {},
+    };
+
+    // Directly call applyFilters to update UI
+    applyFilters();
+}
 
 function updateMobileFloating() {
     if (window.innerWidth <= 1350) {
         filtersContainer.classList.add('mobile-floating');
-        filtersContainer.classList.remove('show'); // Hide by default on resize
+        filtersContainer.classList.remove('show');
     } else {
         filtersContainer.classList.remove('mobile-floating');
         filtersContainer.classList.remove('show');
@@ -135,7 +251,57 @@ function closeMobileFilters() {
 document.addEventListener('DOMContentLoaded', function () {
     updateMobileFloating();
 
-    filterTheses();
+    const filtersInputs = document.querySelectorAll('input');
+    const yearRangeFromInput = document.getElementById('year-range-from');
+    const yearRangeToInput = document.getElementById('year-range-to');
+
+    filtersInputs.forEach(input => {
+        input.addEventListener('change', () => {
+            //store filters in jsonFilters
+            if (input.name === 'sort-method') {
+                jsonFilters.sortBy = input.value;
+                console.log('Sort by:', jsonFilters.sortBy);
+            }
+
+            if (input.name === 'status') {
+                if (input.checked) {
+                    jsonFilters.status = {...jsonFilters.status, [input.id]: true};
+                } else {
+                    delete jsonFilters.status[input.id];
+                }
+            }
+
+            if (input.name === 'year') {
+                if (input.checked) {
+                    jsonFilters.year = {...jsonFilters.year, [input.id]: true};
+                } else {
+                    delete jsonFilters.year[input.id];
+                }
+            }
+
+            if (input.name === 'role') {
+                if (input.checked) {
+                    jsonFilters.professorRole = {...jsonFilters.professorRole, [input.id]: true};
+                } else {
+                    delete jsonFilters.professorRole[input.id];
+                }
+            }
+
+            // Handle year range inputs
+            if (input.id === 'year-range-from' || input.id === 'year-range-to') {
+                const from = yearRangeFromInput.value ? parseInt(yearRangeFromInput.value) : null;
+                const to = yearRangeToInput.value ? parseInt(yearRangeToInput.value) : null;
+                if (from || to) {
+                    jsonFilters.year.range = {from, to};
+                } else {
+                    if (jsonFilters.year.range) delete jsonFilters.year.range;
+                }
+            }
+
+            // Call applyFilters to update UI
+            applyFilters();
+        });
+    });
 
     const clearFiltersBtn = document.getElementById('clear-filters-button');
     if (clearFiltersBtn) {

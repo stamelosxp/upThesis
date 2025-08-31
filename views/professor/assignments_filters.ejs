@@ -7,9 +7,7 @@
         </div>
         <form class="filters-form">
             <div class="filter-group">
-                <label for="sort-method" class="filter-header"
-                >Ταξινόμηση</label
-                >
+                <label for="sort-method" class="filter-header">Ταξινόμηση</label>
                 <div class="radio-group">
                     <input
                             type="radio"
@@ -32,58 +30,58 @@
 
             </div>
             <div class="filter-group">
-                <label for="filter-status" class="filter-header"
-                >Κατάσταση</label
-                >
+                <label for="filter-status" class="filter-header">Κατάσταση</label>
                 <div>
-                    <input type="checkbox" id="filter-status-assigned"/>
-                    <label for="filter-status-assigned">Υπό-Ανάθεση</label>
+                    <input type="checkbox" id="pending" name="status" />
+                    <label for="pending">Υπό-Ανάθεση</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="filter-status-active"/>
-                    <label for="filter-status-active">Ενεργή</label>
+                    <input type="checkbox" id="active" name="status" />
+                    <label for="active">Ενεργή</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="filter-status-for-review"/>
-                    <label for="filter-status-for-review">Υπό-Εξέταση</label>
+                    <input type="checkbox" id="review" name="status" />
+                    <label for="review">Υπό-Εξέταση</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="filter-status-completed"/>
-                    <label for="filter-status-completed">Ολοκληρωμένη</label>
+                    <input type="checkbox" id="completed" name="status" />
+                    <label for="completed">Ολοκληρωμένη</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="filter-status-rejected"/>
-                    <label for="filter-status-rejected">Ακυρωμένη</label>
+                    <input type="checkbox" id="cancelled" name="status" />
+                    <label for="status-cancelled">Ακυρωμένη</label>
                 </div>
             </div>
             <div class="filter-group">
-                <label for="filter-year" class="filter-header">Έτος</label>
+                <label for="filter-year" class="filter-header">Έτος Ανάθεσης</label>
                 <div>
-                    <input type="checkbox" id="filter-year-2025"/>
-                    <label for="filter-year-2025">2025</label>
+                    <input type="checkbox" id="year-2025" name="year" />
+                    <label for="year-2025">2025</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="filter-year-2024"/>
-                    <label for="filter-year-2024">2024</label>
+                    <input type="checkbox" id="year-2024" name="year" />
+                    <label for="year-2024">2024</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="filter-year-2023"/>
-                    <label for="filter-year-2023">2023</label>
+                    <input type="checkbox" id="year-2023" name="year" />
+                    <label for="year-2023">2023</label>
                 </div>
-                <div>
-                    <input type="checkbox" id="filter-year-old"/>
-                    <label for="filter-year-old">Παλιότερα</label>
+                <div class="year-range-group">
+                    <label for="year-range-from">Από</label>
+                    <input type="number" id="year-range-from" name="year-range-from" min="2000" max="2100" placeholder="2020" />
+                    <label for="year-range-to">Έως</label>
+                    <input type="number" id="year-range-to" name="year-range-to" min="2000" max="2100" placeholder="2023" />
                 </div>
             </div>
             <div class="filter-group">
                 <label for="filter-user-role">Ρόλος</label>
                 <div>
-                    <input type="checkbox" id="filter-role-supervisor"/>
-                    <label for="filter-role-supervisor">Επιβλέπων</label>
+                    <input type="checkbox" id="supervisor" name="role" />
+                    <label for="supervisor">Επιβλέπων</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="filter-role-member"/>
-                    <label for="filter-role-member">Μέλος</label>
+                    <input type="checkbox" id="member" name="role" />
+                    <label for="member">Μέλος</label>
                 </div>
             </div>
             <div class="filters-button-group">
