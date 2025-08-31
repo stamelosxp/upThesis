@@ -27,9 +27,9 @@ app.use(async function (req, res, next) {
     }
 
     if (res.locals.connectedUserRole === "professor") {
-        res.locals.connectedUserId = "prof_001"
+        res.locals.connectedUserId = "prof_001";
     } else if (res.locals.connectedUserRole === "student") {
-        res.locals.connectedUserId = "stu_001"
+        res.locals.connectedUserId = "stu_001";
     } else if (res.locals.connectedUserRole === "secretary") {
         res.locals.connectedUserId = "sec_001";
     }
@@ -93,6 +93,8 @@ app.get("/assignments", async (req, res) => {
         } else if (res.locals.connectedUserRole === "professor") {
             responseTheses = allTheses.filter((thesisItem) => thesisItem.professors.supervisor.id === res.locals.connectedUserId || thesisItem.professors.memberA.id === res.locals.connectedUserId || thesisItem.professors.memberB.id === res.locals.connectedUserId);
         }
+
+        responseTheses = responseTheses.sort((a, b) => a.title.localeCompare(b.title, 'el', {sensitivity: 'base'}));
 
         res.render("assignments", {
             pageTitle: "Αναθέσεις",
@@ -678,3 +680,148 @@ app.get('/api/dashboard/:professorId', async (req, res) => {
     }
 
 });
+
+app.post('/api/theses/filters', async (req, res) => {
+    try {
+        const filters = req.body;
+        const data = await fs.readFile(path.join(__dirname, 'data', 'sampleTheses.json'), 'utf-8');
+        let allTheses = JSON.parse(data);
+
+        // Apply filters
+        if (filters.status && Object.keys(filters.status).length > 0) {
+            const statusKeys = Object.keys(filters.status);
+            allTheses = allTheses.filter(thesis => statusKeys.includes(thesis.status));
+        }
+
+        if (filters.year && Object.keys(filters.year).length > 0) {
+            const yearKeys = Object.keys(filters.year).filter(k => k !== 'range');
+            // Extract year numbers from keys like 'year-2025' => '2025'
+            const yearValues = yearKeys.map(k => k.replace(/^year-/, ''));
+            allTheses = allTheses.filter(thesis => {
+                // Use assignmentDate year
+                const thesisYear = new Date(thesis.assignmentDate).getFullYear();
+                // Check exact years if specified
+                if (yearValues.includes(String(thesisYear))) {
+                    return true;
+                }
+
+                // // Check range if specified
+                // if (filters.year.range) {
+                //     const from = filters.year.range.from || Number.NEGATIVE_INFINITY;
+                //     const to = filters.year.range.to || Number.POSITIVE_INFINITY;
+                //     return thesisYear >= from && thesisYear <= to;
+                // }
+                return false;
+            });
+        }
+
+        if (filters.professorRole && Object.keys(filters.professorRole).length > 0) {
+            const roleKeys = Object.keys(filters.professorRole);
+            allTheses = allTheses.filter(thesis => {
+                const roles = [];
+
+                if (thesis.professors.supervisor && thesis.professors.supervisor.id === res.locals.connectedUserId) {
+                    roles.push('supervisor');
+                }
+                if (thesis.professors.memberA && thesis.professors.memberA.id === res.locals.connectedUserId) {
+                    roles.push('member');
+                }
+                if (thesis.professors.memberB && thesis.professors.memberB.id === res.locals.connectedUserId) {
+                    roles.push('member');
+                }
+
+                return roles.some(r => roleKeys.includes(r));
+            });
+        }
+
+        // Sort method
+        if (filters.sortBy) {
+            if (filters.sortBy === 'title') {
+                allTheses.sort((a, b) => a.title.localeCompare(b.title, 'el', {sensitivity: 'base'}));
+            } else if (filters.sortBy === 'status') {
+                allTheses.sort((a, b) => a.status.localeCompare(b.status, 'el', {sensitivity: 'base'}));
+            } else if (filters.sortBy === 'year') {
+                allTheses.sort((a, b) => {
+                    const ay = new Date(a.creationDate).getFullYear();
+                    const by = new Date(b.creationDate).getFullYear();
+                    return by - ay; // Descending
+                });
+            }
+        }
+
+        // Map to required fields only
+        const mappedTheses = allTheses.map(thesis => {
+            let professorRole = null;
+            if (res.locals.connectedUserRole === 'professor') {
+                if (thesis.professors.supervisor && thesis.professors.supervisor.id === res.locals.connectedUserId) {
+                    professorRole = 'supervisor';
+                } else if (thesis.professors.memberA && thesis.professors.memberA.id === res.locals.connectedUserId) {
+                    professorRole = 'memberA';
+                } else if (thesis.professors.memberB && thesis.professors.memberB.id === res.locals.connectedUserId) {
+                    professorRole = 'memberB';
+                }
+            }
+            return {
+                id: thesis.id,
+                title: thesis.title,
+                status: thesis.status,
+                professorRole: professorRole
+            };
+        });
+
+        return res.json({success: true, theses: mappedTheses});
+
+    }
+    catch (err) {
+        console.error("Filtering error:", err);
+        res.status(500).json({success: false, error: 'Failed to filter theses'});
+    }
+});
+
+app.post('/api/invitations/filters', async (req, res) => {
+    try {
+        const { status = {} } = req.body;
+        const invitationsListRaw = await fs.readFile(path.join(__dirname, "data", "sampleInvitations.json"), "utf-8");
+        const thesesListRaw = await fs.readFile(path.join(__dirname, "data", "sampleTheses.json"), "utf-8");
+        const allInvitations = JSON.parse(invitationsListRaw);
+        const allTheses = JSON.parse(thesesListRaw);
+
+        // Map thesis id to thesis data for quick lookup
+        const thesesMap = new Map();
+        allTheses.forEach(thesis => {
+            thesesMap.set(thesis.id, thesis);
+        });
+
+        // Only invitations for the connected professor
+        const professorInvitations = allInvitations.filter(inv => inv.professor.id === res.locals.connectedUserId);
+
+        // Filter by status (if any status is checked)
+        let filteredInvitations = professorInvitations;
+        const statusKeys = Object.keys(status).filter(key => status[key]);
+        if (statusKeys.length > 0) {
+            filteredInvitations = filteredInvitations.filter(inv => statusKeys.includes(inv.status));
+        }
+
+        // Map each invitation to include thesis object
+        filteredInvitations = filteredInvitations.map(invitation => {
+            const thesisData = thesesMap.get(Number(invitation.thesisID));
+            return {
+                ...invitation,
+                thesis: thesisData || null
+            };
+        });
+
+        // Sort: pending first, then by newest createdAt
+        filteredInvitations = filteredInvitations.sort((a, b) => {
+            if (a.status === 'pending' && b.status !== 'pending') return -1;
+            if (a.status !== 'pending' && b.status === 'pending') return 1;
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+
+        res.json({ invitations: filteredInvitations });
+    } catch (err) {
+        console.error('Error filtering invitations:', err);
+        res.status(500).json({ error: 'Error filtering invitations' });
+    }
+});
+
