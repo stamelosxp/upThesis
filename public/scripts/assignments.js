@@ -10,7 +10,7 @@ let filterFetchController = null;
 
 
 let jsonFilters = {
-    searchInput: '',
+    search: '',
     sortBy: 'title',
     status: {},
     year: {},
@@ -105,11 +105,17 @@ async function fetchFilteredTheses(filters, signal) {
             signal: signal
         });
 
+        console.log('Request sending successfully...');
+
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }
+        console.log('No network error, parsing data...');
 
         const data = await response.json();
+
+        console.log('Data received:', data.theses);
+
         return data.theses;
     } catch (err) {
         if (err.name !== 'AbortError') {
@@ -117,6 +123,68 @@ async function fetchFilteredTheses(filters, signal) {
         }
         // If abort, return undefined (no update)
     }
+}
+
+function renderAsssignment(thesis) {
+    //create li item
+    const thesisLiItem = document.createElement('li');
+    thesisLiItem.classList.add('thesis-item');
+
+    //create div collapsed item
+    const thesisItemCollapsed = document.createElement('div');
+    thesisItemCollapsed.classList.add('thesis-item-collapsed');
+    thesisItemCollapsed.setAttribute('data-thesis-id', thesis.id);
+
+    //create header div
+    const divThesisCollapsedHeader = document.createElement('div');
+    divThesisCollapsedHeader.classList.add('thesis-collapsed-header');
+
+    const thesisHeader = document.createElement('h3');
+    thesisHeader.classList.add('thesis-header');
+    thesisHeader.textContent = thesis.title;
+
+    const badgesGroup = document.createElement('div');
+    badgesGroup.classList.add('badges-group');
+
+    const statusBadge = document.createElement('p');
+    statusBadge.classList.add('status-badge', `${thesis.status}`);
+    if (thesis.status === 'pending') {
+        statusBadge.textContent = 'Υπό-Ανάθεση';
+    } else if (thesis.status === 'active') {
+        statusBadge.textContent = 'Ενεργή';
+    } else if (thesis.status === 'completed') {
+        statusBadge.textContent = 'Ολοκληρωμένη';
+    } else if (thesis.status === 'cancelled') {
+        statusBadge.textContent = 'Ακυρωμένη';
+    } else if (thesis.status === 'review') {
+        statusBadge.textContent = 'Υπό-Εξέταση';
+    }
+
+    const professorBadge = document.createElement('p');
+    professorBadge.classList.add('info-badge');
+    if (thesis.professorRole === 'supervisor') {
+
+        professorBadge.textContent = 'ΕΠΙΒΛΕΠΩΝ';
+    } else {
+        professorBadge.textContent = 'ΜΕΛΟΣ';
+    }
+
+    badgesGroup.appendChild(statusBadge);
+    badgesGroup.appendChild(professorBadge);
+
+    divThesisCollapsedHeader.appendChild(thesisHeader);
+    divThesisCollapsedHeader.appendChild(badgesGroup);
+
+    const thesisLink = document.createElement('a');
+    thesisLink.href = `/assignment/${thesis.id}`;
+    thesisLink.classList.add('expand-button');
+    thesisLink.textContent = 'Κλικ για άνοιγμα';
+
+    thesisItemCollapsed.appendChild(divThesisCollapsedHeader);
+    thesisItemCollapsed.appendChild(thesisLink);
+
+    thesisLiItem.appendChild(thesisItemCollapsed);
+    return thesisLiItem;
 }
 
 function applyFilters() {
@@ -129,65 +197,7 @@ function applyFilters() {
                 thesesList.innerHTML = '';
                 if (data && data.length > 0) {
                     data.forEach(thesis => {
-                        //create li item
-                        const thesisLiItem = document.createElement('li');
-                        thesisLiItem.classList.add('thesis-item');
-
-                        //create div collapsed item
-                        const thesisItemCollapsed = document.createElement('div');
-                        thesisItemCollapsed.classList.add('thesis-item-collapsed');
-                        thesisItemCollapsed.setAttribute('data-thesis-id', thesis.id);
-
-                        //create header div
-                        const divThesisCollapsedHeader = document.createElement('div');
-                        divThesisCollapsedHeader.classList.add('thesis-collapsed-header');
-
-                        const thesisHeader = document.createElement('h3');
-                        thesisHeader.classList.add('thesis-header');
-                        thesisHeader.textContent = thesis.title;
-
-                        const badgesGroup = document.createElement('div');
-                        badgesGroup.classList.add('badges-group');
-
-                        const statusBadge = document.createElement('p');
-                        statusBadge.classList.add('status-badge', `${thesis.status}`);
-                        if (thesis.status === 'pending') {
-                            statusBadge.textContent = 'Υπό-Ανάθεση';
-                        } else if (thesis.status === 'active') {
-                            statusBadge.textContent = 'Ενεργή';
-                        } else if (thesis.status === 'completed') {
-                            statusBadge.textContent = 'Ολοκληρωμένη';
-                        } else if (thesis.status === 'cancelled') {
-                            statusBadge.textContent = 'Ακυρωμένη';
-                        } else if (thesis.status === 'review') {
-                            statusBadge.textContent = 'Υπό-Εξέταση';
-                        }
-
-                        const professorBadge = document.createElement('p');
-                        professorBadge.classList.add('info-badge');
-                        if (thesis.professorRole === 'supervisor') {
-
-                            professorBadge.textContent = 'ΕΠΙΒΛΕΠΩΝ';
-                        } else {
-                            professorBadge.textContent = 'ΜΕΛΟΣ';
-                        }
-
-                        badgesGroup.appendChild(statusBadge);
-                        badgesGroup.appendChild(professorBadge);
-
-                        divThesisCollapsedHeader.appendChild(thesisHeader);
-                        divThesisCollapsedHeader.appendChild(badgesGroup);
-
-                        const thesisLink = document.createElement('a');
-                        thesisLink.href = `/assignment/${thesis.id}`;
-                        thesisLink.classList.add('expand-button');
-                        thesisLink.textContent = 'Κλικ για άνοιγμα';
-
-                        thesisItemCollapsed.appendChild(divThesisCollapsedHeader);
-                        thesisItemCollapsed.appendChild(thesisLink);
-
-                        thesisLiItem.appendChild(thesisItemCollapsed);
-                        thesesList.appendChild(thesisLiItem);
+                        thesesList.appendChild(renderAsssignment(thesis));
                     });
                 } else {
                     thesesList.innerHTML = '<p class="no-data">Δεν βρέθηκαν δεδομένα με τα επιλεγμένα φίλτρα.</p>';
@@ -248,6 +258,15 @@ function closeMobileFilters() {
     }
 }
 
+// Debounce utility
+function debounce(fn, delay) {
+    let timer = null;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     updateMobileFloating();
 
@@ -303,6 +322,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+
     const clearFiltersBtn = document.getElementById('clear-filters-button');
     if (clearFiltersBtn) {
         clearFiltersBtn.addEventListener('click', function (e) {
@@ -340,6 +360,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (exportButton) {
         exportButton.addEventListener('click', exportUIData);
+    }
+
+    const searchInput = document.getElementById('search-theses');
+    if (searchInput && !searchInput.dataset.bound) {
+        searchInput.dataset.bound = 'true';
+        const runSearch = () => {
+            jsonFilters.search = searchInput.value.trim(); // FIX: use 'search' key
+            applyFilters();
+        };
+        searchInput.addEventListener('input', debounce(runSearch, 300));
+        searchInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Escape') {
+                searchInput.value = '';
+                jsonFilters.search = '';
+                applyFilters();
+            } else if (searchInput.value === '') {
+                jsonFilters.search = '';
+                applyFilters();
+            }
+        });
     }
 
     window.addEventListener('resize', updateMobileFloating);
