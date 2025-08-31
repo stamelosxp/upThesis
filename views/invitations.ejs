@@ -19,10 +19,13 @@
     <%- include('includes/main-menu') %>
     <main>
         <%- include('includes/current-page-header', {invitationsLengh: invitationsList.length}) %>
+        <section id="invitations-actions-section">
+            <img class="filters-icon" src="/icons/filters_icon.png" alt="filters"/>
+        </section>
         <section class="invitations-content">
-            <div id="invitations-list" class="invitations-container">
+            <div class="invitations-container">
                 <% if(invitationsList && invitationsList.length > 0) { %>
-                    <ul>
+                    <ul id="invitations-list">
                         <% invitationsList.forEach(function(invItem) { %>
                             <li class="invitation-item">
                                 <div class="invitation-item-collapsed">
@@ -56,32 +59,39 @@
             </div>
 
 
-            <aside class="filters-container">
-                <h3>Φίλτρα</h3>
-                <form class="filters-form">
-                    <div class="filter-group">
-                        <label for="filter-status" class="filter-header"
-                        >Κατάσταση</label
-                        >
+            <aside id="invitations-filters-container" class="filters-container">
+                <div class="filters-scroll-container">
+                    <button id="close-mobile-filters" class="close-modal">✕</button>
 
-                        <div>
-                            <input type="checkbox" id="filter-status-pending"/>
-                            <label for="filter-status-active">Εκκρεμής</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="filter-status-accepted"/>
-                            <label for="filter-status-completed">Αποδεκτή</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="filter-status-rejected"/>
-                            <label for="filter-status-rejected">Απορριφθείσα</label>
-                        </div>
+                    <div class="filters-header">
+                        <h3>Φίλτρα</h3>
                     </div>
-                    <div class="filters-button-group">
-                        <button type="reset" class="standard-button">Επαναφορά</button>
-                    </div>
-                </form>
+                    <form class="filters-form">
+                        <div class="filter-group">
+                            <label for="filter-status" class="filter-header"
+                            >Κατάσταση</label
+                            >
+                            <div>
+                                <input type="checkbox" id="pending" name="status"/>
+                                <label for="pending">Εκκρεμής</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="accepted" name="status"/>
+                                <label for="accepted">Αποδεκτή</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="rejected" name="status"/>
+                                <label for="rejected">Απορριφθείσα</label>
+                            </div>
+                        </div>
+
+                        <div class="filters-button-group">
+                            <button id="clear-filters-button" class="standard-button">Επαναφορά</button>
+                        </div>
+                    </form>
+                </div>
             </aside>
+
         </section>
     </main>
 
