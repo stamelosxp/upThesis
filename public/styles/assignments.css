@@ -152,7 +152,7 @@
         gap: 1rem;
     }
 
-    .search-bar, .sort-dropdown {
+    .search-bar {
         max-width: 100%;
         width: 100%;
     }
