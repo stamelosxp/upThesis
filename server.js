@@ -47,8 +47,6 @@ app.get("/home", (req, res) => {
     res.render("home", {
         pageTitle: "Αρχική Σελίδα",
         currentPage: "home",
-        notificationsList: [],
-        eventsList: [],
     });
 });
 
