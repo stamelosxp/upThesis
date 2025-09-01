@@ -19,7 +19,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json()); // Add this to parse JSON bodies
 
 app.use(async function (req, res, next) {
-    res.locals.connectedUserRole = "professor";
+    res.locals.connectedUserRole = "professor"; // Change this to "professor
     if (res.locals.connectedUserRole === "professor" || res.locals.connectedUserRole === "student" || res.locals.connectedUserRole === "secretary") {
         res.locals.isAuth = true;
     } else {
@@ -838,3 +838,38 @@ app.post('/api/invitations/filters', async (req, res) => {
     }
 });
 
+app.post('/api/filters/topics', async (req, res) => {
+    try {
+        const filters = req.body;
+        const topicsRaw = await fs.readFile(path.join(__dirname, 'data', 'sampleTopics.json'), 'utf-8');
+        let allTopics = JSON.parse(topicsRaw);
+
+        if (res.locals.connectedUserRole === 'professor') {
+            allTopics = allTopics.filter(topic => topic.createdBy === res.locals.connectedUserId);
+        }
+
+        // Apply Search
+        if (filters.search && filters.search.trim().length > 0) {
+            const searchTerm = filters.search.trim().toLowerCase();
+            allTopics = allTopics.filter(
+                topic => topic.title.toLowerCase().includes(searchTerm)
+                    || topic.description.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        if (filters.sort && filters.sort === 'topic_title') {
+            allTopics.sort((a, b) => a.title.localeCompare(b.title, 'el', {sensitivity: 'base'}));
+        } else if (filters.sort && filters.sort === 'date_created') {
+            allTopics.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+        }
+
+
+
+        res.json({success: true, topics: allTopics});
+
+    } catch (err) {
+        console.error('Error filtering topics:', err);
+        res.status(500).json({error: 'Error filtering topics'});
+    }
+
+})
