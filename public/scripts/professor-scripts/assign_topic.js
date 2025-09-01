@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+    function initAssignTopic() {
     // AbortController to cancel in-flight fetches when new search starts
     let currentFetchController = null;
 
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const queryString = studentNameSearchTerm ? ('?studentNameSearch=' + encodeURIComponent(studentNameSearchTerm)) : '';
 
         try {
-            const resp = await fetch(`/api/students/available${queryString}`, { signal: currentFetchController.signal });
+            const resp = await fetch(`/api/students/available${queryString}`, {signal: currentFetchController.signal});
             if (!resp.ok) throw new Error('Network');
             const data = await resp.json();
             if (currentFetchController.signal.aborted) return;
@@ -128,12 +128,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function debounce(fn, delay = 300) {
-        let id; return (...args) => { clearTimeout(id); id = setTimeout(() => fn(...args), delay); };
+        let id;
+        return (...args) => {
+            clearTimeout(id);
+            id = setTimeout(() => fn(...args), delay);
+        };
     }
 
     document.querySelectorAll('.topic-item-expanded').forEach(expanded => {
         const assignmentInput = expanded.querySelector('.assignment');
         const modalContainer = expanded.querySelector('.assign-student-modal-container');
+
+        if (modalContainer.classList.contains('empty')) {
+            modalContainer.appendChild(renderModal())
+            modalContainer.classList.remove('empty');
+        }
+
         if (!assignmentInput || !modalContainer) return;
 
         assignmentInput.addEventListener('click', (e) => {
@@ -164,4 +174,73 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.assign-student-modal-container.active').forEach(container => closeAssignModal(container));
         }
     });
+
+    function renderModal() {
+        const assignStudentModal = document.createElement('div');
+        assignStudentModal.className = 'assign-student-modal';
+
+        const modalHeader = document.createElement('div');
+        modalHeader.className = 'modal-header';
+
+        const modalTitle = document.createElement('div');
+        modalTitle.className = 'modal-title';
+
+        const titleP = document.createElement('p');
+        titleP.textContent = 'Ανάθεση Σε Φοιτητή';
+
+        const closeButton = document.createElement('button');
+        closeButton.className = 'close-modal';
+        closeButton.type = 'button';
+        closeButton.innerHTML = '&times;';
+
+        modalTitle.appendChild(titleP);
+        modalTitle.appendChild(closeButton);
+        modalHeader.appendChild(modalTitle);
+
+        const searchInput = document.createElement('input');
+        searchInput.type = 'text';
+        searchInput.className = 'student-search-bar';
+        searchInput.id = 'student-search';
+        searchInput.placeholder = 'Αναζήτηση Σε φοιτητή... (όνομα, επώνυμο, email, ΑΜ)';
+        modalHeader.appendChild(searchInput);
+
+        const modalBody = document.createElement('div');
+        modalBody.className = 'modal-body';
+
+        const studentList = document.createElement('ul');
+        studentList.className = 'student-list';
+
+        const loadingIndicator = document.createElement('p');
+        loadingIndicator.classList.add('no-data', 'student-loading');
+        loadingIndicator.textContent = 'Φόρτωση...';
+
+        const noResults = document.createElement('p');
+        noResults.classList.add('no-data', 'student-no-results');
+        noResults.textContent = 'Δε βρέθηκαν αποτελέσματα';
+
+        modalBody.appendChild(studentList);
+        modalBody.appendChild(loadingIndicator);
+        modalBody.appendChild(noResults);
+
+        const modalFooter = document.createElement('div');
+        modalFooter.className = 'modal-footer';
+
+        const assignButton = document.createElement('button');
+        assignButton.className = 'standard-button';
+        assignButton.type = 'button';
+        assignButton.textContent = 'Ανάθεση';
+
+        modalFooter.appendChild(assignButton);
+
+        assignStudentModal.appendChild(modalHeader);
+        assignStudentModal.appendChild(modalBody);
+        assignStudentModal.appendChild(modalFooter);
+
+        return assignStudentModal;
+    }
+
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    window.initAssignTopic();
 });

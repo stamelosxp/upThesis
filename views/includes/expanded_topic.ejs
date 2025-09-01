@@ -1,9 +1,20 @@
+<%
+function formatDate(dateString) {
+    if (!dateString) return '';
+    const dateObj = new Date(dateString);
+    if (isNaN(dateObj.getTime())) return '';
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const year = dateObj.getFullYear();
+    return `${day}/${month}/${year}`;
+}
+%>
 <div class="topic-item-expanded">
     <div class="topic-form-group">
         <label for="topic-input-title-<%= topic.id %>">
             <div class="topic-header">
                 Τίτλος Θέματος
-                <p class="simple-badge"><%= topic.creationDate %></p>
+                <p class="simple-badge"><%= formatDate(topic.creationDate) %></p>
             </div>
         </label>
         <input
@@ -15,7 +26,7 @@
         />
     </div>
 
-    <div class="topic-form-group-file">
+    <div class="topic-form-group">
         <label for="topic-input-desc-<%= topic.id %>">Περιγραφή</label>
         <textarea
                 id="topic-input-desc-<%= topic.id %>"
@@ -109,5 +120,5 @@
         </div>
     <% } %>
 
-    <small class="collapse-button">Κλικ για σύμπτηξη</small>
+    <small class="collapse-button">Κλικ για σύμπτυξη</small>
 </div>

@@ -198,8 +198,7 @@ function showSelectedFilePreview(fileInputElement) {
     });
 }
 
-// Event delegation setup
-document.addEventListener('DOMContentLoaded', () => {
+function initEdit() {
     document.querySelectorAll('.edit-topic-button').forEach(editButton => {
         editButton.addEventListener('click', () => {
             const topicItem = editButton.closest('.topic-item');
@@ -225,4 +224,11 @@ document.addEventListener('DOMContentLoaded', () => {
             showSelectedFilePreview(target);
         }
     });
+
+}
+
+// Event delegation setup
+document.addEventListener('DOMContentLoaded', () => {
+    window.initEdit();
 });
+
