@@ -11,8 +11,7 @@
             rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles/home.css"/>
-    <script src="/scripts/date-picker.js" defer></script>
-    <script src="/scripts/notifications.js" defer></script>
+    <script src="/scripts/home.js" defer></script>
     <% if(locals.connectedUserRole === 'professor') { %>
         <link rel="stylesheet" href="/styles/professor-styles/dashboard_stats.css"/>
         <script src="/scripts/professor-scripts/dashboard_stats.js" defer></script>
@@ -33,45 +32,26 @@
                     <h2>Ειδοποιήσεις</h2>
                     <div class="button-group">
                         <button class="standard-button">Ανανέωση</button>
-                        <button class="standard-button">Καθαρισμός</button>
+                        <button id="clear-notifications" class="standard-button">Καθαρισμός</button>
                     </div>
                 </div>
                 <span class="line"></span>
                 <div class="content-card-list">
-                    <% if (notificationsList) { %>
-                        <ul>
-                            <% for (let i = 0; i < 10; i++) { %>
-                                <li class="notification-item">
-                                    <div class="notification-content collapsed">
-                                        Αυτό είναι ένα παράδειγμα ειδοποίησης με περισσότερο
-                                        περιεχόμενο που μπορεί να είναι πολύ μεγάλο για να
-                                        εμφανιστεί σε μία γραμμή. Όταν το περιεχόμενο είναι πολύ
-                                        μεγάλο, θα εμφανιστούν τρεις τελείες και μπορείτε να
-                                        κάνετε κλικ για να το επεκτείνετε και να δείτε το πλήρες
-                                        κείμενο. Αυτό είναι ένα παράδειγμα ειδοποίησης με
-                                        περισσότερο περιεχόμενο που μπορεί να είναι πολύ μεγάλο
-                                        για να εμφανιστεί σε μία γραμμή. Όταν το περιεχόμενο
-                                        είναι πολύ μεγάλο, θα εμφανιστούν τρεις τελείες και
-                                        μπορείτε να κάνετε κλικ για να το επεκτείνετε και να
-                                        δείτε το πλήρες κείμενο.
-                                    </div>
-                                    <div class="notification-date">5λ</div>
-                                </li>
-                            <% } %>
-                        </ul>
-                    <% } else { %>
-                        <p class="no-data " id="test">Δεν υπάρχουν νέες ειδοποιήσεις.</p>
-                    <% } %>
+                    <ul id="notification-list">
+                        <p class="no-data">Δεν υπάρχουν ειδοποιήσεις.</p>
+                    </ul>
                 </div>
             </div>
             <div class="box-container">
                 <div class="card-header">
-                    <h2>Εκδηλώσεις</h2>
+                    <h2>Γεγονότα</h2>
                     <input type="date" class="standard-button events-date-picker"/>
                 </div>
                 <span class="line"></span>
                 <div class="content-card-list">
-                    <p class="no-data">Δεν υπάρχουν εκδηλώσεις στις <span id="date-value">15/08/2025</span></p>
+                    <ul id="events-list">
+                        <p class="no-data">Δεν υπάρχουν γεγονότα στις <span id="chosen-date"></span>.</p>
+                    </ul>
                 </div>
             </div>
         </section>
