@@ -105,23 +105,17 @@ async function fetchFilteredTheses(filters, signal) {
             signal: signal
         });
 
-        console.log('Request sending successfully...');
-
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }
-        console.log('No network error, parsing data...');
 
         const data = await response.json();
-
-        console.log('Data received:', data.theses);
 
         return data.theses;
     } catch (err) {
         if (err.name !== 'AbortError') {
             throw err;
         }
-        // If abort, return undefined (no update)
     }
 }
 

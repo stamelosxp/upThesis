@@ -122,7 +122,6 @@
 
 .search-bar, .sort-dropdown {
     background-color: #fff;
-    margin-right: 0.5rem;
     color: #52616b;
     border: 2px solid #52616b;
     padding: 0.8rem 1.2rem;
@@ -130,16 +129,16 @@
     font-size: 1rem;
     box-shadow: 0 2px 8px rgba(82, 97, 107, 0.1);
     outline: none;
+
+}
+
+.search-bar {
     width: 100%;
     max-width: 40%;
 }
 
-/*.search-bar {*/
-/*    width: 500px;*/
-/*}*/
-
 .sort-dropdown {
-    width: 150px;
+    width: fit-content;
     overflow: hidden;
     text-overflow: ellipsis;
 }
