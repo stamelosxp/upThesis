@@ -3,7 +3,7 @@
     "id": 1,
     "title": "Τεχνικές μηχανικής μάθησης σε IoT",
     "description": "Αυτή η εργασία εξετάζει τις τεχνικές μηχανικής μάθησης που χρησιμοποιούνται σε συστήματα IoT για την ανάλυση δεδομένων και τη βελτιστοποίηση της απόδοσης.",
-    "creationDate": "01/01/2026",
+    "creationDate": "2024-01-01T00:00:00",
     "status": null,
     "createdBy": "prof_001",
     "filePath": "/data/dummy_pdf.pdf"
@@ -12,7 +12,7 @@
     "id": 4,
     "title": "Τεχνητή νοημοσύνη στην ιατρική διάγνωση",
     "description": "Εφαρμογή αλγορίθμων μηχανικής μάθησης για την αυτόματη διάγνωση ιατρικών παθήσεων από ιατρικές εικόνες.",
-    "creationDate": "05/12/2025",
+    "creationDate": "2025-12-05T00:00:00",
     "status": null,
     "createdBy": "prof_001",
     "filePath": "/data/dummy_pdf_second.pdf"
@@ -21,7 +21,7 @@
     "id": 7,
     "title": "Επεξεργασία φυσικής γλώσσας",
     "description": "Ανάπτυξη συστημάτων κατανόησης και παραγωγής φυσικής γλώσσας με χρήση deep learning.",
-    "creationDate": "15/11/2025",
+    "creationDate": "2025-11-15T00:00:00",
     "status": null,
     "createdBy": "prof_001"
   },
@@ -29,7 +29,7 @@
     "id": 11,
     "title": "Κβαντική πληροφορική",
     "description": "Μελέτη αλγορίθμων κβαντικής πληροφορικής και των εφαρμογών τους στην κρυπτογραφία.",
-    "creationDate": "18/10/2025",
+    "creationDate": "2025-10-18T00:00:00",
     "status": null,
     "createdBy": "prof_011",
     "filePath": "/data/dummy_pdf.pdf"
@@ -38,7 +38,7 @@
     "id": 15,
     "title": "Δίκτυα και πρωτόκολλα 5G",
     "description": "Μελέτη και υλοποίηση πρωτοκόλλων επικοινωνίας για δίκτυα πέμπτης γενιάς.",
-    "creationDate": "21/09/2025",
+    "creationDate": "2025-09-21T00:00:00",
     "status": null,
     "createdBy": "prof_015",
     "filePath": "/data/dummy_pdf.pdf"
@@ -47,7 +47,7 @@
     "id": 19,
     "title": "Διανεμημένα συστήματα και cloud",
     "description": "Αρχιτεκτονική και υλοποίηση διανεμημένων εφαρμογών σε υπολογιστικό νέφος.",
-    "creationDate": "24/08/2025",
+    "creationDate": "2025-08-24T00:00:00",
     "status": null,
     "createdBy": "prof_019",
     "filePath": "/data/dummy_pdf.pdf"
