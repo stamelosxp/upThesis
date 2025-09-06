@@ -11,48 +11,13 @@ p {
     padding: 0;
 }
 
-/*Back to assignments style*/
-.back-section {
-    padding: 1rem 0;
-    margin: 0;
-}
-
-.back-section a {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    text-decoration: none;
-    color: #52616b;
-    font-size: 0.95rem;
-    font-weight: 500;
-    padding: 0.75rem 1.25rem;
-    border-radius: 8px;
-    width: fit-content;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(201, 214, 223, 0.4);
-}
-
-.back-section a:hover {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: rgba(82, 97, 107, 0.3);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(82, 97, 107, 0.1);
-    opacity: 1;
-}
-
-.back-icon, .delete-note-icon {
-    width: 18px;
-    height: 18px;
-    opacity: 0.8;
-}
-
 /* Assignment title styles */
 .assignment-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-    padding: 2rem 2rem 1rem 2rem;
+    padding: 1rem 2rem;
     border-bottom: 2px solid #e0e6ed;
 }
 
@@ -78,10 +43,11 @@ p {
     border-radius: 8px;
     box-shadow: 0 6px 24px rgba(82, 97, 107, 0.13);
     height: 70vh;
-    margin: 1.5rem auto;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 /* sub menu styling */
@@ -128,13 +94,16 @@ p {
 .tab-content-area {
     flex: 1;
     /* enable the scroller */
+    margin: 1rem 1.5rem 2rem 1.5rem;
     overflow-y: auto;
-    min-width: fit-content;
+    scrollbar-width: thin;
+    scrollbar-color: #52616b #f0f5f9;
 }
+
 
 .tab-content {
     display: none;
-    padding: 2rem;
+    padding: 0 1.5rem;
     height: 100%;
     box-sizing: border-box;
 }
@@ -152,19 +121,6 @@ p {
     padding-bottom: 0.5rem;
 }
 
-.content-group {
-    margin-bottom: 1.5rem;
-}
-
-.group-header {
-    color: #1e2022;
-    font-weight: 600;
-    font-size: 1.1rem;
-    display: block;
-    letter-spacing: 0.3px;
-    margin: 0 0 0.5rem 0;
-}
-
 /* for header which contain button */
 .group-header.invite, .group-header.note, .group-header.meetings {
     display: flex;
@@ -172,26 +128,6 @@ p {
     align-items: center;
 }
 
-.group-value,
-.info-member {
-    position: relative;
-    padding: 0.85rem 1rem;
-    border: 1px solid #d5dde5;
-    border-radius: 4px;
-    font-size: 0.98rem;
-    font-family: inherit;
-    width: 100%;
-    box-sizing: border-box;
-    min-height: 2.75rem;
-    color: #1e2022;
-    background: #f8fafb;
-    margin: 0 0 0.5rem 0;
-    line-height: 1.45;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.75rem;
-}
 
 .info-member {
     display: flex;
