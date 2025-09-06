@@ -103,8 +103,8 @@
     border: 2px solid #e0e6ed;
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(82, 97, 107, 0.1);
-    transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
     cursor: pointer;
+    transition: all 0.5s ease;
 }
 
 .filters-icon:hover {
@@ -112,6 +112,8 @@
     color: #fff;
     border-color: #1e2022;
     box-shadow: 0 4px 16px rgba(28, 32, 34, 0.18);
+    transform: translateY(-2px);
+
 }
 
 @media screen and (max-width: 1350px) {

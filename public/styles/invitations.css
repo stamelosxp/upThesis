@@ -16,27 +16,26 @@
 
 .invitations-container {
     width: 100%;
-    height: 80vh;
+    height: 70vh;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #52616b #f0f5f9;
-    padding: 0 1rem 0 0;
-    box-sizing: border-box;
 }
 
 .invitation-item {
     font-size: 1rem;
-    margin-bottom: 2rem;
     overflow: hidden;
     box-sizing: border-box;
+    border-radius: 18px;
+    padding: 12px 12px 12px 0;
 }
 
 .invitation-item-collapsed, .invitation-item-expanded {
-    box-shadow: 0 4px 12px rgba(82, 97, 107, 0.15);
-    background-color: #fff;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 0 12px rgba(82, 97, 107, 0.13);
+    border: 1.5px solid #c9d6df;
     color: #52616b;
-    border: 2.5px solid #52616b;
-    border-radius: 12px;
     padding: 1.5rem 2rem;
     box-sizing: border-box;
 }
@@ -45,7 +44,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #f8fafb;
+    background-color: #fff;
 }
 
 .invitation-collapsed-header {
@@ -85,7 +84,7 @@
 }
 
 .group-header {
-    color: #1e2022;
+    color: #52616b;
     font-weight: 600;
     font-size: 1.1rem;
     display: block;

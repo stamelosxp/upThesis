@@ -99,7 +99,7 @@
                         Ακύρωση Ανάθεσης
                     </button>
                 <% } else if (thesis.status === 'review' && (userThesisRole === 'supervisor' || userThesisRole === 'student') && !showEvaluation ){ %>
-                    <% /* need to change the condition to check if not exists temporary report and links (links are optional) show enable or disable button */  %>
+                    <% /* need to change the condition to check if not exists temporary report and links (links are optional) show enable or disable button */ %>
                     <button class="standard-button">Παρουσίαση</button>
                 <% } else if (thesis.status === 'review' && userThesisRole === 'secretary' && thesis.finalGrade && thesis.nemertesLink) { %>
                     <button class="accept-button">Ολοκλήρωση</button>
