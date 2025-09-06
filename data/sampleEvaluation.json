@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "thesisId": 2,
+    "thesisId": 1,
     "thesisTitle": "Ανάπτυξη Web Εφαρμογών με Node.js",
     "supervisorId": {
       "quality": "9",

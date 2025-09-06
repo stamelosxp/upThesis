@@ -1,13 +1,14 @@
 [
   {
-    "id": 2,
+    "id": 1,
     "title": "Ανάπτυξη Web Εφαρμογών με Node.js",
     "description": "Μελέτη και υλοποίηση σύγχρονων web εφαρμογών χρησιμοποιώντας Node.js και Express framework. Η εργασία περιλαμβάνει ανάλυση αρχιτεκτονικών προτύπων (MVC, REST), σχεδίαση και ανάπτυξη επεκτάσιμου API με βέλτιστες πρακτικές (modularization, error handling, structured logging), διαχείριση και αποδοτική μοντελοποίηση βάσης δεδομένων (σχεσιακή ή/και NoSQL), υλοποίηση μηχανισμών αυθεντικοποίησης και εξουσιοδότησης (JWT / OAuth2 / role-based access), καθώς και δημιουργία απλής αλλά σύγχρονης διεπαφής χρήστη με έμφαση στην προσβασιμότητα (WCAG) και στο UX. Θα εξεταστούν ζητήματα απόδοσης (caching, load testing, clustering), ασφάλειας (OWASP Top 10, rate limiting, input validation), και ποιότητας κώδικα μέσω αυτοματοποιημένων δοκιμών (unit, integration, API contract) και συνεχούς ολοκλήρωσης (CI). Προαιρετικά θα μελετηθεί containerization (Docker), βασικές πρακτικές παρακολούθησης (health checks, metrics) και διαδικασία deployment. Τελικός στόχος είναι μια πλήρως τεκμηριωμένη εφαρμογή παραγωγικού επιπέδου με αναλυτική αξιολόγηση αποτελεσμάτων, περιορισμών και μελλοντικών επεκτάσεων.",
     "descFile": "/data/dummy_pdf.pdf",
     "status": "completed",
     "creationDate": "2024-10-01T09:00:00Z",
     "modificationDate": [
-      "2024-10-05T09:00:00Z","2024-10-10T09:00:00Z"
+      "2024-10-05T09:00:00Z",
+      "2024-10-10T09:00:00Z"
     ],
     "temporaryAssignmentDate": "2024-11-10T09:00:00Z",
     "assignmentDate": "2024-01-15T09:00:00Z",
@@ -42,7 +43,7 @@
     "protocolNumberAssignment": "12345/2025",
     "protocolNumberCancelled": null,
     "reasonForCancellation": null,
-    "temporaryReportFile": "/data/dummy_report.pdf",
+    "temporaryReportFile": "/data/dummy_pdf.pdf",
     "temporaryLinks": [
       "https://google.com",
       "https://github.com"
@@ -50,5 +51,457 @@
     "protocolExists": true,
     "nemertesLink": "https://nemertes.library.upatras.gr/home",
     "finalGrade": "10"
+  },
+  {
+    "id": 2,
+    "title": "Ασφάλεια Δικτύων με Python",
+    "description": "Ανάλυση και υλοποίηση μηχανισμών ασφάλειας σε δικτυακές εφαρμογές με Python. Η εργασία εστιάζει σε κρυπτογράφηση δεδομένων, authentication flows, ανίχνευση επιθέσεων και διαχείριση ευπαθειών. Περιλαμβάνει μελέτη πρωτοκόλλων ασφαλείας (SSL/TLS, OAuth2), υλοποίηση συστημάτων ελέγχου πρόσβασης, ανάλυση επιθέσεων τύπου Man-in-the-Middle, SQL Injection και XSS, καθώς και ανάπτυξη εργαλείων monitoring και alerting για δικτυακές απειλές. Θα εξεταστούν τεχνικές ασφαλούς προγραμματισμού, χρήση βιβλιοθηκών όπως cryptography, pyjwt, και εφαρμογή best practices για την προστασία ευαίσθητων δεδομένων. Η εργασία ολοκληρώνεται με αξιολόγηση της αποτελεσματικότητας των μηχανισμών, δοκιμές αντοχής και προτάσεις για μελλοντική βελτίωση της ασφάλειας.",
+    "descFile": null,
+    "status": "active",
+    "creationDate": "2022-03-01T09:00:00Z",
+    "modificationDate": [
+      "2022-03-05T09:00:00Z",
+      "2022-03-10T09:00:00Z"
+    ],
+    "temporaryAssignmentDate": "2022-04-10T09:00:00Z",
+    "assignmentDate": "2022-03-15T09:00:00Z",
+    "underReviewDate": null,
+    "presentationDate": null,
+    "completedDate": null,
+    "cancelledDate": null,
+    "student": {
+      "fullName": "Ελένη Καραγιάννη",
+      "idNumber": "10000002",
+      "id": "stu_002"
+    },
+    "professors": {
+      "supervisor": {
+        "fullName": "Αναστασία Πετρίδου",
+        "id": "prof_002"
+      },
+      "memberA": {
+        "fullName": "Γιώργος Σταματίου",
+        "id": "prof_003"
+      },
+      "memberB": {
+        "fullName": "Δημήτρης Αλεξίου",
+        "id": "prof_001"
+      }
+    },
+    "gradesExists": [
+      false,
+      false,
+      false
+    ],
+    "protocolNumberAssignment": "12346/2022",
+    "protocolNumberCancelled": null,
+    "reasonForCancellation": null,
+    "temporaryReportFile": null,
+    "temporaryLinks": [],
+    "protocolExists": false,
+    "nemertesLink": null,
+    "finalGrade": null
+  },
+  {
+    "id": 3,
+    "title": "Εφαρμογές Τεχνητής Νοημοσύνης στην Ιατρική",
+    "description": "Ανάπτυξη συστήματος διάγνωσης με χρήση AI και ανάλυση ιατρικών δεδομένων. Η εργασία περιλαμβάνει συλλογή και προεπεξεργασία ιατρικών δεδομένων, σχεδίαση και εκπαίδευση μοντέλων μηχανικής μάθησης (classification, regression), αξιολόγηση αλγορίθμων (Random Forest, SVM, Neural Networks) και εφαρμογή τεχνικών explainable AI για ερμηνεία αποτελεσμάτων. Θα εξεταστούν ζητήματα ηθικής και προστασίας προσωπικών δεδομένων (GDPR), καθώς και η ενσωμάτωση του συστήματος σε πραγματικό περιβάλλον κλινικής. Η εργασία ολοκληρώνεται με benchmarking, ανάλυση περιορισμών και προτάσεις για μελλοντικές επεκτάσεις στην ιατρική τεχνολογία.",
+    "descFile": "/data/dummy_pdf.pdf",
+    "status": "review",
+    "creationDate": "2024-06-01T09:00:00Z",
+    "modificationDate": [
+      "2024-06-05T09:00:00Z"
+    ],
+    "temporaryAssignmentDate": "2024-07-10T09:00:00Z",
+    "assignmentDate": "2024-09-15T09:00:00Z",
+    "underReviewDate": "2025-01-15T09:00:00Z",
+    "presentationDate": "2025-01-20T09:00:00Z",
+    "completedDate": null,
+    "cancelledDate": null,
+    "student": {
+      "fullName": "Κώστας Μαυρίδης",
+      "idNumber": "10000003",
+      "id": "stu_003"
+    },
+    "professors": {
+      "supervisor": {
+        "fullName": "Δημήτρης Αλεξίου",
+        "id": "prof_001"
+      },
+      "memberA": {
+        "fullName": "Αναστασία Πετρίδου",
+        "id": "prof_002"
+      },
+      "memberB": {
+        "fullName": "Γιώργος Σταματίου",
+        "id": "prof_003"
+      }
+    },
+    "gradesExists": [
+      true,
+      true,
+      true
+    ],
+    "protocolNumberAssignment": "12347/2021",
+    "protocolNumberCancelled": null,
+    "reasonForCancellation": null,
+    "temporaryReportFile": "/data/dummy_report.pdf",
+    "temporaryLinks": [
+      "https://ai-med.com"
+    ],
+    "protocolExists": true,
+    "nemertesLink": "https://nemertes.library.upatras.gr/home",
+    "finalGrade": "9.2"
+  },
+  {
+    "id": 4,
+    "title": "Διαχείριση Βάσεων Δεδομένων με MongoDB",
+    "description": "Σχεδίαση και υλοποίηση NoSQL βάσεων δεδομένων για web εφαρμογές με MongoDB. Η εργασία περιλαμβάνει ανάλυση δομής δεδομένων, δημιουργία schema-less collections, υλοποίηση CRUD λειτουργιών, indexing για βελτιστοποίηση αναζητήσεων και aggregation pipelines για σύνθετη ανάλυση δεδομένων. Θα εξεταστούν τεχνικές replication, sharding για scalability, καθώς και integration με Node.js εφαρμογές μέσω Mongoose. Περιλαμβάνει μελέτη θεμάτων consistency, backup/restore, και ασφάλειας πρόσβασης. Τελικός στόχος είναι η δημιουργία μιας αποδοτικής και επεκτάσιμης βάσης δεδομένων για σύγχρονες web εφαρμογές.",
+    "descFile": null,
+    "status": "active",
+    "creationDate": "2025-02-01T09:00:00Z",
+    "modificationDate": [
+      "2025-02-05T09:00:00Z"
+    ],
+    "temporaryAssignmentDate": "2025-03-10T09:00:00Z",
+    "assignmentDate": "2025-03-15T09:00:00Z",
+    "underReviewDate": null,
+    "presentationDate": null,
+    "completedDate": null,
+    "cancelledDate": null,
+    "student": {
+      "fullName": "Ανδρέας Παπαδόπουλος",
+      "idNumber": "10000004",
+      "id": "stu_004"
+    },
+    "professors": {
+      "supervisor": {
+        "fullName": "Γιώργος Σταματίου",
+        "id": "prof_003"
+      },
+      "memberA": {
+        "fullName": "Δημήτρης Αλεξίου",
+        "id": "prof_001"
+      },
+      "memberB": {
+        "fullName": "Αναστασία Πετρίδου",
+        "id": "prof_002"
+      }
+    },
+    "gradesExists": [
+      false,
+      false,
+      false
+    ],
+    "protocolNumberAssignment": "12348/2020",
+    "protocolNumberCancelled": null,
+    "reasonForCancellation": null,
+    "temporaryReportFile": null,
+    "temporaryLinks": [],
+    "protocolExists": true,
+    "nemertesLink": null,
+    "finalGrade": null
+  },
+  {
+    "id": 6,
+    "title": "Ακυρωμένη Εργασία: REST API για e-shop",
+    "description": "Η εργασία ακυρώθηκε λόγω αλλαγής απαιτήσεων του πελάτη. Αρχικά περιλάμβανε σχεδίαση RESTful API για διαχείριση προϊόντων, παραγγελιών και χρηστών σε e-shop, με έμφαση στην ασφάλεια, την επεκτασιμότητα και την ευκολία χρήσης. Θα υλοποιούνταν endpoints για authentication, product management, order tracking και integration με συστήματα πληρωμών. Η ακύρωση έγινε πριν την ολοκλήρωση λόγω αλλαγής προδιαγραφών και αναγκών του πελάτη, με ανάλυση των αιτίων και προτάσεις για μελλοντική βελτίωση της διαδικασίας ανάπτυξης.",
+    "descFile": "/data/dummy_pdf.pdf",
+    "status": "cancelled",
+    "creationDate": "2023-01-01T09:00:00Z",
+    "modificationDate": [
+      "2023-01-05T09:00:00Z"
+    ],
+    "temporaryAssignmentDate": "2023-02-10T09:00:00Z",
+    "assignmentDate": "2023-01-15T09:00:00Z",
+    "underReviewDate": null,
+    "presentationDate": null,
+    "completedDate": null,
+    "cancelledDate": "2023-03-01T09:00:00Z",
+    "student": {
+      "fullName": "Σοφία Λαμπροπούλου",
+      "idNumber": "10000005",
+      "id": "stu_005"
+    },
+    "professors": {
+      "supervisor": {
+        "fullName": "Αναστασία Πετρίδου",
+        "id": "prof_002"
+      },
+      "memberA": {
+        "fullName": "Γιώργος Σταματίου",
+        "id": "prof_003"
+      },
+      "memberB": {
+        "fullName": "Δημήτρης Αλεξίου",
+        "id": "prof_001"
+      }
+    },
+    "gradesExists": [
+      false,
+      false,
+      false
+    ],
+    "protocolNumberAssignment": "12349/2023",
+    "protocolNumberCancelled": "54321/2023",
+    "reasonForCancellation": "Αλλαγή απαιτήσεων πελάτη",
+    "temporaryReportFile": null,
+    "temporaryLinks": [],
+    "protocolExists": false,
+    "nemertesLink": null,
+    "finalGrade": null
+  },
+  {
+    "id": 7,
+    "title": "Εφαρμογή Machine Learning για Πρόβλεψη Πωλήσεων",
+    "description": "Ανάπτυξη μοντέλου ML για πρόβλεψη πωλήσεων σε e-commerce πλατφόρμα. Η εργασία περιλαμβάνει συλλογή ιστορικών δεδομένων πωλήσεων, ανάλυση εποχικότητας και τάσεων, σχεδίαση και εκπαίδευση αλγορίθμων (Linear Regression, Decision Trees, Neural Networks), αξιολόγηση accuracy και interpretability, καθώς και υλοποίηση dashboard για visualization των προβλέψεων. Θα εξεταστούν τεχνικές feature engineering, hyperparameter tuning και integration με υπάρχοντα συστήματα. Η εργασία ολοκληρώνεται με benchmarking, ανάλυση περιορισμών και προτάσεις για μελλοντική επέκταση του συστήματος.",
+    "descFile": "/data/dummy_pdf.pdf",
+    "status": "completed",
+    "creationDate": "2019-10-01T09:00:00Z",
+    "modificationDate": [
+      "2019-10-05T09:00:00Z"
+    ],
+    "temporaryAssignmentDate": "2019-11-10T09:00:00Z",
+    "assignmentDate": "2019-10-15T09:00:00Z",
+    "underReviewDate": "2020-01-15T09:00:00Z",
+    "presentationDate": "2020-01-16T09:00:00Z",
+    "completedDate": "2020-01-20T09:00:00Z",
+    "cancelledDate": null,
+    "student": {
+      "fullName": "Παναγιώτης Κωνσταντίνου",
+      "idNumber": "10000006",
+      "id": "stu_006"
+    },
+    "professors": {
+      "supervisor": {
+        "fullName": "Δημήτρης Αλεξίου",
+        "id": "prof_001"
+      },
+      "memberA": {
+        "fullName": "Αναστασία Πετρίδου",
+        "id": "prof_002"
+      },
+      "memberB": {
+        "fullName": "Γιώργος Σταματίου",
+        "id": "prof_003"
+      }
+    },
+    "gradesExists": [
+      true,
+      true,
+      true
+    ],
+    "protocolNumberAssignment": "12350/2020",
+    "protocolNumberCancelled": null,
+    "reasonForCancellation": null,
+    "temporaryReportFile": "/data/dummy_report.pdf",
+    "temporaryLinks": [
+      "https://ml-sales.com"
+    ],
+    "protocolExists": true,
+    "nemertesLink": "https://nemertes.library.upatras.gr/home",
+    "finalGrade": "9.8"
+  },
+  {
+    "id": 8,
+    "title": "Ανάπτυξη Progressive Web App για Εκπαίδευση",
+    "description": "Σχεδίαση και υλοποίηση PWA για εκπαιδευτική πλατφόρμα με offline λειτουργία. Η εργασία περιλαμβάνει ανάλυση απαιτήσεων εκπαιδευτικών συστημάτων, υλοποίηση responsive UI με χρήση Service Workers για caching και offline πρόσβαση, integration με backend για διαχείριση μαθημάτων και χρηστών, καθώς και εφαρμογή τεχνικών push notifications για ενημέρωση μαθητών. Θα εξεταστούν θέματα προσβασιμότητας, ασφάλειας δεδομένων και βελτιστοποίησης απόδοσης. Τελικός στόχος είναι μια σύγχρονη εκπαιδευτική εφαρμογή με υψηλή διαθεσιμότητα και ευχρηστία.",
+    "descFile": "/data/dummy_pdf.pdf",
+    "status": "pending",
+    "creationDate": "2025-01-01T09:00:00Z",
+    "modificationDate": [
+      "2025-01-05T09:00:00Z"
+    ],
+    "temporaryAssignmentDate": "2025-02-10T09:00:00Z",
+    "assignmentDate": null,
+    "underReviewDate": null,
+    "presentationDate": null,
+    "completedDate": null,
+    "cancelledDate": null,
+    "student": {
+      "fullName": "Αναστασία Διαμαντοπούλου",
+      "idNumber": "10000007",
+      "id": "stu_007"
+    },
+    "professors": {
+      "supervisor": {
+        "fullName": "Γιώργος Σταματίου",
+        "id": "prof_003"
+      },
+      "memberA": {
+        "fullName": "Δημήτρης Αλεξίου",
+        "id": "prof_001"
+      },
+      "memberB": {
+        "fullName": "Αναστασία Πετρίδου",
+        "id": "prof_002"
+      }
+    },
+    "gradesExists": [
+      false,
+      false,
+      false
+    ],
+    "protocolNumberAssignment": null,
+    "protocolNumberCancelled": null,
+    "reasonForCancellation": null,
+    "temporaryReportFile": null,
+    "temporaryLinks": [],
+    "protocolExists": false,
+    "nemertesLink": null,
+    "finalGrade": null
+  },
+  {
+    "id": 9,
+    "title": "Ανάλυση Δεδομένων IoT με BigQuery",
+    "description": "Εφαρμογή Google BigQuery για ανάλυση μεγάλων δεδομένων IoT. Η εργασία περιλαμβάνει συλλογή και αποθήκευση δεδομένων από IoT συσκευές, σχεδίαση schema για αποδοτική ανάλυση, υλοποίηση queries για real-time και batch επεξεργασία, visualization αποτελεσμάτων με εργαλεία BI, και αξιολόγηση της απόδοσης του συστήματος. Θα εξεταστούν τεχνικές data streaming, partitioning, και integration με cloud υπηρεσίες. Η εργασία ολοκληρώνεται με benchmarking, ανάλυση περιορισμών και προτάσεις για μελλοντική επέκταση της πλατφόρμας.",
+    "descFile": "/data/dummy_pdf.pdf",
+    "status": "completed",
+    "creationDate": "2023-04-01T09:00:00Z",
+    "modificationDate": [
+      "2023-04-05T09:00:00Z"
+    ],
+    "temporaryAssignmentDate": "2023-05-10T09:00:00Z",
+    "assignmentDate": "2023-04-15T09:00:00Z",
+    "underReviewDate": "2023-06-15T09:00:00Z",
+    "presentationDate": "2023-06-16T09:00:00Z",
+    "completedDate": "2023-06-20T09:00:00Z",
+    "cancelledDate": null,
+    "student": {
+      "fullName": "Μιχάλης Σταματίου",
+      "idNumber": "10000008",
+      "id": "stu_008"
+    },
+    "professors": {
+      "supervisor": {
+        "fullName": "Δημήτρης Αλεξίου",
+        "id": "prof_001"
+      },
+      "memberA": {
+        "fullName": "Αναστασία Πετρίδου",
+        "id": "prof_002"
+      },
+      "memberB": {
+        "fullName": "Γιώργος Σταματίου",
+        "id": "prof_003"
+      }
+    },
+    "gradesExists": [
+      true,
+      true,
+      true
+    ],
+    "protocolNumberAssignment": "12351/2023",
+    "protocolNumberCancelled": null,
+    "reasonForCancellation": null,
+    "temporaryReportFile": "/data/dummy_report.pdf",
+    "temporaryLinks": [
+      "https://cloud.google.com/bigquery"
+    ],
+    "protocolExists": true,
+    "nemertesLink": "https://nemertes.library.upatras.gr/home",
+    "finalGrade": "9.7"
+  },
+  {
+    "id": 10,
+    "title": "Ανάπτυξη Chatbot με NLP",
+    "description": "Υλοποίηση chatbot με τεχνικές NLP για εξυπηρέτηση πελατών σε e-shop. Η εργασία περιλαμβάνει ανάλυση απαιτήσεων επικοινωνίας, σχεδίαση διαλόγων, εκπαίδευση μοντέλων φυσικής γλώσσας (intent recognition, entity extraction), integration με συστήματα παραγγελιών και υποστήριξης πελατών, καθώς και αξιολόγηση της αποτελεσματικότητας του chatbot μέσω user testing. Θα εξεταστούν τεχνικές sentiment analysis, multi-turn conversation management και ασφάλειας δεδομένων. Τελικός στόχος είναι η δημιουργία ενός ευφυούς συστήματος υποστήριξης πελατών με δυνατότητα επέκτασης.",
+    "descFile": "/data/dummy_pdf.pdf",
+    "status": "review",
+    "creationDate": "2024-02-01T09:00:00Z",
+    "modificationDate": [
+      "2024-02-05T09:00:00Z"
+    ],
+    "temporaryAssignmentDate": "2024-03-10T09:00:00Z",
+    "assignmentDate": "2024-02-15T09:00:00Z",
+    "underReviewDate": "2024-04-15T09:00:00Z",
+    "presentationDate": "2024-04-16T09:00:00Z",
+    "completedDate": null,
+    "cancelledDate": null,
+    "student": {
+      "fullName": "Γιάννης Παπαδόπουλος",
+      "idNumber": "10000001",
+      "id": "stu_001"
+    },
+    "professors": {
+      "supervisor": {
+        "fullName": "Αναστασία Πετρίδου",
+        "id": "prof_002"
+      },
+      "memberA": {
+        "fullName": "Γιώργος Σταματίου",
+        "id": "prof_003"
+      },
+      "memberB": {
+        "fullName": "Δημήτρης Αλεξίου",
+        "id": "prof_001"
+      }
+    },
+    "gradesExists": [
+      true,
+      true,
+      true
+    ],
+    "protocolNumberAssignment": "12352/2024",
+    "protocolNumberCancelled": null,
+    "reasonForCancellation": null,
+    "temporaryReportFile": "/data/dummy_report.pdf",
+    "temporaryLinks": [
+      "https://nlp-chatbot.com"
+    ],
+    "protocolExists": true,
+    "nemertesLink": "https://nemertes.library.upatras.gr/home",
+    "finalGrade": "9.6"
+  },
+  {
+    "id": 11,
+    "title": "Ανάπτυξη RESTful API με Express.js",
+    "description": "Σχεδίαση και υλοποίηση RESTful API για διαχείριση προϊόντων e-shop. Η εργασία περιλαμβάνει ανάλυση απαιτήσεων, σχεδίαση endpoints για CRUD λειτουργίες, υλοποίηση authentication/authorization, integration με συστήματα πληρωμών και αποθήκης, καθώς και εφαρμογή best practices για ασφάλεια και απόδοση. Θα εξεταστούν τεχνικές structured logging, error handling, testing (unit/integration), και deployment σε cloud περιβάλλον. Η εργασία ολοκληρώνεται με benchmarking, ανάλυση περιορισμών και προτάσεις για μελλοντική επέκταση του API.",
+    "descFile": "/data/dummy_pdf.pdf",
+    "status": "completed",
+    "creationDate": "2022-09-01T09:00:00Z",
+    "modificationDate": [
+      "2022-09-05T09:00:00Z"
+    ],
+    "temporaryAssignmentDate": "2022-10-10T09:00:00Z",
+    "assignmentDate": "2022-09-15T09:00:00Z",
+    "underReviewDate": "2022-11-15T09:00:00Z",
+    "presentationDate": "2022-11-16T09:00:00Z",
+    "completedDate": "2022-11-20T09:00:00Z",
+    "cancelledDate": null,
+    "student": {
+      "fullName": "Ελένη Καραγιάννη",
+      "idNumber": "10000002",
+      "id": "stu_002"
+    },
+    "professors": {
+      "supervisor": {
+        "fullName": "Δημήτρης Αλεξίου",
+        "id": "prof_001"
+      },
+      "memberA": {
+        "fullName": "Αναστασία Πετρίδου",
+        "id": "prof_002"
+      },
+      "memberB": {
+        "fullName": "Γιώργος Σταματίου",
+        "id": "prof_003"
+      }
+    },
+    "gradesExists": [
+      true,
+      true,
+      true
+    ],
+    "protocolNumberAssignment": "12353/2022",
+    "protocolNumberCancelled": null,
+    "reasonForCancellation": null,
+    "temporaryReportFile": "/data/dummy_report.pdf",
+    "temporaryLinks": [
+      "https://expressjs.com"
+    ],
+    "protocolExists": true,
+    "nemertesLink": "https://nemertes.library.upatras.gr/home",
+    "finalGrade": "9.4"
   }
 ]

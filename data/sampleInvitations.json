@@ -4,7 +4,7 @@
     "thesisID": "2",
     "professor": {
       "fullName": "Πετρίδου Αναστασία",
-      "id": "prof_002"
+      "id": "prof_001"
     },
     "createdAt": "2025-07-10T10:00:00Z",
     "modifiedAt": null,
@@ -12,10 +12,10 @@
   },
   {
     "invitationID": "inv2",
-    "thesisID": "2",
+    "thesisID": "1",
     "professor": {
       "fullName": "Σταματίου Γιώργος",
-      "id": "prof_003"
+      "id": "prof_001"
     },
     "createdAt": "2025-07-10T10:00:00Z",
     "modifiedAt": null,
@@ -26,7 +26,7 @@
     "thesisID": "2",
     "professor": {
       "fullName": "Παπανικολάου Ευάγγελος",
-      "id": "prof_004"
+      "id": "prof_001"
     },
     "createdAt": "2025-07-10T10:00:00Z",
     "modifiedAt": null,

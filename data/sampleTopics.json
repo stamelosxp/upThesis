@@ -4,52 +4,64 @@
     "title": "Τεχνικές μηχανικής μάθησης σε IoT",
     "description": "Αυτή η εργασία εξετάζει τις τεχνικές μηχανικής μάθησης που χρησιμοποιούνται σε συστήματα IoT για την ανάλυση δεδομένων και τη βελτιστοποίηση της απόδοσης.",
     "creationDate": "2024-01-01T00:00:00",
-    "status": null,
     "createdBy": "prof_001",
-    "filePath": "/data/dummy_pdf.pdf"
+    "filePath": "",
+    "modificationDate": [
+      "2025-09-06T04:09:07.331Z",
+      "2025-09-06T04:09:13.663Z"
+    ]
   },
   {
     "id": 4,
-    "title": "Τεχνητή νοημοσύνη στην ιατρική διάγνωση",
+    "title": "Τεχνητή νοημοσύνη στην ιατρική διάγνωση.",
     "description": "Εφαρμογή αλγορίθμων μηχανικής μάθησης για την αυτόματη διάγνωση ιατρικών παθήσεων από ιατρικές εικόνες.",
-    "creationDate": "2025-12-05T00:00:00",
-    "status": null,
+    "creationDate": "2025-02-05T00:00:00",
     "createdBy": "prof_001",
-    "filePath": "/data/dummy_pdf_second.pdf"
+    "filePath": "",
+    "modificationDate": [
+      "2025-09-06T02:34:02.276Z",
+      "2025-09-06T02:37:27.050Z"
+    ]
   },
   {
     "id": 7,
     "title": "Επεξεργασία φυσικής γλώσσας",
     "description": "Ανάπτυξη συστημάτων κατανόησης και παραγωγής φυσικής γλώσσας με χρήση deep learning.",
-    "creationDate": "2025-11-15T00:00:00",
-    "status": null,
-    "createdBy": "prof_001"
+    "creationDate": "2025-01-15T00:00:00",
+    "createdBy": "prof_001",
+    "filePath": "/uploads/topics/security_of_ai_agents_1757126225052.pdf",
+    "modificationDate": [
+      "2025-09-06T02:36:15.133Z",
+      "2025-09-06T02:36:25.744Z",
+      "2025-09-06T02:36:57.157Z",
+      "2025-09-06T02:37:05.064Z"
+    ]
   },
   {
     "id": 11,
     "title": "Κβαντική πληροφορική",
     "description": "Μελέτη αλγορίθμων κβαντικής πληροφορικής και των εφαρμογών τους στην κρυπτογραφία.",
-    "creationDate": "2025-10-18T00:00:00",
-    "status": null,
+    "creationDate": "2025-01-18T00:00:00",
     "createdBy": "prof_011",
-    "filePath": "/data/dummy_pdf.pdf"
+    "filePath": "/data/dummy_pdf.pdf",
+    "modificationDate": []
   },
   {
     "id": 15,
     "title": "Δίκτυα και πρωτόκολλα 5G",
     "description": "Μελέτη και υλοποίηση πρωτοκόλλων επικοινωνίας για δίκτυα πέμπτης γενιάς.",
-    "creationDate": "2025-09-21T00:00:00",
-    "status": null,
+    "creationDate": "2025-08-21T00:00:00",
     "createdBy": "prof_015",
-    "filePath": "/data/dummy_pdf.pdf"
+    "filePath": "/data/dummy_pdf.pdf",
+    "modificationDate": []
   },
   {
     "id": 19,
     "title": "Διανεμημένα συστήματα και cloud",
     "description": "Αρχιτεκτονική και υλοποίηση διανεμημένων εφαρμογών σε υπολογιστικό νέφος.",
     "creationDate": "2025-08-24T00:00:00",
-    "status": null,
     "createdBy": "prof_019",
-    "filePath": "/data/dummy_pdf.pdf"
+    "filePath": "/data/dummy_pdf.pdf",
+    "modificationDate": []
   }
 ]
