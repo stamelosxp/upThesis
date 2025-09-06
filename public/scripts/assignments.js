@@ -1,9 +1,11 @@
+import {debounce, toggleExpandCollapseView} from './utils.js';
+
+
 const filtersIcon = document.querySelector('.filters-icon');
 const filtersContainer = document.getElementById('assignments-filters-container');
 const closeBtn = document.getElementById('close-mobile-filters');
 const exportButton = document.getElementById('export-theses');
 
-const searchInput = document.getElementById('search-theses');
 
 let exportFetchController = null;
 let filterFetchController = null;
@@ -250,15 +252,6 @@ function closeMobileFilters() {
         filtersContainer.classList.remove('show');
         filtersContainer.style.top = '';
     }
-}
-
-// Debounce utility
-function debounce(fn, delay) {
-    let timer = null;
-    return function (...args) {
-        clearTimeout(timer);
-        timer = setTimeout(() => fn.apply(this, args), delay);
-    };
 }
 
 document.addEventListener('DOMContentLoaded', function () {
