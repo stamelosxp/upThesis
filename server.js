@@ -19,29 +19,56 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 app.use(async (req, res, next) => {
-    res.locals.connectedUserRole = "professor";
-    res.locals.isAuth = ["professor", "student", "secretary"].includes(res.locals.connectedUserRole);
+    try {
+        // Detect which port the request came from
+        const port = req.socket.localPort;
 
-    if (res.locals.connectedUserRole === "professor") {
-        res.locals.connectedUserId = "prof_001";
-    } else if (res.locals.connectedUserRole === "student") {
-        res.locals.connectedUserId = "stu_001";
-    } else if (res.locals.connectedUserRole === "secretary") {
-        res.locals.connectedUserId = "sec_001";
+        // Default to guest
+        let role = "guest";
+        let userId = null;
+
+        if (port === 3001) {
+            role = "professor";
+            userId = "prof_001";
+        } else if (port === 3002) {
+            role = "student";
+            userId = "stu_001";
+        } else if (port === 3003) {
+            role = "secretary";
+            userId = "sec_001";
+        } else if (port === 3000) {
+            role = null;
+            userId = null; // guest has no ID
+        }
+
+        res.locals.connectedUserRole = role;
+        res.locals.isAuth = ["professor", "student", "secretary"].includes(role);
+        res.locals.connectedUserId = userId;
+
+        if (userId) {
+            // Load sample users and attach current user details
+            const usersRaw = await fs.readFile(
+                path.join(__dirname, "data", "sampleUsers.json"),
+                "utf-8"
+            );
+            const allUsers = JSON.parse(usersRaw);
+            const currentUser = allUsers.find((user) => user.userId === userId);
+
+            if (currentUser) {
+                res.locals.connectedUserPhoto = currentUser.profilePhoto;
+                res.locals.connectedUserUsername = currentUser.username;
+            }
+        } else {
+            // Guest defaults
+            res.locals.connectedUserPhoto = null;
+            res.locals.connectedUserUsername = "Guest";
+        }
+
+        next();
+    } catch (err) {
+        next(err);
     }
-
-    const usersRaw = await fs.readFile(path.join(__dirname, "data", "sampleUsers.json"), "utf-8");
-    const allUsers = JSON.parse(usersRaw);
-    const currentUser = allUsers.find(user => user.userId === res.locals.connectedUserId);
-
-    if (currentUser) {
-        res.locals.connectedUserPhoto = currentUser.profilePhoto;
-        res.locals.connectedUserUsername = currentUser.username;
-    }
-
-    next();
 });
-
 
 app.get("/", (req, res) => {
     if (res.locals.connectedUserRole) {
@@ -1136,7 +1163,16 @@ app.post('/api/topics/create', topicUpload.single('file'), async (req, res) => {
 });
 
 
-// Start server
-app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+// // Start server
+// app.listen(3000, () => {
+//     console.log("Server running on http://localhost:3000");
+// });
+
+// listen on two ports at once
+const ports = [3000, 3001, 3002, 3003];
+
+ports.forEach((port) => {
+    app.listen(port, () => {
+        console.log(`🚀 Server listening on http://localhost:${port}`);
+    });
 });
