@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><%= pageTitle %> | UpThesis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/stats.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="/scripts/stats.js" defer></script>
+</head>
+<body>
+<%- include('includes/main-header') %>
+<div class="layout">
+    <%- include('includes/main-menu', {currentPage: currentPage}) %>
+    <main>
+        <%- include('includes/current-page-header', {currentPage: currentPage, pageTitle: pageTitle}) %>
+        <section id="stats-content">
+            <ul class="sub-menu-assignment-details">
+                <li>
+                    <a class="tab-link active" data-tab="grades">Βαθμοί</a>
+                </li>
+                <li>
+                    <a class="tab-link" data-tab="duration">Διάρκεια</a>
+                </li>
+                <li>
+                    <a class="tab-link" data-tab="assignments">Αναθέσεις</a>
+                </li>
+            </ul>
+            <div class="tab-content-area">
+                <div id="grades" class="tab-content active">
+                    <p class="group-value">Μέση Βαθμολογία Διπλωματικών</p>
+                    <canvas id="grades-chart"></canvas>
+                </div>
+                <div id="duration" class="tab-content">
+                    <p class="group-value">Μέσος Χρόνος Ολοκλήρωσης (μήνες)</p>
+                    <canvas id="duration-chart"></canvas>
+                </div>
+                <div id="assignments" class="tab-content">
+                    <p class="group-value">Συνολικό Πλήθος </p>
+                    <canvas id="assignments-chart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
