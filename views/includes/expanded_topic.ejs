@@ -9,35 +9,41 @@ function formatDate(dateString) {
     return `${day}/${month}/${year}`;
 }
 %>
-<div class="topic-item-expanded">
+<div class="topic-item-expanded hidden" data-topic-id="<%= topic.id %>">
     <div class="topic-form-group">
-        <label for="topic-input-title-<%= topic.id %>">
+        <label for="topic-input-title-<%= topic.id %>" id="label-topic-input-title-<%= topic.id %>">
             <div class="topic-header">
-                Τίτλος Θέματος
+                <div>
+                    Τίτλος Θέματος <span class="warning-message"></span>
+                </div>
                 <p class="simple-badge"><%= formatDate(topic.creationDate) %></p>
             </div>
         </label>
         <input
+                class="input-class hidden"
                 type="text"
                 id="topic-input-title-<%= topic.id %>"
                 value="<%= topic.title %>"
+                data-original-value="<%= topic.title %>"
                 required
                 readonly
         />
+        <p class="group-value"><%= topic.title %></p>
     </div>
 
     <div class="topic-form-group">
-        <label for="topic-input-desc-<%= topic.id %>">Περιγραφή</label>
+        <label for="topic-input-desc-<%= topic.id %>" id="label-topic-input-desc-<%= topic.id %>">Περιγραφή <span class="warning-message"></span></label>
         <textarea
                 id="topic-input-desc-<%= topic.id %>"
-                maxlength="500"
+                maxlength="510"
                 required
                 disabled
-        ><%= topic.description %><%= topic.description %><%= topic.description %></textarea>
+                data-original-value="<%= topic.description %>"
+        ><%= topic.description %></textarea>
     </div>
 
     <div class="topic-form-group file">
-        <label for="topic-file-<%= topic.id %>">Συννημένο</label>
+        <label>Συννημένο</label>
         <% if (topic.filePath) { %>
 
             <% const reqFileName = topic.filePath.split('/').pop(); const reqFileExt = (reqFileName && reqFileName.includes('.') ? reqFileName.split('.').pop().toUpperCase() : ''); %>
@@ -58,6 +64,7 @@ function formatDate(dateString) {
                     id="update-topic-file-<%= topic.id %>"
                     accept=".pdf,.doc,.docx,.txt"
                     class="update-file-input"
+                    data-original-value="<%= topic.filePath %>"
                     readonly
                     hidden
             />
@@ -69,6 +76,7 @@ function formatDate(dateString) {
                         id="topic-file-<%= topic.id %>"
                         accept=".pdf,.doc,.docx,.txt"
                         class="file-input"
+                        data-original-value=""
                         readonly
                 />
             <% } else { %>
@@ -84,29 +92,30 @@ function formatDate(dateString) {
 
     <% if(locals.connectedUserRole === 'professor') { %>
         <div class="topic-form-group">
-            <label for="topic-assignment-<%= topic.id %>">Ανάθεση</label>
+            <label >Ανάθεση</label>
             <input
                     id="topic-assignment-<%= topic.id %>"
                     placeholder="Επιλέξτε Φοιτητή για Ανάθεση"
                     class="assignment"
                     value=""
+                    data-assignment-id="<%= topic.id %>"
+                    data-original-value=""
+                    data-student-assigned-id=""
                     readonly
             />
         </div>
 
-        <div class="assign-student-modal-container">
-            <%- include('../professor/assign_topic_modal') %>
-        </div>
 
         <div class="topic-buttons-group">
-            <button class="cancel-button" id="delete-topic-button-<%= topic.id %>">Διαγραφή</button>
+            <button class="cancel-button delete-topic-button" id="delete-topic-button-<%= topic.id %>">Διαγραφή</button>
             <button class="light-button edit-topic-button" id="edit-topic-button-<%= topic.id %>">Επεξεργασία</button>
         </div>
 
+
         <div class="edit-topic-buttons-group">
-            <button class="light-cancel-button cancel-edit-button" id="cancel-topic-button-<%= topic.id %>">Ακύρωση
+            <button class="light-button cancel-edit-button" id="cancel-topic-button-<%= topic.id %>">Ακύρωση
             </button>
-            <button class="accept-button" id="submit-topic-button-<%= topic.id %>">Αποθήκευση</button>
+            <button class="accept-button hidden" id="submit-topic-button-<%= topic.id %>">Αποθήκευση</button>
         </div>
 
     <% } else { %>

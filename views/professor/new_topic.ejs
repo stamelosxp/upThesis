@@ -1,60 +1,74 @@
-<div class="topic-item-expanded new-mode">
+<%
+function formatDate(dateString) {
+    if (!dateString) return '';
+    const dateObj = new Date(dateString);
+    if (isNaN(dateObj.getTime())) return '';
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const year = dateObj.getFullYear();
+    return `${day}/${month}/${year}`;
+}
+%>
+
+<div class="topic-item-expanded hidden new-mode" data-topic-id="new_topic">
     <div class="topic-form-group">
-        <label for="topic-input-title-new-topic">
+        <label for="topic-input-title-new_topic" id="label-topic-input-title-new_topic">
             <div class="topic-header">
-                Τίτλος Θέματος
-                <p class="simple-badge"><%= (function () {
-                        var d = new Date();
-                        return (('0' + d.getDate()).slice(-2) + '/' + ('0' + (d.getMonth() + 1)).slice(-2) + '/' + d.getFullYear());
-                    })() %></p>
+                <div>
+                    Τίτλος Θέματος <span class="warning-message"></span>
+                </div>
+                <p class="simple-badge"><%= formatDate(new Date()) %></p>
             </div>
         </label>
         <input
                 type="text"
-                id="topic-input-title-new-topic"
+                id="topic-input-title-new_topic"
                 placeholder="Εισάγετε Τίτλο Θέματος"
+                data-original-value=""
                 required
+
         />
     </div>
 
     <div class="topic-form-group">
-        <label for="topic-input-desc-new-topic">Περιγραφή</label>
+        <label for="topic-input-desc-new_topic" id="label-topic-input-desc-new_topic">Περιγραφή<span class="warning-message"></span></label>
         <textarea
-                id="topic-input-desc-new-topic"
-                maxlength="500"
+                id="topic-input-desc-new_topic"
+                maxlength="510"
                 placeholder="Εισάγετε Περιγραφή Θέματος"
+                data-original-value=""
                 required
         ></textarea>
     </div>
 
     <div class="topic-form-group file">
-        <label for="topic-file-new-topic">Συννημένο</label>
+        <label for="topic-file-new_topic">Συννημένο</label>
         <input
                 type="file"
-                id="topic-file-new-topic"
+                id="topic-file-new_topic"
                 accept=".pdf,.doc,.docx,.txt"
                 class="file-input"
+                data-original-value=""
                 placeholder="Επιλέξτε Αρχείο"
         />
 
     </div>
 
     <div class="topic-form-group">
-        <label for="topic-assignment-new-topic">Ανάθεση</label>
+        <label for="topic-assignment-new_topic">Ανάθεση</label>
         <input
-                id="topic-assignment-new-topic"
+                id="topic-assignment-new_topic"
                 placeholder="Επιλέξτε Φοιτητή για Ανάθεση"
                 class="assignment"
+                data-assignment-id="new-topic"
+                data-original-value=""
+                data-student-assigned-id=""
         />
     </div>
 
-    <div class="assign-student-modal-container">
-        <%- include('../professor/assign_topic_modal')%>
-    </div>
-
     <div class="topic-buttons-group">
-        <button class="light-cancel-button" id="cancel-new-topic-button">Ακύρωση
+        <button class="light-button" id="cancel-new-topic-button">Ακύρωση
         </button>
-        <button class="accept-button" id="submit-new-topic-button">Αποθήκευση</button>
+        <button class="accept-button hidden" id="submit-new-topic-button">Αποθήκευση</button>
     </div>
 </div>
