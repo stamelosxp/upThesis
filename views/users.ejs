@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><%= pageTitle %> | UpThesis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/users.css"/>
+    <script src="/scripts/users.js" defer></script>
+</head>
+<body>
+<%- include('includes/main-header') %>
+<div class="layout">
+    <%- include('includes/main-menu', {currentPage: currentPage}) %>
+    <main>
+        <%- include('includes/current-page-header', {currentPage: currentPage, pageTitle: pageTitle}) %>
+        <section class="users-actions">
+
+
+            <input
+                    type="text"
+                    class="search-bar"
+                    id="search-users"
+                    placeholder="Αναζήτηση Χρηστών... (Όνομα, Επώνυμο, ΑΜ, Τηλέφωνο, Email)"
+            />
+            <div class="group-end">
+                <button class="standard-button" onclick="location.href='/user/new_user'">
+                    Νέος Χρήστης
+                </button>
+                <button id="import-users" class="standard-button">Εισαγωγή Χρηστών</button>
+            </div>
+        </section>
+
+        <% function greekBadge(userBadge) {
+            let badgeText = '';
+            switch (userBadge) {
+                case 'student':
+                    badgeText = 'Φοιτητής';
+                    break;
+                case 'professor':
+                    badgeText = 'Καθηγητής';
+                    break;
+                case 'secretary':
+                    badgeText = 'Γραμματεία';
+                    break;
+            }
+            return badgeText;
+        } %>
+
+        <section class="users-content">
+            <% if(usersList && usersList.length > 0) { %>
+                <ul id="users-list">
+                    <% usersList.forEach(function(user) { %>
+                        <a class="user-item" href="/user/<%= user.username %>">
+                            <div class="user-item-content">
+                                <div class="profile-photo-preview">
+                                    <img src="<%= user.profilePhoto %>" alt="Profile Photo" class="profile-photo-img"/>
+                                </div>
+                                <div class="group-item-info">
+                                    <p class="user-item-name"><%= user.lastName %> <%= user.firstName %></p>
+                                    <p class="info-badge"><%= greekBadge(user.role) %></p>
+                                </div>
+                            </div>
+                        </a>
+                    <% }); %>
+                </ul>
+
+            <% } else { %>
+                <p class="no-data">Δεν υπάρχουν αποτελέσματα.</p>
+            <% } %>
+        </section>
+
+        <!-- Import Modal -->
+        <div class="modal-container">
+            <div class="modal">
+                <div class="modal-backdrop"></div>
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <p>Εισαγωγή Χρηστών</p>
+                        <button class="close-modal" type="button">&times;</button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="content-group">
+                        <label class="group-header" for="import-file">Εισαγωγή Από Αρχείο</label>
+                        <input type="file" id="import-file" accept=".csv, .json" class="group-value input"/>
+                    </div>
+                    <div class="content-group">
+                        <label class="group-header" for="import-link">Εισαγωγή Από Σύνδεσμο</label>
+                        <input type="text" id="import-link" placeholder="https://example.com/users.json"
+                               class="group-value input"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="accept-button" id="confirm-import" type="button">Εισαγωγή</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+</body>
+</html>
