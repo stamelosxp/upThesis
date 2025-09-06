@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><%= pageTitle %> | UpThesis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/profile.css"/>
+    <% if(currentPage !== 'new_user') { %>
+        <script src="/scripts/profile.js" defer></script>
+    <% } %>
+</head>
+<body>
+<%- include('includes/main-header') %>
+<div class="layout">
+    <%- include('includes/main-menu', {currentPage: currentPage}) %>
+    <main>
+        <% if (currentPage !== 'profile') { %>
+            <section class="back-section">
+                <a href="/users">
+                    <img
+                            class="back-icon"
+                            src="/icons/back_arrow.png"
+                            alt="Back Icon"
+                    />
+                    <span class="back-icon-text">Πίσω στους Χρήστες</span>
+                </a>
+            </section>
+        <% } %>
+
+
+        <%- include('includes/current-page-header', {currentPage: currentPage, pageTitle: pageTitle}) %>
+
+        <%
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const dateObj = new Date(dateString);
+            if (isNaN(dateObj.getTime())) return '';
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const year = dateObj.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+        %>
+        <%
+        function toggleReadOnly() {
+            if (currentPage !== 'new_user') {
+                return 'readonly';
+            }
+        }
+        %>
+
+        <section id="profile-section">
+            <div class="scroll-container">
+                <div id="profile-details-form">
+                    <h2 class="form-group-title">Βασικά Στοιχεία</h2>
+                    <div class="form-group">
+                        <label for="firstName">Όνομα</label>
+                        <input type="text" id="firstName" name="firstName"
+                               value="<%= user ? user.firstName : '' %> " <%= toggleReadOnly() %>/>
+                        <label for="lastName">Επώνυμο</label>
+                        <input type="text" id="lastName" name="lastName" value="<%= user ? user.lastName : '' %> "
+                                <%= toggleReadOnly() %>/>
+                        <label for="birthDate">Ημερομηνία Γέννησης</label>
+                        <% if(currentPage !== 'new_user') { %>
+                            <input type="text" id="birthDate" name="birthDate" value="<%= formatDate(user.birthDate) %>"
+                                    <%= toggleReadOnly() %>/>
+                        <% } else { %>
+                            <input type="date" id="birthDate" name="birthDate"/>
+                        <% } %>
+
+                        <label for="school">Σχολή</label>
+                        <input type="text" id="school" name="school" value="<%= user ? user.department : '' %>"
+                                <%= toggleReadOnly() %>/>
+                    </div>
+
+                    <h2 class="form-group-title">Στοιχεία Επικοινωνίας</h2>
+                    <div class="form-group communication">
+                        <label for="email" id="label-email">Email <span class="warning-message"></span></label>
+                        <input type="email" id="email" name="email" value="<%= user ? user.email : '' %>"
+                               data-original-value="<%= user ? user.email : '' %>"/>
+
+                        <label for="mobile" id="label-mobile">Κινητό Τηλέφωνο <span
+                                    class="warning-message"></span></label>
+                        <input type="tel" id="mobile" name="mobile" value="<%= user ? user.mobilePhone : '' %>"
+                               data-original-value="<%= user ? user.mobilePhone : '' %>"/>
+
+                        <label for="phone" id="label-phone">Σταθερό Τηλέφωνο <span
+                                    class="warning-message"></span></label>
+                        <input type="tel" id="phone" name="phone" value="<%= user ? user.phone : '' %>"
+                               data-original-value="<%= user ? user.phone : '' %>"/>
+                        <% if(currentPage !== 'new_user') { %>
+                            <div class=" form-button-group hidden communication">
+                                <button class="light-cancel-button" id="cancel-com-data">Ακύρωση</button>
+                                <button class="accept-button">Αποθήκευση</button>
+                            </div>
+                        <% } %>
+                    </div>
+
+                    <% if(currentPage === 'profile') { %>
+                        <h2 class="form-group-title">Στοιχεία Λογαριασμού</h2>
+                        <div class="form-group account">
+                            <label for="username" id="label-username">Όνομα Χρήστη <span
+                                        class="warning-message"></span></label>
+                            <input type="text" id="username" name="username" value="<%= user.username %>"
+                                   data-original-value="<%= user.username %>"/>
+
+                            <label for="photo">Φωτογραφία Προφίλ</label>
+                            <div class="photo-content">
+                                <div class="profile-photo-preview">
+                                    <img src="<%= user.profilePhoto %>" alt="Profile Photo" id="profile-photo-img"/>
+                                </div>
+                                <input type="file" id="photo" name="profilePhoto" accept="image/*"
+                                       data-original-value="<%= user.profilePhoto ? user.profilePhoto : '/icons/profile.png' %>"/>
+                            </div>
+                            <label for="old_password" id="label-old_password">Παλιός Κωδικός<span
+                                        class="warning-message"></span></label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="old_password" name="password" data-original-value=""/>
+                                <button type="button" class="toggle-password-visibility" data-target="old_password"
+                                        aria-label="Εμφάνιση/Απόκρυψη κωδικού">
+                                    <img src="/icons/show.png" alt="Show/Hide Password"/>
+                                </button>
+                            </div>
+
+                            <label for="new_password" id="label-new_password">Νέος Κωδικός<span
+                                        class="warning-message"></span></label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="new_password" name="password" data-original-value="">
+                                <button type="button" class="toggle-password-visibility" data-target="new_password"
+                                        aria-label="Εμφάνιση/Απόκρυψη κωδικού">
+                                    <img src="/icons/show.png" alt="Show/Hide Password"/>
+                                </button>
+                            </div>
+
+                            <label for="confirm_password" id="label-confirm_password">Επαλήθευση Νέου<span
+                                        class="warning-message"></span></label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="confirm_password" name="password" data-original-value=""/>
+                                <button type="button" class="toggle-password-visibility" data-target="confirm_password"
+                                        aria-label="Εμφάνιση/Απόκρυψη κωδικού">
+                                    <img src="/icons/show.png" alt="Show/Hide Password"/>
+                                </button>
+                            </div>
+
+                            <div class="form-button-group hidden account">
+                                <button class="light-cancel-button" id="cancel-acc-data">Ακύρωση</button>
+                                <button class="accept-button">Αποθήκευση</button>
+                            </div>
+                        </div>
+                    <% } %>
+
+                    <% if (user && user.role !== 'secretary') { %>
+                        <div class="form-group">
+
+                            <h2 class="form-group-title">Ακαδημαϊκά Στοιχεία</h2>
+                            <label for="role">Ιδιότητα</label>
+                            <input type="text" id="role" name="role" value="Καθηγητής" <%= toggleReadOnly() %>/>
+
+                            <% if (user.role === 'professor') { %>
+
+                                <label for="rank">Βαθμίδα</label>
+                                <input type="text" id="rank" name="rank" value="<%= user.typeProfessor %>"
+                                        <%= toggleReadOnly() %>/>
+
+                            <% } else if (user.role === 'student') { %>
+                                <label for="studentId">Αριθμός Μητρώου</label>
+                                <input type="text" id="studentId" name="studentId" value="<%= user.studentId %>"
+                                        <%= toggleReadOnly() %>/>
+                                <label for="year">Έτος Φοίτησης</label>
+                                <input type="text" id="year" name="year" value="<%= user.yearOfStudies %>"
+                                        <%= toggleReadOnly() %>/>
+                                %>
+                            <% } %>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
