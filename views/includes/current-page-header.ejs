@@ -4,21 +4,5 @@
         <p class="current-page-message">
             Καλώς ήρθατε στην πλατφόρμα upThesis.
         </p>
-    <% } else if(currentPage === 'topics' && locals.connectedUserRole === 'professor' ) { %>
-        <p class="current-page-message">
-            Έχετε <%= topicsLength %> <%= topicsLength === 1 ? 'διαθέσιμο θέμα ανεβασμένο.' : "διαθέσιμα θέματα ανεβασμένα." %>
-        </p>
-    <% } else if(currentPage === 'topics' && locals.connectedUserRole === 'student') { %>
-        <p class="current-page-message">
-            Υπάρχουν <%= topicsLength %> <%= topicsLength === 1 ? 'διαθέσιμο θέμα ανεβασμένο.' : "διαθέσιμα θέματα ανεβασμένα." %>
-        </p>
-    <% } else if(currentPage === 'assignments') { %>
-        <p class="current-page-message">
-            Έχετε <%= assignmentsLenght %> <%= assignmentsLenght === 1 ? 'ανάθεση.' : "αναθέσεις." %>
-        </p>
-    <% } else if(currentPage === 'invitations') { %>
-        <p class="current-page-message">
-            Έχετε <%= invitationsLengh %> <%= invitationsLengh === 1 ? 'πρόσκληση.' : "προσκλήσεις." %>
-        </p>
     <% } %>
 </section>

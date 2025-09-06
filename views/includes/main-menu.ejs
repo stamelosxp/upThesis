@@ -58,6 +58,7 @@
                         </a>
                     </li>
                 <% } %>
+
             <% } else { %>
                 <li class="menu-item <%= currentPage === 'login' ? 'current' : '' %>">
                     <a href="/login">
@@ -72,5 +73,31 @@
                 </a>
             </li>
         </ul>
+        <% if(locals.isAuth) { %>
+            <div class="main-menu-user-info">
+                <div class="user-pic-circle">
+                    <a href="/profile" class="profile-link" title="Προφίλ">
+                        <img src="<%= locals.connectedUserPhoto %>" alt="User Picture">
+                    </a>
+
+                </div>
+                <div class="user-details">
+                    <span class="user-name"><%= locals.connectedUserUsername %></span>
+                    <span class="user-role">
+                        <% if(locals.connectedUserRole === 'professor') { %>
+                            Καθηγητής
+                        <% } else if(locals.connectedUserRole === 'student') { %>
+                            Φοιτητής
+                        <% } else if(locals.connectedUserRole === 'secretary') { %>
+                            Γραμματεία
+                        <% } %>
+                    </span>
+                </div>
+                <a href="" class="logout-link" title="Αποσύνδεση">
+                    <img src="/icons/logout.png" alt="Logout Icon">
+                </a>
+            </div>
+        <% } %>
     </nav>
+
 </aside>
