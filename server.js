@@ -1,30 +1,26 @@
 const fs = require("fs").promises;
 const path = require("path");
-
 const express = require("express");
-const {locals} = require("express/lib/application");
+
+const {topicUpload, profileImageUpload} = require("./config/multer");
 
 const app = express();
-
-app.listen(3000, () => {
-    console.log("Server is running on port 3000!");
-});
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static("public"));
-app.use("/data", express.static("data"));
-app.use(express.urlencoded({extended: false}));
-app.use(express.json()); // Add this to parse JSON bodies
 
-app.use(async function (req, res, next) {
-    res.locals.connectedUserRole = "professor"; // Change this to "professor
-    if (res.locals.connectedUserRole === "professor" || res.locals.connectedUserRole === "student" || res.locals.connectedUserRole === "secretary") {
-        res.locals.isAuth = true;
-    } else {
-        res.locals.isAuth = false;
-    }
+app.use("/data", express.static("data"));
+app.use("/profile_data_img", express.static("profile_data_img"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
+
+app.use(async (req, res, next) => {
+    res.locals.connectedUserRole = "professor";
+    res.locals.isAuth = ["professor", "student", "secretary"].includes(res.locals.connectedUserRole);
 
     if (res.locals.connectedUserRole === "professor") {
         res.locals.connectedUserId = "prof_001";
@@ -33,8 +29,20 @@ app.use(async function (req, res, next) {
     } else if (res.locals.connectedUserRole === "secretary") {
         res.locals.connectedUserId = "sec_001";
     }
+
+    const usersRaw = await fs.readFile(path.join(__dirname, "data", "sampleUsers.json"), "utf-8");
+    const allUsers = JSON.parse(usersRaw);
+    const currentUser = allUsers.find(user => user.userId === res.locals.connectedUserId);
+
+    if (currentUser) {
+        res.locals.connectedUserPhoto = currentUser.profilePhoto;
+        res.locals.connectedUserUsername = currentUser.username;
+    }
+
     next();
 });
+
+
 app.get("/", (req, res) => {
     if (res.locals.connectedUserRole) {
         return res.redirect("/home");
@@ -43,33 +51,53 @@ app.get("/", (req, res) => {
     }
 });
 
+app.get("/profile", async (req, res) => {
+
+    try {
+
+        const userRaw = await fs.readFile(path.join(__dirname, "data", "sampleUsers.json"), "utf-8");
+        const allUsers = JSON.parse(userRaw);
+        const currentUser = allUsers.find(user => user.userId === res.locals.connectedUserId);
+
+        if (!currentUser) {
+            return res.status(404).send("User not found");
+        }
+
+
+        res.render("profile", {
+            pageTitle: "Προφίλ Χρήστη", currentPage: "profile", user: currentUser,
+        });
+    } catch (err) {
+        res.status(500).send("Error loading profile");
+    }
+
+});
+
 app.get("/home", (req, res) => {
     res.render("home", {
-        pageTitle: "Αρχική Σελίδα",
-        currentPage: "home",
+        pageTitle: "Αρχική Σελίδα", currentPage: "home",
     });
 });
 
 app.get("/topics", async (req, res) => {
     try {
-        const data = await fs.readFile(
-            path.join(__dirname, "data", "sampleTopics.json"),
-            "utf-8"
-        );
+        const data = await fs.readFile(path.join(__dirname, "data", "sampleTopics.json"), "utf-8");
         const allTopics = JSON.parse(data);
         let responseTopics;
 
         if (res.locals.connectedUserRole === "professor") {
-            responseTopics = allTopics.filter((topic) => topic.status === null && topic.createdBy === res.locals.connectedUserId);
+            responseTopics = allTopics.filter((topic) => topic.createdBy === res.locals.connectedUserId);
         } else if (res.locals.connectedUserRole === "student") {
-            responseTopics = allTopics.filter((topic) => topic.status === null);
+            responseTopics = allTopics;
 
         }
-
+        responseTopics.sort((a, b) => {
+            a = a.title || '';
+            b = b.title || '';
+            return a.localeCompare(b, 'el', {sensitivity: 'base'});
+        });
         res.render("topics", {
-            pageTitle: "Διαθέσιμα Θέματα",
-            currentPage: "topics",
-            topics: responseTopics,
+            pageTitle: "Διαθέσιμα Θέματα", currentPage: "topics", topics: responseTopics,
         });
     } catch (err) {
         res.status(500).send("Error loading topics");
@@ -78,10 +106,7 @@ app.get("/topics", async (req, res) => {
 
 app.get("/assignments", async (req, res) => {
     try {
-        const data = await fs.readFile(
-            path.join(__dirname, "data", "sampleTheses.json"),
-            "utf-8"
-        );
+        const data = await fs.readFile(path.join(__dirname, "data", "sampleTheses.json"), "utf-8");
         const allTheses = JSON.parse(data);
 
         let responseTheses;
@@ -95,9 +120,7 @@ app.get("/assignments", async (req, res) => {
         responseTheses = responseTheses.sort((a, b) => a.title.localeCompare(b.title, 'el', {sensitivity: 'base'}));
 
         res.render("assignments", {
-            pageTitle: "Αναθέσεις",
-            currentPage: "assignments",
-            theses: responseTheses,
+            pageTitle: "Αναθέσεις", currentPage: "assignments", theses: responseTheses,
         });
     } catch (err) {
         res.status(500).send("Error loading assignments");
@@ -107,10 +130,7 @@ app.get("/assignments", async (req, res) => {
 app.get("/assignment/:id", async (req, res) => {
     try {
         const requestedThesisId = req.params.id;
-        const thesesData = await fs.readFile(
-            path.join(__dirname, "data", "sampleTheses.json"),
-            "utf-8"
-        );
+        const thesesData = await fs.readFile(path.join(__dirname, "data", "sampleTheses.json"), "utf-8");
         const allTheses = JSON.parse(thesesData);
 
         const responseThesis = allTheses.find((thesisItem) => thesisItem.id == requestedThesisId);
@@ -147,10 +167,7 @@ app.get("/assignment/:id", async (req, res) => {
 app.get("/protocol/:id", async (req, res) => {
     try {
         const requestedThesisId = req.params.id;
-        const evaluationData = await fs.readFile(
-            path.join(__dirname, "data", "sampleEvaluation.json"),
-            "utf-8"
-        );
+        const evaluationData = await fs.readFile(path.join(__dirname, "data", "sampleEvaluation.json"), "utf-8");
         const allEvaluations = JSON.parse(evaluationData);
 
         const responseProtocol = allEvaluations.find((evaluationItem) => evaluationItem.thesisId == requestedThesisId);
@@ -176,17 +193,11 @@ app.get("/protocol/:id", async (req, res) => {
             if (!d) return {date: '-', day: '-', time: '-', combined: '-'};
             const tz = 'Europe/Athens';
             const date = new Intl.DateTimeFormat('el-GR', {
-                timeZone: tz,
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
+                timeZone: tz, day: '2-digit', month: '2-digit', year: 'numeric'
             }).format(d); // dd/mm/yyyy
             const day = new Intl.DateTimeFormat('el-GR', {timeZone: tz, weekday: 'long'}).format(d); // Greek weekday (default casing)
             const time = new Intl.DateTimeFormat('el-GR', {
-                timeZone: tz,
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
+                timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false
             }).format(d); // 24h HH:MM
             const combined = `${date} (${day}) ${time}`;
             return {date, day, time, combined};
@@ -230,8 +241,7 @@ app.get("/invitations", async (req, res) => {
             .map(invitation => {
                 const thesisData = thesesMap.get(Number(invitation.thesisID));
                 return {
-                    ...invitation,
-                    thesis: thesisData || null
+                    ...invitation, thesis: thesisData || null
                 };
             })
             .sort((a, b) => {
@@ -243,9 +253,7 @@ app.get("/invitations", async (req, res) => {
             });
 
         res.render("invitations", {
-            pageTitle: "Προσκλήσεις",
-            currentPage: "invitations",
-            invitationsList: responseInvitations,
+            pageTitle: "Προσκλήσεις", currentPage: "invitations", invitationsList: responseInvitations,
         });
 
     } catch (err) {
@@ -256,10 +264,8 @@ app.get("/invitations", async (req, res) => {
 
 
 app.get("/stats", (req, res) => {
-    res.render("maintenance", {
-        pageTitle: "Στατιστικά",
-        userRole: "professor",
-        currentPage: "stats",
+    res.render("stats", {
+        pageTitle: "Στατιστικά", currentPage: "stats",
     });
 });
 
@@ -267,9 +273,7 @@ app.get("/announcements", async (req, res) => {
     try {
         // Minimal render; client will fetch page 1 via API
         res.render("announcements", {
-            pageTitle: "Ανακοινώσεις",
-            userRole: "professor",
-            currentPage: "announcements"
+            pageTitle: "Ανακοινώσεις", userRole: "professor", currentPage: "announcements"
         });
     } catch (e) {
         console.error('Error rendering announcements page', e);
@@ -280,10 +284,7 @@ app.get("/announcements", async (req, res) => {
 
 app.get("/thesis", async (req, res) => {
     try {
-        const usersData = await fs.readFile(
-            path.join(__dirname, "data", "sampleUsers.json"),
-            "utf-8"
-        );
+        const usersData = await fs.readFile(path.join(__dirname, "data", "sampleUsers.json"), "utf-8");
         const allUsers = JSON.parse(usersData);
         const currentUser = allUsers.find(user => user.userId === res.locals.connectedUserId);
 
@@ -296,10 +297,7 @@ app.get("/thesis", async (req, res) => {
             }
         }
 
-        const thesesData = await fs.readFile(
-            path.join(__dirname, "data", "sampleTheses.json"),
-            "utf-8"
-        );
+        const thesesData = await fs.readFile(path.join(__dirname, "data", "sampleTheses.json"), "utf-8");
         const allTheses = JSON.parse(thesesData);
 
         const responseThesis = allTheses.find((thesisItem) => thesisItem.id == requestedThesisId);
@@ -322,29 +320,70 @@ app.get("/thesis", async (req, res) => {
 });
 
 
-app.get("/users", (req, res) => {
-    res.render("maintenance", {
-        pageTitle: "Χρήστες",
-        userRole: "secretary",
-        currentPage: "users",
-    });
+app.get("/users", async (req, res) => {
+    try {
+        const usersData = await fs.readFile(path.join(__dirname, "data", "sampleUsers.json"), "utf-8");
+        const allUsers = JSON.parse(usersData);
+
+        allUsers.sort((a, b) => {
+            a = a.lastName || '';
+            b = b.lastName || '';
+            return a.localeCompare(b, 'el', {sensitivity: 'base'});
+        });
+
+        res.render("users", {
+            pageTitle: "Χρήστες", currentPage: "users", usersList: allUsers,
+        });
+
+
+    } catch (error) {
+        console.error("Error loading users:", error);
+        res.status(500).send("Error loading users");
+
+    }
 });
+
+app.get("/user/:username", async (req, res) => {
+    try {
+        const usersData = await fs.readFile(path.join(__dirname, "data", "sampleUsers.json"), "utf-8");
+        const allUsers = JSON.parse(usersData);
+
+        if (!req.params.username) {
+            return res.status(400).send("Username parameter is required");
+        }
+
+        if (req.params.username === 'new_user') {
+            return res.render("profile", {
+                pageTitle: "Νέος Χρήστης", currentPage: "new_user", user: null
+            });
+        }
+        const responseUser = allUsers.find((user) => user.username === req.params.username);
+        if (!responseUser) {
+            return res.status(404).send("User not found");
+        }
+        res.render("profile", {
+            pageTitle: `${responseUser.firstName} ${responseUser.lastName}`,
+            currentPage: "user_details",
+            user: responseUser
+        });
+
+    } catch (err) {
+        console.error("Error loading user details:", err);
+        res.status(500).send("Error loading user details");
+    }
+})
 
 // General routes (accessible by all roles)
 app.get("/login", (req, res) => {
     res.render("maintenance", {
-        pageTitle: "Είσοδος",
-        userRole: null,
-        currentPage: "login",
+        pageTitle: "Είσοδος", userRole: null, currentPage: "login",
     });
 });
 
 app.get("/announcements", async (req, res) => {
     try {
         res.render("announcements", {
-            pageTitle: "Ανακοινώσεις",
-            userRole: res.locals.connectedUserRole || null,
-            currentPage: "announcements"
+            pageTitle: "Ανακοινώσεις", userRole: res.locals.connectedUserRole || null, currentPage: "announcements"
         });
     } catch (e) {
         console.error('Error rendering announcements page', e);
@@ -352,33 +391,6 @@ app.get("/announcements", async (req, res) => {
     }
 });
 
-app.get("/api/students/available", async (req, res) => {
-
-    //NEED AUTHENTICATION CHECK HERE
-
-    try {
-        const rawQuery = req.query.studentNameSearch;
-        const userInput = rawQuery ? rawQuery.toLowerCase().trim() : '';
-
-        const usersData = await fs.readFile(path.join(__dirname, "data", "sampleUsers.json"), "utf-8");
-        const allUsers = JSON.parse(usersData);
-        let available = allUsers.filter(u => u.role === 'student' && u.hasThesis === false && Number(u.yearOfStudies) >= 5);
-
-        if (userInput.length > 0) {
-            available = available.filter(u => (`${u.firstName} ${u.lastName}`).toLowerCase().includes(userInput));
-        }
-
-        const mapped = available.map(u => ({
-            userId: u.userId,
-            fullName: `${u.firstName} ${u.lastName}`
-        }));
-
-        return res.json({success: true, students: mapped});
-    } catch (e) {
-        console.error('Error fetching available students', e);
-        return res.status(500).json({success: false, error: 'Failed to load students'});
-    }
-});
 
 async function getPaginatedAnnouncements(req) {
     const data = await fs.readFile(path.join(__dirname, "data", "sampleAnnouncements.json"), 'utf-8');
@@ -396,12 +408,7 @@ async function getPaginatedAnnouncements(req) {
     const start = (safePage - 1) * pageSize;
     const pageItems = allAnnouncements.slice(start, start + pageSize);
     return {
-        allAnnouncements,
-        pageItems,
-        totalPages,
-        currentPage: safePage,
-        pageSize,
-        totalCount: allAnnouncements.length
+        allAnnouncements, pageItems, totalPages, currentPage: safePage, pageSize, totalCount: allAnnouncements.length
     };
 }
 
@@ -409,9 +416,7 @@ app.get('/api/announcements', async (req, res) => {
     try {
         const {pageItems, totalPages, currentPage, totalCount, pageSize} = await getPaginatedAnnouncements(req);
         res.json({
-            success: true,
-            announcements: pageItems,
-            pagination: {totalPages, currentPage, totalCount, pageSize}
+            success: true, announcements: pageItems, pagination: {totalPages, currentPage, totalCount, pageSize}
         });
     } catch (e) {
         console.error('Error loading announcements JSON', e);
@@ -488,13 +493,11 @@ app.get('/api/thesis/:id/evaluation', async (req, res) => {
         const entry = evaluations.find(e => String(e.thesisId) === String(thesisId));
         if (!entry) {
             return res.json({
-                success: true,
-                evaluation: {
+                success: true, evaluation: {
                     supervisor: {quality: null, duration: null, report: null, presentation: null},
                     memberA: {quality: null, duration: null, report: null, presentation: null},
                     memberB: {quality: null, duration: null, report: null, presentation: null}
-                },
-                exists: false
+                }, exists: false
             });
         }
         const evaluation = {
@@ -541,17 +544,11 @@ app.get('/api/thesis/:id/protocol', async (req, res) => {
         const parsed = parseProtocolDate(entry.protocolDate);
         if (parsed) {
             protocolDateLocal = new Intl.DateTimeFormat('el-GR', {
-                timeZone: tz,
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
+                timeZone: tz, day: '2-digit', month: '2-digit', year: 'numeric'
             }).format(parsed);
             protocolDayLocal = new Intl.DateTimeFormat('el-GR', {timeZone: tz, weekday: 'long'}).format(parsed);
             protocolTimeLocal = new Intl.DateTimeFormat('el-GR', {
-                timeZone: tz,
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
+                timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false
             }).format(parsed);
             protocolDateCombined = `${protocolDateLocal} (${protocolDayLocal}) ${protocolTimeLocal}`;
         }
@@ -634,8 +631,7 @@ app.get('/api/professors/available/:existingProfessors', async (req, res) => {
 
         // Map to lightweight response objects
         const mappedProfessors = availableProfessors.map(prof => ({
-            userId: prof.userId,
-            fullName: `${prof.firstName} ${prof.lastName}`
+            userId: prof.userId, fullName: `${prof.firstName} ${prof.lastName}`
         }));
 
         return res.json({success: true, professors: mappedProfessors});
@@ -658,18 +654,16 @@ app.get('/api/dashboard/:professorId', async (req, res) => {
         const allInvitations = JSON.parse(invitationsData);
 
         // Calculate statistics
-        const totalThesesSupervising = allTheses.filter(thesis => thesis.professors.supervisor.id === professorId).length;
-        const totalThesesMember = allTheses.filter(thesis => thesis.professors.memberA.id === professorId || thesis.professors.memberB.id === professorId).length;
+        const totalThesesSupervising = allTheses.filter(thesis => thesis.professors.supervisor.id === professorId && (thesis.status === 'review' || thesis.status === 'active')).length;
+
+        const totalThesesMember = allTheses.filter(thesis => (thesis.professors.memberA.id === professorId || thesis.professors.memberB.id === professorId) && (thesis.status === 'review' || thesis.status === 'active')).length;
 
         const totalTheses = totalThesesMember + totalThesesSupervising;
         const totalPendingInvitations = allInvitations.filter(inv => inv.professor.id === professorId && inv.status === 'pending').length;
         const totalAvailableTopics = allTopics.filter(topic => topic.createdBy === professorId).length;
 
         const stats = {
-            totalThesesSupervising,
-            totalTheses,
-            totalPendingInvitations,
-            totalAvailableTopics
+            totalThesesSupervising, totalTheses, totalPendingInvitations, totalAvailableTopics
         };
         return res.json(stats);
     } catch (e) {
@@ -679,6 +673,44 @@ app.get('/api/dashboard/:professorId', async (req, res) => {
 
 });
 
+function greekStatus(status) {
+    switch (status) {
+        case 'pending':
+            return 'Υπό-Ανάθεση';
+        case 'active':
+            return 'Ενεργή';
+        case 'review':
+            return 'Υπό-Εξέταση';
+        case 'completed':
+            return 'Ολοκληρώθηκε';
+        case 'cancelled':
+            return 'Ακυρώθηκε';
+        default:
+            return '';
+    }
+}
+
+function normalizeGreek(str) {
+    if (!str) return '';
+    return String(str)
+        .toLowerCase()
+        .normalize('NFD')
+        // remove combining diacritical marks
+        .replace(/[\u0300-\u036f]/g, '')
+        // normalize common Greek tonos/diacritics to base letters
+        .replace(/ά/g, 'α')
+        .replace(/έ/g, 'ε')
+        .replace(/ή/g, 'η')
+        .replace(/ί|ϊ|ΐ/g, 'ι')
+        .replace(/ό/g, 'ο')
+        .replace(/ύ|ϋ|ΰ/g, 'υ')
+        .replace(/ώ/g, 'ω')
+        // collapse multiple spaces and trim
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+
 app.post('/api/theses/filters', async (req, res) => {
     try {
         const filters = req.body;
@@ -687,15 +719,8 @@ app.post('/api/theses/filters', async (req, res) => {
 
         // Apply Search
         if (filters.search && filters.search.trim().length > 0) {
-            const searchTerm = filters.search.trim().toLowerCase();
-            allTheses = allTheses.filter(
-                thesis => thesis.title.toLowerCase().includes(searchTerm)
-                    || thesis.student.fullName.toLowerCase().includes(searchTerm)
-                    || thesis.student.fullName.toLowerCase().includes(searchTerm)
-                    || thesis.student.idNumber.toLowerCase().includes(searchTerm)
-                    || thesis.description.toLowerCase().includes(searchTerm)
-                    || thesis.professors.supervisor.fullName.toLowerCase().includes(searchTerm)
-            );
+            const normSearchTerm = normalizeGreek(filters.search.trim());
+            allTheses = allTheses.filter(thesis => normalizeGreek(thesis.title).includes(normSearchTerm) || (thesis.student && normalizeGreek(thesis.student.fullName).includes(normSearchTerm)) || (thesis.student && normalizeGreek(thesis.student.idNumber).includes(normSearchTerm)) || normalizeGreek(thesis.description).includes(normSearchTerm) || (thesis.professors && thesis.professors.supervisor && normalizeGreek(thesis.professors.supervisor.fullName).includes(normSearchTerm)) || normalizeGreek(greekStatus(thesis.status)).includes(normSearchTerm));
         }
 
 
@@ -774,10 +799,7 @@ app.post('/api/theses/filters', async (req, res) => {
                 }
             }
             return {
-                id: thesis.id,
-                title: thesis.title,
-                status: thesis.status,
-                professorRole: professorRole
+                id: thesis.id, title: thesis.title, status: thesis.status, professorRole: professorRole
             };
         });
 
@@ -817,8 +839,7 @@ app.post('/api/invitations/filters', async (req, res) => {
         filteredInvitations = filteredInvitations.map(invitation => {
             const thesisData = thesesMap.get(Number(invitation.thesisID));
             return {
-                ...invitation,
-                thesis: thesisData || null
+                ...invitation, thesis: thesisData || null
             };
         });
 
@@ -836,7 +857,97 @@ app.post('/api/invitations/filters', async (req, res) => {
     }
 });
 
-app.post('/api/filters/topics', async (req, res) => {
+
+app.get('/api/available/username/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
+        if (!username || username.trim().length === 0) {
+            return res.status(400).json({success: false, error: 'No username provided.'});
+        }
+        const usersData = await fs.readFile(path.join(__dirname, 'data', 'sampleUsers.json'), 'utf-8');
+        const allUsers = JSON.parse(usersData);
+        const exists = allUsers.some(u => u.username.toLowerCase() === username.toLowerCase());
+        if (username.toLowerCase() === 'new_user') {
+            return res.json({success: true, available: false});
+        }
+        return res.json({success: true, available: !exists});
+    } catch (err) {
+        console.error('Error checking username availability:', err);
+        return res.status(500).json({success: false, error: 'Failed to check username availability.'});
+    }
+})
+
+
+app.get('/api/users', async (req, res) => {
+    try {
+        const query = req.query.q?.toLowerCase() || '';
+
+        const searchValue = normalizeGreek(query.trim());
+        const usersData = await fs.readFile(path.join(__dirname, 'data', 'sampleUsers.json'), 'utf-8');
+        const allUsers = JSON.parse(usersData);
+
+        let filteredUsers = allUsers;
+        if (query.length > 0) {
+            filteredUsers = allUsers.filter(u => (`${normalizeGreek(u.firstName)} ${normalizeGreek(u.lastName)}`).toLowerCase().includes(searchValue) || (u.username && u.username.toLowerCase().includes(searchValue)) || (u.email && u.email.toLowerCase().includes(searchValue)) || (u.studentId && u.studentId.toLowerCase().includes(searchValue)) || (u.mobilePhone && u.mobilePhone.includes(searchValue)) || (u.phone && u.phone.includes(searchValue)));
+        }
+
+        // Sort by lastName
+        filteredUsers.sort((a, b) => {
+            const lastA = a.lastName || '';
+            const lastB = b.lastName || '';
+            return lastA.localeCompare(lastB, 'el', {sensitivity: 'base'});
+        });
+
+        const responseUsers = filteredUsers.map(u => ({
+            username: u.username,
+            lastName: u.lastName,
+            firstName: u.firstName,
+            role: u.role,
+            profilePhoto: u.profilePhoto
+        }));
+
+        return res.json({success: true, users: responseUsers});
+    } catch (err) {
+        console.error('Error searching users:', err);
+        return res.status(500).json({success: false, error: 'Failed to search users.'});
+    }
+})
+
+
+app.get("/api/students/available", async (req, res) => {
+    try {
+        const query = req.query.q?.toLowerCase() || '';
+
+        const searchValue = normalizeGreek(query.trim());
+        const usersData = await fs.readFile(path.join(__dirname, 'data', 'sampleUsers.json'), 'utf-8');
+        const allUsers = JSON.parse(usersData);
+        let filteredUsers = allUsers.filter(u => u.role === 'student' && u.hasThesis === false && Number(u.yearOfStudies) >= 5);
+
+        if (searchValue.length > 0) {
+            filteredUsers = filteredUsers.filter(u => (`${normalizeGreek(u.firstName)} ${normalizeGreek(u.lastName)}`).toLowerCase().includes(searchValue) || (u.email && u.email.toLowerCase().includes(searchValue)) || (u.studentId && u.studentId.toLowerCase().includes(searchValue)));
+        }
+
+        // Sort by lastName
+        filteredUsers.sort((a, b) => {
+            const lastA = a.lastName || '';
+            const lastB = b.lastName || '';
+            return lastA.localeCompare(lastB, 'el', {sensitivity: 'base'});
+        });
+
+
+        const responseStudents = filteredUsers.map(u => ({
+            userId: u.userId, fullName: `${u.lastName} ${u.firstName}`
+        }));
+
+        return res.json({success: true, students: responseStudents});
+    } catch (e) {
+        console.error('Error fetching available students', e);
+        return res.status(500).json({success: false, error: 'Failed to load students'});
+    }
+});
+
+
+app.post('/api/topics/filters', async (req, res) => {
     try {
         const filters = req.body;
         const topicsRaw = await fs.readFile(path.join(__dirname, 'data', 'sampleTopics.json'), 'utf-8');
@@ -849,10 +960,9 @@ app.post('/api/filters/topics', async (req, res) => {
         // Apply Search
         if (filters.search && filters.search.trim().length > 0) {
             const searchTerm = filters.search.trim().toLowerCase();
-            allTopics = allTopics.filter(
-                topic => topic.title.toLowerCase().includes(searchTerm)
-                    || topic.description.toLowerCase().includes(searchTerm)
-            );
+            allTopics = allTopics.filter(topic =>
+                normalizeGreek(topic.title.toLowerCase()).includes(normalizeGreek(searchTerm)) ||
+                normalizeGreek(topic.description.toLowerCase()).includes(normalizeGreek(searchTerm)));
         }
 
         if (filters.sort && filters.sort === 'topic_title') {
@@ -860,7 +970,6 @@ app.post('/api/filters/topics', async (req, res) => {
         } else if (filters.sort && filters.sort === 'date_created') {
             allTopics.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
         }
-
 
 
         res.json({success: true, topics: allTopics});
@@ -871,3 +980,163 @@ app.post('/api/filters/topics', async (req, res) => {
     }
 
 })
+
+app.delete('/api/topics/delete/:id', async (req, res) => {
+    try {
+        const topicId = req.params.id;
+        if (!topicId) {
+            return res.status(400).json({success: false, error: 'No topic ID provided.'});
+        }
+
+        const topicsData = await fs.readFile(path.join(__dirname, 'data', 'sampleTopics.json'), 'utf-8');
+        const allTopics = JSON.parse(topicsData);
+
+        const topicIndex = allTopics.findIndex(topic => String(topic.id) === String(topicId));
+        if (topicIndex === -1) {
+            return res.status(404).json({success: false, error: 'Topic not found.'});
+        }
+
+        // Authorization check: only creator can delete
+        if (res.locals.connectedUserRole !== 'professor' || allTopics[topicIndex].createdBy !== res.locals.connectedUserId) {
+            return res.status(403).json({success: false, error: 'Not authorized to delete this topic.'});
+        }
+
+        console.log('Deleting topic: ', allTopics[topicIndex].id);
+        const topicTitle = allTopics[topicIndex].title;
+
+
+        return res.json({success: true, message: 'Το θέμα ' + topicTitle + ' διαγράφηκε επιτυχώς.'});
+    } catch (err) {
+        console.error('Error deleting topic:', err);
+        res.status(500).json({success: false, error: 'Failed to delete topic.'});
+    }
+
+});
+
+app.put('/api/topics/update/:id', topicUpload.single('file'), async (req, res) => {
+    try {
+        const topicId = req.params.id;
+        if (!topicId) {
+            return res.status(400).json({success: false, error: 'No topic ID provided.'});
+        }
+
+        const topicsData = await fs.readFile(path.join(__dirname, 'data', 'sampleTopics.json'), 'utf-8');
+        const allTopics = JSON.parse(topicsData);
+
+        const topicIndex = allTopics.findIndex(topic => String(topic.id) === String(topicId));
+        if (topicIndex === -1) {
+            return res.status(404).json({success: false, error: 'Topic not found.'});
+        }
+
+        const topic = allTopics[topicIndex];
+
+        if (res.locals.connectedUserRole !== 'professor' || topic.createdBy !== res.locals.connectedUserId) {
+            return res.status(403).json({success: false, error: 'Not authorized to update this topic.'});
+        }
+
+        const prevTopicFilePAth = topic.filePath;
+
+        const {title, description, assignment} = req.body;
+        if (assignment) {
+            console.log('Assign at: ', assignment);
+        }
+        if (title) topic.title = title;
+        if (description) topic.description = description;
+
+        if (req.file) {
+            // Case 1: new file uploaded
+            if (topic.filePath) {
+                const oldFilePath = path.join(__dirname, topic.filePath);
+                try {
+                    await fs.unlink(oldFilePath);
+                    console.log("Deleted old file:", oldFilePath);
+                } catch (err) {
+                    if (err.code !== "ENOENT") console.error("Error deleting old file:", err);
+                }
+            }
+
+            topic.filePath = "/uploads/topics/" + req.file.filename;
+
+        } else {
+            // Case 2: no new file uploaded, but delete old one if it exists
+            if (topic.filePath) {
+                const oldFilePath = path.join(__dirname, topic.filePath);
+                try {
+                    await fs.unlink(oldFilePath);
+                    console.log("Deleted old file:", oldFilePath);
+                } catch (err) {
+                    if (err.code !== "ENOENT") console.error("Error deleting old file:", err);
+                }
+            }
+
+            topic.filePath = "";
+        }
+
+
+        topic.modificationDate.push(new Date().toISOString());
+        // Persist changes
+        await fs.writeFile(path.join(__dirname, 'data', 'sampleTopics.json'), JSON.stringify(allTopics, null, 2), 'utf-8');
+
+        return res.json({
+            success: true,
+            message: `Το θέμα "${topic.title}" ενημερώθηκε επιτυχώς.`,
+            topic: topic
+        });
+    } catch (err) {
+        console.error('Error updating topic:', err);
+        res.status(500).json({success: false, error: 'Failed to update topic.'});
+    }
+});
+
+app.post('/api/topics/create', topicUpload.single('file'), async (req, res) => {
+    try {
+        if (res.locals.connectedUserRole !== 'professor') {
+            return res.status(403).json({success: false, error: 'Not authorized to create topics.'});
+        }
+
+        const {title, description, assignment} = req.body;
+        if (!title || title.trim().length === 0) {
+            return res.status(400).json({success: false, error: 'Title is required.'});
+        }
+        if (!description || description.trim().length === 0) {
+            return res.status(400).json({success: false, error: 'Description is required.'});
+        }
+        if (assignment) {
+            console.log('Assign at: ', assignment);
+        }
+
+        const topicsData = await fs.readFile(path.join(__dirname, 'data', 'sampleTopics.json'), 'utf-8');
+        const allTopics = JSON.parse(topicsData);
+
+        const newTopicId = allTopics.length > 0 ? Math.max(...allTopics.map(t => Number(t.id))) + 1 : 1;
+        const newTopic = {
+            id: newTopicId,
+            title: title.trim(),
+            description: description.trim(),
+            createdBy: res.locals.connectedUserId,
+            creationDate: new Date().toISOString(),
+            modificationDate: [],
+            filePath: req.file ? "/uploads/topics/" + req.file.filename : "",
+        };
+        allTopics.push(newTopic);
+
+        await fs.writeFile(path.join(__dirname, 'data', 'sampleTopics.json'), JSON.stringify(allTopics, null, 2), 'utf-8');
+
+        return res.json({
+            success: true,
+            message: `Το θέμα "${newTopic.title}" δημιουργήθηκε επιτυχώς.`,
+            topic: newTopic
+        });
+
+    } catch (err) {
+        console.error('Error creating topic:', err);
+        res.status(500).json({success: false, error: 'Failed to create topic.'});
+    }
+
+});
+
+
+// Start server
+app.listen(3000, () => {
+    console.log("Server running on http://localhost:3000");
+});
