@@ -1,0 +1,24 @@
+<p class="status-badge <%= assignment.status %>">
+    <% let statusText = ''; if (assignment.status) {
+        switch (assignment.status.toLowerCase()) {
+            case 'completed':
+                statusText = 'Ολοκληρωμένη';
+                break;
+            case 'active':
+                statusText =
+                        'Ενεργή';
+                break;
+            case 'pending':
+                statusText = 'Υπό-Ανάθεση';
+                break;
+            case 'review':
+                statusText = 'Υπό-Αξιολόγηση';
+                break;
+            case
+            'cancelled':
+                statusText = 'Ακυρωμένη';
+                break;
+        }
+    } %>
+    <%= statusText %>
+</p>

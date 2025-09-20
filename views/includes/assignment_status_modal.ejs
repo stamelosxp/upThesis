@@ -1,0 +1,51 @@
+<div class="modal-container" id="change-status-modal">
+    <div class="modal" data-event="<%= includeEvent %>">
+        <div class="modal-header">
+            <div class="modal-title">
+                <% if(includeEvent === 'official_assignment') { %>
+                    <p>Επίσημη Ανάθεση</p>
+                <% } else if (includeEvent === 'cancel_active_assignment') { %>
+                    <p>Ακύρωση Ανάθεσης</p>
+                <% } %>
+                <button class="close-modal" id="close-status-modal-button" type="button">&times;</button>
+            </div>
+        </div>
+        <div class="modal-body">
+            <label class="group-header" for="num-protocol-input" id="label-num-protocol-input">
+                <% if(includeEvent === 'official_assignment') { %>
+                    Αριθμός Πρωτοκόλλου Ανάθεσης <span class="warning-message"></span>
+                <% } else if (includeEvent === 'cancel_active_assignment') { %>
+                    Αριθμός Πρωτοκόλλου Ακύρωσης <span class="warning-message"></span>
+                <% } %>
+            </label>
+
+            <input class="num-number-protocol"
+                   type="text"
+                   id="num-protocol-input"
+                   placeholder="π.χ. 12345/2023"
+                   required
+            >
+
+            <% if( includeEvent === 'cancel_active_assignment' && locals.connectedUserRole === 'secretary') { %>
+                <label class="group-header" for="cancel-details-protocol" id="label-cancel-details-protocol">
+                    <div>
+                        Λεπτομέρειές Ακύρωσής <span class="warning-message"></span>
+                    </div>
+                </label>
+                <textarea
+                        id="cancel-details-protocol"
+                        maxlength="160"
+                        placeholder="Εισάγετε Λεπτομέρειες Ακύρωσης"
+                        required
+                ></textarea>
+            <% } %>
+        </div>
+        <div class="modal-footer">
+            <% if(includeEvent === 'official_assignment') { %>
+                <button class="accept-button disabled" id="apply-official-assignment-button" type="button">Υποβολή</button>
+            <% } else { %>
+                <button class="accept-button disabled" id="apply-cancel-assignment-button" type="button">Υποβολή</button>
+            <% } %>
+        </div>
+    </div>
+</div>
