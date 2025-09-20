@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="el">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %> | UpThesis</title>
+
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <%- include('includes/main-header') %>
+    <div class="layout">
+      <%- include('includes/main-menu', {currentPage: currentPage}) %>
+      <main>
+        <%- include('includes/current-page-header', {currentPage: currentPage,
+        pageTitle: pageTitle}) %>
+        <section id="main-content" class="no-assignment-section">
+          <div class="box-container">
+            <div class="content-card-list">
+              <p class="no-data">
+                Δεν έχετε ανατεθεί σε καμία εργασία. <%= yearOfStudies < 5 ? 'Μπορείτε να αναλάβετε εργασία από το 5ο έτος' : 'Μόλις σας ανατεθεί εργασία, θα εμφανιστεί εδώ.' %>
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
