@@ -44,7 +44,7 @@
     border-color: #b92d2e;
 }
 
-.cancel-button.disabled {
+.cancel-button.disabled, .accept-button.disabled {
     background: #f5f5f5;
     color: #9e9e9e;
     border-color: #e0e0e0;
@@ -52,11 +52,57 @@
 
 }
 
-.cancel-button.disabled:hover {
+.cancel-button.disabled:hover, .accept-button.disabled:hover {
     background: #f5f5f5;
     color: #9e9e9e;
     border-color: #e0e0e0;
     box-shadow: none;
+    cursor: not-allowed;
+}
+
+.cancel-button.disabled {
+    position: relative;
+    display: inline-block;
+}
+
+
+.disable-button-message {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    right: 105%;
+    transform: translateY(-50%);
+    background: rgba(201, 214, 223);
+    color: #52616b;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(82, 97, 107, 0.15);
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: normal;
+    width: 250px;
+    text-align: left;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.disable-button-message::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-top: -6px;
+    border-width: 6px;
+    border-style: solid;
+    /*arrow styles*/
+    border-color: transparent transparent transparent rgba(201, 214, 223, 0.95);
+}
+
+/* show on hover */
+.cancel-button.disabled:hover .disable-button-message {
+    visibility: visible;
+    opacity: 1;
 }
 
 .light-cancel-button {
@@ -78,7 +124,6 @@
     color: #fff;
     border-color: #00b894;
 }
-
 
 .accept-button:hover {
     background: #009e74;
@@ -226,6 +271,9 @@
         width: 18px;
         height: 18px;
         opacity: 0.8;
+    }
+    .disable-button-message {
+        width: 100px;
     }
 
 }
