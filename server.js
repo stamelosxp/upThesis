@@ -30,7 +30,6 @@ const {
 } = require("./utils-backend/utils-server");
 
 const app = express();
-connectDB();
 
 // Make utility functions available in all EJS templates
 app.locals.formatDate = formatDate;
