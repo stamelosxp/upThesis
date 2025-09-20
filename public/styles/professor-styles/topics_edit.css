@@ -136,13 +136,6 @@
     border-color: #46535c;
 }
 
-.modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    padding: 1.5rem 2rem;
-    border-top: 2px solid #e0e6ed;
-    background-color: #f8f9fa;
-}
 
 @media (max-width: 640px) {
     .assign-student-modal {

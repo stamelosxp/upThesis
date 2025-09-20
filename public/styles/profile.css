@@ -27,6 +27,7 @@
     padding: 1rem 1.5rem;
 }
 
+
 .form-group-title {
     font-size: 1.3rem;
     font-weight: 700;
@@ -51,7 +52,7 @@ label {
     letter-spacing: 0.2px;
 }
 
-.form-group input {
+.form-group input, select {
     padding: 0.85rem 1rem;
     border: 1px solid #d5dde5;
     border-radius: 4px;
@@ -167,6 +168,11 @@ label {
     filter: brightness(0.8);
     transition: filter 0.2s;
     transform: scale(1.1);
+}
+
+#dynamic-fields label {
+    display: block; /* or inline-block */
+    margin-bottom: 0.8rem;
 }
 
 

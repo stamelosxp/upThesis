@@ -76,6 +76,7 @@
     padding: 0.8rem 0;
     border-bottom: 1px solid rgba(82, 97, 107, 0.1);
     margin-bottom: 0.8rem;
+    gap: 2rem;
 }
 
 /*topic expanded style*/
@@ -217,5 +218,8 @@
     .topic-item-expanded .input-textarea {
         height: fit-content;
         /*padding: 0;*/
+    }
+    .topic-collapsed-header {
+        font-size: 0.9rem;
     }
 }
