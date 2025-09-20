@@ -1,0 +1,52 @@
+<div class="modal-container" id="create-announcement-modal"
+     data-exist-announcement=<%= thesis.presentationDate ? "true" : "false" %>>
+    <div class="modal small">
+        <div class="modal-header">
+            <div class="modal-title">
+                <p>Παρουσίασή Διπλωματικής</p>
+                <button class="close-modal" id="close-announcement-modal" type="button">&times;</button>
+            </div>
+
+        </div>
+        <div class="modal-body">
+            <label for="announcement-date-time" id="label-announcement-date-time">Ημερομηνία και Ώρα <span
+                        class="warning-message"></span></label>
+            <input
+                    type="text"
+                    id="announcement-date-time"
+                    placeholder="π.χ. 25/12/2023 14:30"
+                    data-original-value=""
+            />
+
+            <label for="content-announcement-input" id="label-content-announcement-input">Κείμενο <span
+                        class="warning-message"></span></label>
+            <textarea
+                    id="content-announcement-input"
+                    rows="4"
+                    maxlength="310"
+                    data-original-value=""
+            ></textarea>
+            <label for="place-1" id="label-place-1">Αίθουσα <span class="warning-message"></span></label>
+            <input
+                    type="text"
+                    id="place-1"
+                    data-original-value=""
+                    maxlength="40"
+            />
+            <label for="place-2" id="label-place-2">Αίθουσα <span class="warning-message"></span></label>
+            <input
+                    type="text"
+                    id="place-2"
+                    data-original-value=""
+                    maxlength="90"
+            />
+        </div>
+        <div class="modal-footer">
+            <% if(!thesis.presentationDate) { %>
+                <button class="accept-button disabled" id="apply-announcement-button" type="button">Δημοσίευση</button>
+            <% } else { %>
+                <button class="accept-button disabled" id="update-announcement-button" type="button">Ενημέρωση</button>
+            <% } %>
+        </div>
+    </div>
+</div>
