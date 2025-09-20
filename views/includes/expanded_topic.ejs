@@ -1,28 +1,17 @@
-<%
-function formatDate(dateString) {
-    if (!dateString) return '';
-    const dateObj = new Date(dateString);
-    if (isNaN(dateObj.getTime())) return '';
-    const day = String(dateObj.getDate()).padStart(2, '0');
-    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-    const year = dateObj.getFullYear();
-    return `${day}/${month}/${year}`;
-}
-%>
-<div class="topic-item-expanded hidden" data-topic-id="<%= topic.id %>">
+<div class="topic-item-expanded hidden" data-topic-id="<%= topic._id %>">
     <div class="topic-form-group">
-        <label for="topic-input-title-<%= topic.id %>" id="label-topic-input-title-<%= topic.id %>">
+        <label for="topic-input-title-<%= topic._id %>" id="label-topic-input-title-<%= topic._id %>">
             <div class="topic-header">
                 <div>
                     Τίτλος Θέματος <span class="warning-message"></span>
                 </div>
-                <p class="simple-badge"><%= formatDate(topic.creationDate) %></p>
+                <p class="simple-badge"><%= formatDate(topic.updatedAt) %></p>
             </div>
         </label>
         <input
                 class="input-class hidden"
                 type="text"
-                id="topic-input-title-<%= topic.id %>"
+                id="topic-input-title-<%= topic._id %>"
                 value="<%= topic.title %>"
                 data-original-value="<%= topic.title %>"
                 required
@@ -32,9 +21,10 @@ function formatDate(dateString) {
     </div>
 
     <div class="topic-form-group">
-        <label for="topic-input-desc-<%= topic.id %>" id="label-topic-input-desc-<%= topic.id %>">Περιγραφή <span class="warning-message"></span></label>
+        <label for="topic-input-desc-<%= topic._id %>" id="label-topic-input-desc-<%= topic._id %>">Περιγραφή <span
+                    class="warning-message"></span></label>
         <textarea
-                id="topic-input-desc-<%= topic.id %>"
+                id="topic-input-desc-<%= topic._id %>"
                 maxlength="510"
                 required
                 disabled
@@ -43,8 +33,8 @@ function formatDate(dateString) {
     </div>
 
     <div class="topic-form-group file">
-        <label>Συννημένο</label>
         <% if (topic.filePath) { %>
+            <label>Συνημμένο</label>
 
             <% const reqFileName = topic.filePath.split('/').pop(); const reqFileExt = (reqFileName && reqFileName.includes('.') ? reqFileName.split('.').pop().toUpperCase() : ''); %>
             <p class="topic-file-exists">
@@ -61,44 +51,40 @@ function formatDate(dateString) {
 
             <input
                     type="file"
-                    id="update-topic-file-<%= topic.id %>"
+                    id="update-topic-file-<%= topic._id %>"
                     accept=".pdf,.doc,.docx,.txt"
                     class="update-file-input"
                     data-original-value="<%= topic.filePath %>"
+                    data-file-removed="false"
                     readonly
                     hidden
             />
 
         <% } else { %>
             <% if(locals.connectedUserRole === 'professor') { %>
+                <label>Συνημμένο</label>
                 <input
                         type="file"
-                        id="topic-file-<%= topic.id %>"
+                        id="topic-file-<%= topic._id %>"
                         accept=".pdf,.doc,.docx,.txt"
                         class="file-input"
                         data-original-value=""
                         readonly
                 />
-            <% } else { %>
-                <input
-                        type="text"
-                        value="-"
-                        readonly
-
-                />
             <% } %>
+
         <% } %>
     </div>
 
     <% if(locals.connectedUserRole === 'professor') { %>
         <div class="topic-form-group">
-            <label >Ανάθεση</label>
+            <label>Ανάθεση</label>
             <input
-                    id="topic-assignment-<%= topic.id %>"
+                    id="topic-assignment-<%= topic._id %>"
                     placeholder="Επιλέξτε Φοιτητή για Ανάθεση"
                     class="assignment"
                     value=""
-                    data-assignment-id="<%= topic.id %>"
+                    data-assignment-id="<%= topic._id %>"
                     data-original-value=""
                     data-student-assigned-id=""
                     readonly
@@ -107,15 +93,16 @@ function formatDate(dateString) {
 
 
         <div class="topic-buttons-group">
-            <button class="cancel-button delete-topic-button" id="delete-topic-button-<%= topic.id %>">Διαγραφή</button>
-            <button class="light-button edit-topic-button" id="edit-topic-button-<%= topic.id %>">Επεξεργασία</button>
+            <button class="cancel-button delete-topic-button" id="delete-topic-button-<%= topic._id %>">Διαγραφή
+            </button>
+            <button class="light-button edit-topic-button" id="edit-topic-button-<%= topic._id %>">Επεξεργασία</button>
         </div>
 
 
         <div class="edit-topic-buttons-group">
-            <button class="light-button cancel-edit-button" id="cancel-topic-button-<%= topic.id %>">Ακύρωση
+            <button class="light-button cancel-edit-button" id="cancel-topic-button-<%= topic._id %>">Ακύρωση
             </button>
-            <button class="accept-button hidden" id="submit-topic-button-<%= topic.id %>">Αποθήκευση</button>
+            <button class="accept-button disabled" id="submit-topic-button-<%= topic._id %>">Αποθήκευση</button>
         </div>
 
     <% } else { %>
@@ -123,7 +110,7 @@ function formatDate(dateString) {
             <label>Επιβλέπων</label>
             <input
                     type="text"
-                    value="Αλεξίου Δημήτριος"
+                    value="<%= topic.supervisorFullName %>"
                     readonly
             />
         </div>

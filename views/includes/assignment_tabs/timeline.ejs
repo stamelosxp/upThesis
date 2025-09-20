@@ -1,52 +1,7 @@
 <div class="timeline-content">
-    <% /* Zero-padded date formatter: accepts d/m/yyyy, dd/mm/yyyy, ISO, Date */
-    const formatDate = (d) => {
-        if (!d) return '-';
-        let day, month, year;
-        if (typeof d === 'string') {
-            const s = d.trim();
-            const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-            if (m) {
-                day = m[1];
-                month = m[2];
-                year = m[3];
-            } else {
-                const dt = new Date(s);
-                if (isNaN(dt)) return '-';
-                day = '' + dt.getDate();
-                month = '' + (dt.getMonth() + 1);
-                year = '' + dt.getFullYear();
-            }
-        } else {
-            const dt = new Date(d);
-            if (isNaN(dt)) return '-';
-            day = '' + dt.getDate();
-            month = '' + (dt.getMonth() + 1);
-            year = '' + dt.getFullYear();
-        }
-        if (day.length < 2) day = '0' + day;
-        if (month.length < 2) month = '0' + month;
-        return day + '/' + month + '/' + year;
-    };
-    %>
     <div class="info-section">
         <div class="content-group">
             <p class="group-header">Ιστορικό Καταστάσεων</p>
-            <% if (thesis.creationDate) { %>
-                <div class="info-member">
-                    <p>Δημιουργία Θέματος</p>
-                    <p class="info-badge"><%= formatDate(thesis.creationDate) %></p>
-                </div>
-            <% } %>
-
-            <% if (Array.isArray(thesis.modificationDate) && thesis.modificationDate.length > 0 && (userThesisRole === 'supervisor')) { thesis.modificationDate.forEach(function(modDateItem) { if(modDateItem !== null) { %>
-
-                <div class="info-member">
-                    <p>Τροποποίηση Θέματος</p>
-                    <p class="info-badge"><%= formatDate(modDateItem) %></p>
-                </div>
-            <% } }); } %>
-
             <% if(thesis.temporaryAssignmentDate){ %>
                 <div class="info-member">
                     <p>Προσωρινή Ανάθεση</p>
@@ -54,10 +9,10 @@
                 </div>
             <% } %>
 
-            <% if(thesis.assignmentDate){ %>
+            <% if(thesis.officialAssignmentDate){ %>
                 <div class="info-member">
                     <p>Επίσημη Ανάθεση</p>
-                    <p class="info-badge"><%= formatDate(thesis.assignmentDate) %></p>
+                    <p class="info-badge"><%= formatDate(thesis.officialAssignmentDate) %></p>
                 </div>
             <% } %>
 
@@ -72,9 +27,7 @@
             let showPresentationEntry = false;
             if (thesis.presentationDate) {
                 const _pres = new Date(thesis.presentationDate);
-                if (!isNaN(_pres) && _pres.getTime() <= Date.now()) {
-                    showPresentationEntry = true;
-                }
+                if (!isNaN(_pres) && _pres.getTime() <= Date.now()) showPresentationEntry = true;
             }
             %>
             <% if(showPresentationEntry){ %>
@@ -83,12 +36,14 @@
                     <p class="info-badge"><%= formatDate(thesis.presentationDate) %></p>
                 </div>
             <% } %>
+
             <% if(thesis.completedDate){ %>
                 <div class="info-member">
                     <p>Ολοκλήρωση</p>
                     <p class="info-badge"><%= formatDate(thesis.completedDate) %></p>
                 </div>
             <% } %>
+
             <% if(thesis.cancelledDate){ %>
                 <div class="info-member">
                     <p>Ακύρωση Ανάθεσης</p>
@@ -97,30 +52,33 @@
             <% } %>
         </div>
 
-        <% if (userThesisRole === "supervisor" || userThesisRole === 'student') { %>
-
-            <% if(thesis.status === 'pending' && (!thesis.professors.memberA.id || !thesis.professors.memberB.id)) { %>
+        <% if ((userThesisRole === "supervisor" || userThesisRole === 'student') && thesis.status !== 'completed' && thesis.status !== 'cancelled') { %>
+            <% if(thesis.status === 'pending' && (!thesis.professors?.memberA?.id || !thesis.professors?.memberB?.id)) { %>
                 <div class="content-group pending-invitations">
                     <p class="group-header invite">Εκκρεμείς Προσκλήσεις
-                        <button class="standard-button" id="new-invitation-button">Πρόσκληση</button>
+                        <button class="standard-button" id="invite-professor-button">Πρόσκληση</button>
                     </p>
-                    <div class="invite-professor-modal-container">
-                        <%- include('../invite_professor_modal', {professors: thesis.professors}) %>
-                    </div>
-                    <div class="invitation-items pending-list"></div>
+                    <ul class="invitation-items pending-list">
+                    </ul>
                 </div>
 
                 <div class="content-group completed-invitations">
                     <p class="group-header invite">Ολοκληρωμένες Προσκλήσεις</p>
-                    <div class="invitation-items completed-list"></div>
+                    <ul class="invitation-items completed-list">
+
+                    </ul>
                 </div>
+
             <% } else { %>
                 <div class="content-group completed-invitations">
-                    <p class="group-header">Ιστορικό Προσκλήσεων</p>
-                    <div class="invitation-items completed-list"></div>
+                    <p class="group-header invite">Ιστορικό Προσκλησεων</p>
+                    <ul class="invitation-items completed-list"></ul>
                 </div>
+            <% } %>
 
-        <% } } %>
-
+            <% if(thesis.status === 'pending'){ %>
+                <%- include('../invite_professor_modal') %>
+            <% } %>
+        <% } %>
     </div>
 </div>

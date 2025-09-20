@@ -1,20 +1,31 @@
+<%
+function checkEvaluationLoad() {
+    for (const key in thesis.gradesExists) {
+        if (thesis.gradesExists[key] === true) {
+            return 'true';
+        }
+    }
+    return 'false';
+}
+%>
+
 <div class="evaluation-content">
     <% if (thesis.status === 'active') { %>
         <% if (userThesisRole === 'supervisor') { %>
             <div class="no-data">
                 <p class="simple-message">
-                    Ορίστε τη διπλωματική σε Υπό-Εξέταση για να ξεκινήσει η διαδικασία
+                    Ορίστε τη διπλωματική σε Υπό-Αξιολόγηση για να ξεκινήσει η διαδικασία
                     αξιολόγησης.
                 </p>
-                <button class="accept-button">Ορισμός σε Υπό-Εξέταση</button>
+                <button class="accept-button" id="change-to-review">Ορισμός σε Υπό-Αξιολόγηση</button>
             </div>
         <% } else { %>
-            <p class="no-data">Περιμένετε τον Επιβλέπων να ορίσει τη Διπλωματική Εργασία σε Υπό-Εξέταση.</p>
+            <p class="no-data">Περιμένετε τον Επιβλέπων να ορίσει τη Διπλωματική Εργασία σε Υπό-Αξιολόγηση.</p>
         <% } %>
     <% } else if (thesis.status === 'review') { %>
         <div class="info-section">
             <p class="group-header">Αξιολόγηση</p>
-            <div class="grades-container">
+            <div class="grades-container" data-exist-grades="<%= checkEvaluationLoad() %>">
                 <% if (showEvaluation) { %>
                     <div class="mobile-navigation-table">
                         <button type="button" class="nav-arrow back-arrow" disabled> &larr;</button>
@@ -49,27 +60,28 @@
                                     <input type="number" min="0" max="10" step="0.1"
                                            class="evaluation-input"
                                            data-role="supervisor" data-metric="<%= metricKey %>"
-                                           value="" <%= userThesisRole === 'supervisor' && !thesis.gradesExists[0] ? '' : 'readonly' %> />
+                                           value="" <%= userThesisRole === 'supervisor' && !thesis.gradesExists.supervisor ? '' : 'readonly' %> />
                                 </td>
                                 <td class="<%= userThesisRole !== 'memberA' ? 'hidden' : '' %>">
                                     <input type="number" min="0" max="10" step="0.1"
                                            class="evaluation-input"
                                            data-role="memberA" data-metric="<%= metricKey %>"
-                                           value="" <%= userThesisRole === 'memberA' && !thesis.gradesExists[1] ? '' : 'readonly' %> />
+                                           value="" <%= userThesisRole === 'memberA' && !thesis.gradesExists.memberA ? '' : 'readonly' %> />
                                 </td>
                                 <td class="<%= userThesisRole !== 'memberB' ? 'hidden' : '' %>">
                                     <input type="number" min="0" max="10" step="0.1"
                                            class="evaluation-input"
                                            data-role="memberB" data-metric="<%= metricKey %>"
-                                           value="" <%= userThesisRole === 'memberB' && !thesis.gradesExists[2] ? '' : 'readonly' %> />
+                                           value="" <%= userThesisRole === 'memberB' && !thesis.gradesExists.memberB ? '' : 'readonly' %> />
                                 </td>
                             </tr>
                         <% }); %>
                         </tbody>
                     </table>
-                    <% if((userThesisRole === 'supervisor' && !thesis.gradesExists[0]) || (userThesisRole === 'memberA' && !thesis.gradesExists[1]) || (userThesisRole === 'memberB' && !thesis.gradesExists[2])){ %>
+                    <% if(!thesis.gradesExists[userThesisRole] && locals.connectedUserRole === 'professor'){ %>
                         <div class="grades-buttons-group">
-                            <button type="button" class="accept-button">Αποθήκευση</button>
+                            <button id="save-grades-button" type="button" class="accept-button disabled">Αποθήκευση
+                            </button>
                         </div>
                     <% } %>
                 <% } else { %>
@@ -86,11 +98,11 @@
                     let fileExists = false
                     let linkExists = false
                 %>
-                <div class="content-group">
+                <div class="content-group tmp-file">
                     <label for="temporary-report-file" class="group-header">Πρόχειρο Αρχείο</label>
                     <% if(thesis.temporaryReportFile){ fileExists = true %>
                     <p class="group-value">
-                        <a href="/download/temporary-report/<%= thesis.temporaryReportFile %>"
+                        <a href="<%= thesis.temporaryReportFile %>"
                            class="attachment-link"
                            target="_blank">
                             <span class="attachment-icon">📄</span>
@@ -120,14 +132,14 @@
                     <% } %>
 
                 </div>
-                <div class="content-group">
+
+                <div class="content-group links">
                     <p class="group-header">Πρόσθετοι Σύνδεσμοι</p>
                     <% if (thesis.temporaryLinks && thesis.temporaryLinks.length > 0) { linkExists = true %>
                     <ul class="links-list">
                         <% thesis.temporaryLinks.forEach(function(l){ if(l){ const trimmed = l.trim(); const displayName = trimmed.split('?')[0].split('#')[0].split('/').filter(Boolean).pop() || trimmed; %>
                         <li class="group-value">
-                            <a href="<%= trimmed %>" class="attachment-link" target="_blank"
-                               rel="noopener noreferrer">
+                            <a href="<%= normalizeUrl(trimmed) %>" class="attachment-link" target="_blank">
                                 <span class="attachment-icon" title="Link">📎</span>
                                 <span class="name-content"><%= displayName %></span>
                                 <span class="attachment-type">LINK</span>
@@ -155,21 +167,21 @@
                     <% } %>
                 </div>
                 <% if(userThesisRole === 'student' && (!fileExists || !linkExists)) { %>
-                    <div class="grades-buttons-group" data-file-exists="<%= fileExists %>"
-                         data-link-exists="<%= linkExists %>">
-                        <button type="button" class="accept-button" id="student-upload-button">Αποθήκευση</button>
+                    <div class="grades-buttons-group">
+                        <button type="button" class="accept-button disabled" id="student-upload-button">Αποθήκευση
+                        </button>
                     </div>
                 <% } %>
             <% } else { %>
                 <div class="content-group">
-                    <label for="nemertes-link-input" class="group-header">Νημέρτης</label>
+                    <label for="nemertes-link-input" class="group-header">Νημέρτης <span class="warning-message"></span></label>
 
                     <% if(thesis.nemertesLink) { %>
                         <% const trimmed = String(thesis.nemertesLink).trim(); if (trimmed) { const displayName = trimmed.split('?')[0].split('#')[0].split('/').filter(Boolean).pop() || trimmed; %>
                         <p class="group-value">
-                            <a href="<%= trimmed %>" class="attachment-link" target="_blank" rel="noopener noreferrer">
+                            <a href="<%= normalizeUrl(thesis.nemertesLink) %>" class="attachment-link" target="_blank">
                                 <span class="attachment-icon" title="Link">📎</span>
-                                <span class="name-content"><%= displayName %></span>
+                                <span class="name-content">Νημέρτης</span>
                                 <span class="attachment-type">LINK</span>
                             </a>
                         </p>
@@ -181,11 +193,12 @@
                             <input
                                     type="url"
                                     id="nemertes-link-input"
-                                    class="link-exist-container"
-                                    placeholder="Προσθέστε Σύνδεσμο Νημέρτης"
-                            />
+                                    class="link-input-field"
+                                    placeholder="Προσθήκη συνδέσμου"
+                                    data-original-value=""
+                            >
                             <div class="grades-buttons-group">
-                                <button type="button" class="accept-button" id="nemertes-upload-button">Αποθήκευση
+                                <button type="button" class="accept-button disabled" id="nemertes-upload-button">Αποθήκευση
                                 </button>
                             </div>
                         <% } %>
@@ -197,3 +210,12 @@
         </div>
     <% } %>
 </div>
+
+<%
+function normalizeUrl(url) {
+    if (!/^https?:\/\//i.test(url)) {
+        return 'https://' + url; // default to https
+    }
+    return url;
+}
+%>

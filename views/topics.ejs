@@ -4,12 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><%= pageTitle %> | upThesis</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
-            rel="stylesheet"
-    />
+
     <link rel="stylesheet" href="/styles/topics.css"/>
     <script type="module" src="/scripts/topics.js" defer></script>
 
@@ -67,14 +62,14 @@
 
                 <% if(topics && topics.length > 0) { %>
 
-                    <% topics.forEach(function(topic, index) { %>
+                    <% topics.forEach(function(topic) { %>
                         <li class="topic-item">
                             <div class="topic-item-collapsed">
                                 <div class="topic-collapsed-header">
                                     <h3 class="topic-header">
                                         <%= topic.title %>
                                     </h3>
-                                    <p class="simple-badge"><%= formatDate(topic.creationDate) %></p>
+                                    <p class="simple-badge"><%= formatDate(topic.updatedAt) %></p>
                                 </div>
                                 <small class="expand-button">Κλικ για ανάπτυξη</small>
                             </div>

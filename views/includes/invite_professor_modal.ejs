@@ -1,22 +1,24 @@
-<div class="invite-professor-modal" data-thesis-professors='<%= JSON.stringify(professors) %>'>
-    <div class="modal-header">
-        <div class="modal-title">
-            <p>Πρόσκληση Διδάσκοντα</p>
-            <button class="close-modal" type="button">&times;</button>
+<div class="modal-container" id="invite-professor-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title">
+                <p>Πρόσκληση Διδάσκοντα</p>
+                <button class="close-modal" id="close-invite-modal-button" type="button">&times;</button>
+            </div>
+
         </div>
-        <input
-                type="text"
-                class="professor-search-bar"
-                placeholder="Αναζήτηση διδάσκοντα..."
-        />
-    </div>
-    <div class="modal-body">
-        <ul class="professors-list">
-        </ul>
-        <p class="no-data professors-loading">Φόρτωση...</p>
-        <p class="no-data professors-no-results">Δεν βρέθηκαν αποτελέσματα</p>
-    </div>
-    <div class="modal-footer">
-        <button class="standard-button" type="button">Πρόσκληση</button>
+        <div class="modal-body">
+            <input
+                    type="text"
+                    class="professor-search-bar"
+                    placeholder="Αναζήτηση Διδάσκοντα (όνομα, επώνυμο, email)"
+                    id="professor-search"
+            />
+            <ul class="professors-list">
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <button class="standard-button" id="apply-invitation-button" type="button">Πρόσκληση</button>
+        </div>
     </div>
 </div>

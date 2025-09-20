@@ -4,15 +4,16 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><%= pageTitle %> | UpThesis</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
-            rel="stylesheet"
-    />
+
     <link rel="stylesheet" href="/styles/profile.css"/>
     <% if(currentPage !== 'new_user') { %>
-        <script src="/scripts/profile.js" defer></script>
+        <script type="module" src="/scripts/profile.js" defer></script>
+    <% } else { %>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://unpkg.com/flatpickr@4.6.13/dist/l10n/gr.js"></script>
+        <script type="module" src="/scripts/new_user.js" defer></script>
+
     <% } %>
 </head>
 <body>
@@ -33,7 +34,6 @@
             </section>
         <% } %>
 
-
         <%- include('includes/current-page-header', {currentPage: currentPage, pageTitle: pageTitle}) %>
 
         <%
@@ -52,6 +52,7 @@
             if (currentPage !== 'new_user') {
                 return 'readonly';
             }
+            return null
         }
         %>
 
@@ -60,27 +61,38 @@
                 <div id="profile-details-form">
                     <h2 class="form-group-title">Βασικά Στοιχεία</h2>
                     <div class="form-group">
-                        <label for="firstName">Όνομα</label>
-                        <input type="text" id="firstName" name="firstName"
-                               value="<%= user ? user.firstName : '' %> " <%= toggleReadOnly() %>/>
-                        <label for="lastName">Επώνυμο</label>
-                        <input type="text" id="lastName" name="lastName" value="<%= user ? user.lastName : '' %> "
-                                <%= toggleReadOnly() %>/>
-                        <label for="birthDate">Ημερομηνία Γέννησης</label>
-                        <% if(currentPage !== 'new_user') { %>
-                            <input type="text" id="birthDate" name="birthDate" value="<%= formatDate(user.birthDate) %>"
-                                    <%= toggleReadOnly() %>/>
-                        <% } else { %>
-                            <input type="date" id="birthDate" name="birthDate"/>
-                        <% } %>
 
-                        <label for="school">Σχολή</label>
-                        <input type="text" id="school" name="school" value="<%= user ? user.department : '' %>"
-                                <%= toggleReadOnly() %>/>
+                        <label for="first-name" id="label-fistName">Όνομα <span class="warning-message"></span></label>
+                        <input type="text" id="first-name"
+                               value="<%= user ? user.firstName : "" %> " <%= toggleReadOnly() %>/>
+
+                        <label for="last-name" id="label-last-name">Επώνυμο <span
+                                    class="warning-message"></span></label>
+                        <input type="text" id="last-name"
+                               value="<%= user ? user.lastName : '' %> " <%= toggleReadOnly() %>/>
+
+                        <label for="birth-date-input" id="label-birth-date-input">Ημερομηνία Γέννησης <span
+                                    class="warning-message"></span></label>
+                        <input type="text" id="birth-date-input"
+                               value="<%= user ? formatDate(user.birthDate) : '' %>" <%= toggleReadOnly() %>/>
+
+
+                        <label for="school" id="label-school">Σχολή <span class="warning-message"></span></label>
+                        <input type="text" id="school" name="school"
+                               value="<%= user ? user.department : '' %>" <%= toggleReadOnly() %>/>
+
                     </div>
 
+                    <%
+                    function addUserIdToForm() {
+                        if (currentPage !== 'new_user') {
+                            return `data-user-id=${user._id}`;
+                        }
+                    }
+                     %>
+
                     <h2 class="form-group-title">Στοιχεία Επικοινωνίας</h2>
-                    <div class="form-group communication">
+                    <div class="form-group communication" <%= addUserIdToForm() %>>
                         <label for="email" id="label-email">Email <span class="warning-message"></span></label>
                         <input type="email" id="email" name="email" value="<%= user ? user.email : '' %>"
                                data-original-value="<%= user ? user.email : '' %>"/>
@@ -96,90 +108,121 @@
                                data-original-value="<%= user ? user.phone : '' %>"/>
                         <% if(currentPage !== 'new_user') { %>
                             <div class=" form-button-group hidden communication">
-                                <button class="light-cancel-button" id="cancel-com-data">Ακύρωση</button>
-                                <button class="accept-button">Αποθήκευση</button>
+                                <button class="light-button" id="cancel-com-data">Ακύρωση</button>
+                                <button class="accept-button disabled" id="update-com-data">Αποθήκευση</button>
                             </div>
                         <% } %>
+
                     </div>
 
-                    <% if(currentPage === 'profile') { %>
-                        <h2 class="form-group-title">Στοιχεία Λογαριασμού</h2>
-                        <div class="form-group account">
-                            <label for="username" id="label-username">Όνομα Χρήστη <span
-                                        class="warning-message"></span></label>
-                            <input type="text" id="username" name="username" value="<%= user.username %>"
-                                   data-original-value="<%= user.username %>"/>
+                    <% if(!toggleReadOnly()) { %>
+                        <h2 class="form-group-title">Επιπλέον Στοιχεία</h2>
+                        <div class="form-group extra-details">
+                            <label for="gender">Φύλο <span class="warning-message"></span></label>
+                            <select id="gender" class="form-control">
+                                <option value="default" disabled selected>Επιλέξτε Φύλο</option>
+                                <option value="male">Άνδρας</option>
+                                <option value="female">Γυναίκα</option>
+                            </select>
 
-                            <label for="photo">Φωτογραφία Προφίλ</label>
-                            <div class="photo-content">
-                                <div class="profile-photo-preview">
-                                    <img src="<%= user.profilePhoto %>" alt="Profile Photo" id="profile-photo-img"/>
-                                </div>
-                                <input type="file" id="photo" name="profilePhoto" accept="image/*"
-                                       data-original-value="<%= user.profilePhoto ? user.profilePhoto : '/icons/profile.png' %>"/>
-                            </div>
-                            <label for="old_password" id="label-old_password">Παλιός Κωδικός<span
-                                        class="warning-message"></span></label>
-                            <div class="password-input-wrapper">
-                                <input type="password" id="old_password" name="password" data-original-value=""/>
-                                <button type="button" class="toggle-password-visibility" data-target="old_password"
-                                        aria-label="Εμφάνιση/Απόκρυψη κωδικού">
-                                    <img src="/icons/show.png" alt="Show/Hide Password"/>
-                                </button>
-                            </div>
+                            <label for="type-id">Ρόλος Χρήση <span class="warning-message"></span></label>
+                            <select id="type-id" class="form-control">
+                                <option value="default" disabled selected>Επιλέξτε Ρόλο</option>
+                                <option value="student">Φοιτητής</option>
+                                <option value="professor">Καθηγητής</option>
+                            </select>
 
-                            <label for="new_password" id="label-new_password">Νέος Κωδικός<span
-                                        class="warning-message"></span></label>
-                            <div class="password-input-wrapper">
-                                <input type="password" id="new_password" name="password" data-original-value="">
-                                <button type="button" class="toggle-password-visibility" data-target="new_password"
-                                        aria-label="Εμφάνιση/Απόκρυψη κωδικού">
-                                    <img src="/icons/show.png" alt="Show/Hide Password"/>
-                                </button>
-                            </div>
+                            <div id="dynamic-fields">
 
-                            <label for="confirm_password" id="label-confirm_password">Επαλήθευση Νέου<span
-                                        class="warning-message"></span></label>
-                            <div class="password-input-wrapper">
-                                <input type="password" id="confirm_password" name="password" data-original-value=""/>
-                                <button type="button" class="toggle-password-visibility" data-target="confirm_password"
-                                        aria-label="Εμφάνιση/Απόκρυψη κωδικού">
-                                    <img src="/icons/show.png" alt="Show/Hide Password"/>
-                                </button>
-                            </div>
-
-                            <div class="form-button-group hidden account">
-                                <button class="light-cancel-button" id="cancel-acc-data">Ακύρωση</button>
-                                <button class="accept-button">Αποθήκευση</button>
                             </div>
                         </div>
-                    <% } %>
 
-                    <% if (user && user.role !== 'secretary') { %>
-                        <div class="form-group">
 
-                            <h2 class="form-group-title">Ακαδημαϊκά Στοιχεία</h2>
-                            <label for="role">Ιδιότητα</label>
-                            <input type="text" id="role" name="role" value="Καθηγητής" <%= toggleReadOnly() %>/>
-
-                            <% if (user.role === 'professor') { %>
-
-                                <label for="rank">Βαθμίδα</label>
-                                <input type="text" id="rank" name="rank" value="<%= user.typeProfessor %>"
-                                        <%= toggleReadOnly() %>/>
-
-                            <% } else if (user.role === 'student') { %>
-                                <label for="studentId">Αριθμός Μητρώου</label>
-                                <input type="text" id="studentId" name="studentId" value="<%= user.studentId %>"
-                                        <%= toggleReadOnly() %>/>
-                                <label for="year">Έτος Φοίτησης</label>
-                                <input type="text" id="year" name="year" value="<%= user.yearOfStudies %>"
-                                        <%= toggleReadOnly() %>/>
-                                %>
-                            <% } %>
+                        <div class="form-button-group extra-details">
+                            <button class="accept-button disabled" id="save-new-user-button">Προσθήκη</button>
                         </div>
-                    <% } %>
+
                 </div>
+                <% } %>
+                <div>
+
+                </div>
+
+                <% if(currentPage === 'profile') { %>
+                    <h2 class="form-group-title">Στοιχεία Λογαριασμού</h2>
+                    <div class="form-group account">
+                        <label for="username" id="label-username">Όνομα Χρήστη <span
+                                    class="warning-message"></span></label>
+                        <input type="text" id="username" name="username" value="<%= user.username %>"
+                               data-original-value="<%= user.username %>"/>
+
+                        <label for="photo">Φωτογραφία Προφίλ</label>
+                        <div class="photo-content">
+                            <div class="profile-photo-preview">
+                                <img src="<%= user.profilePhoto %>" alt="Profile Photo" id="profile-photo-img"/>
+                            </div>
+                            <input type="file" id="photo" name="profilePhoto" accept="image/*"
+                                   data-original-value="<%= user.profilePhoto ? user.profilePhoto : '/icons/profile.png' %>"/>
+                        </div>
+                        <label for="old_password" id="label-old_password">Παλιός Κωδικός<span
+                                    class="warning-message"></span></label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="old_password" name="password" data-original-value=""/>
+                            <button type="button" class="toggle-password-visibility" data-target="old_password"
+                                    aria-label="Εμφάνιση/Απόκρυψη κωδικού">
+                                <img src="/icons/show.png" alt="Show/Hide Password"/>
+                            </button>
+                        </div>
+
+                        <label for="new_password" id="label-new_password">Νέος Κωδικός<span
+                                    class="warning-message"></span></label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="new_password" name="password" data-original-value="">
+                            <button type="button" class="toggle-password-visibility" data-target="new_password"
+                                    aria-label="Εμφάνιση/Απόκρυψη κωδικού">
+                                <img src="/icons/show.png" alt="Show/Hide Password"/>
+                            </button>
+                        </div>
+
+                        <label for="confirm_password" id="label-confirm_password">Επαλήθευση Νέου<span
+                                    class="warning-message"></span></label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="confirm_password" name="password" data-original-value=""/>
+                            <button type="button" class="toggle-password-visibility" data-target="confirm_password"
+                                    aria-label="Εμφάνιση/Απόκρυψη κωδικού">
+                                <img src="/icons/show.png" alt="Show/Hide Password"/>
+                            </button>
+                        </div>
+
+                        <div class="form-button-group hidden account">
+                            <button class="light-button" id="cancel-acc-data">Ακύρωση</button>
+                            <button class="accept-button disabled" id="update-acc-data">Αποθήκευση</button>
+                        </div>
+                    </div>
+                <% } %>
+
+                <% if (user && user.role !== 'secretary') { %>
+                    <div class="form-group">
+                        <h2 class="form-group-title">Ακαδημαϊκά Στοιχεία</h2>
+                        <label for="role">Ιδιότητα</label>
+                        <input type="text" id="role" name="role" value="<%= greekRole(user.role)%>" <%= toggleReadOnly() %>/>
+
+                        <% if (user.role === 'professor') { %>
+                            <label for="rank">Βαθμίδα</label>
+                            <input type="text" id="rank" name="rank" value="<%= user.typeOfProfessor %>"
+                                    <%= toggleReadOnly() %>/>
+
+                        <% } else if (user.role === 'student') { %>
+                            <label for="studentId">Αριθμός Μητρώου</label>
+                            <input type="text" id="studentId" name="studentId" value="<%= user.studentId %>"
+                                    <%= toggleReadOnly() %>/>
+                            <label for="year">Έτος Φοίτησης</label>
+                            <input type="text" id="year" name="year" value="<%= user.yearOfStudies %>"
+                                    <%= toggleReadOnly() %>/>
+                            %>
+                        <% } %>
+                    </div>
+                <% } %>
             </div>
         </section>
     </main>

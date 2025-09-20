@@ -1,19 +1,10 @@
-<div class="invitation-item-expanded">
+<div class="invitation-item-expanded hidden">
     <div class="content-group">
         <div class="group-title-badges">
             <p class="group-header">Τίτλος</p>
             <div class="badges-group expanded">
                 <p class="simple-badge">
-                    <% if (invItem.createdAt) {
-                        const dateObj = new Date(invItem.createdAt);
-                        const day = String(dateObj.getDate()).padStart(2, '0');
-                        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-                        const year = dateObj.getFullYear();
-                    %>
-                    <%= day %>/<%= month %>/<%= year %>
-                    <% } else { %>
-                        -
-                    <% } %>
+                    <%= formatDate(invItem.createdAt) %>
                 </p>
                 <p class="status-badge <%= invItem.status %>"><%= invItem.status === 'pending' ? 'Εκκρεμής' : (invItem.status === 'rejected' ? 'Απορριφθείσα' : 'Αποδεκτή') %></p>
             </div>
@@ -26,12 +17,12 @@
         <p class="group-value"><%= invItem.thesis.description %></p>
     </div>
 
-    <% if (invItem.thesis.descFile) { %>
+    <% if (invItem.thesis.filePath) { %>
         <div class="content-group">
             <p class="group-header">Συννημένο</p>
-            <% const reqFileName = invItem.thesis.descFile.split('/').pop(); const reqFileExt = (reqFileName && reqFileName.includes('.') ? reqFileName.split('.').pop().toUpperCase() : ''); %>
+            <% const reqFileName = invItem.thesis.filePath.split('/').pop(); const reqFileExt = (reqFileName && reqFileName.includes('.') ? reqFileName.split('.').pop().toUpperCase() : ''); %>
             <p class="group-value">
-                <a href="<%= invItem.thesis.descFile %>" target="_blank" class="attachment-link"
+                <a href="<%= invItem.thesis.filePath %>" target="_blank" class="attachment-link"
                    title="<%= reqFileName %>">
                     <span class="attachment-icon">📄</span>
                     <span class="name-content"><%= reqFileName %></span>
@@ -44,19 +35,19 @@
 
     <div class="content-group">
         <p class="group-header">Επιβλέπων</p>
-        <p class="group-value"><%= invItem.thesis.professors.supervisor.fullName %></p>
+        <p class="group-value"><%= invItem.thesis.supervisorFullName %></p>
     </div>
 
     <div class="content-group">
         <p class="group-header">Φοιτητής</p>
-        <p class="group-value"><%= invItem.thesis.student.fullName %>, <%= invItem.thesis.student.idNumber %></p>
+        <p class="group-value"><%= invItem.thesis.studentFullName %>, <%= invItem.thesis.studentIdNumber %></p>
     </div>
 
     <% if(invItem.status === 'pending') { %>
         <div class="pending-buttons">
-            <button class="cancel-button" data-id="<%= invItem.id %>">Απόρριψη</button>
-            <button class="accept-button" data-id="<%= invItem.id %>">Αποδοχή</button>
+            <button class="cancel-button" data-id="<%= invItem._id %>">Απόρριψη</button>
+            <button class="accept-button" data-id="<%= invItem._id %>">Αποδοχή</button>
         </div>
     <% } %>
-    <small class="collapse-button">Κλικ για σύμπτηξη</small>
+    <small class="collapse-button">Κλικ για σύμπηξη</small>
 </div>

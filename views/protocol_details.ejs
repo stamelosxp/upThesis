@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Πρακτικό Συνεδρίασης</title>
     <link rel="stylesheet" href="/styles/protocol_details.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="/scripts/protocol.js" defer></script>
 </head>
 <body>
-<main>
+<main id="content">
     <div class="protocol-header">
         <div class="protocol-group-content">
             <p>
@@ -87,7 +90,7 @@
         <p>
             <%= protocol.student.gender === "male" ? "Ο φοιτητής" : "Η φοιτήτρια" %> κ.
             <span class="protocol-student-name"><%= protocol.student.fullName %></span> ανέπτυξε το θέμα της
-            Διπλωματικής  <%= protocol.student.gender === "male" ? "του" : "της" %> Εργασίας με τίτλο
+            Διπλωματικής <%= protocol.student.gender === "male" ? "του" : "της" %> Εργασίας με τίτλο
             <br/>
             &laquo;<span class="protocol-thesis-title"><%= protocol.thesisTitle %></span>&raquo;.
         </p>
@@ -172,7 +175,8 @@
         <p>Μετά την έγκριση και την απονομή του βαθμού <span id="protocol-final-grade"><%= protocol.finalGrade %></span>,
             η Τριμελής Επιτροπή,
             προτείνει να
-            προχωρήσει στην διαδικασία για να ανακηρύξει <%= protocol.student.gender === "male" ? "τον" : "την" %> κ. <span
+            προχωρήσει στην διαδικασία για να ανακηρύξει <%= protocol.student.gender === "male" ? "τον" : "την" %> κ.
+            <span
                     class="protocol-student-name"><%= protocol.student.fullName %></span>, σε
             διπλωματούχο του Προγράμματος Σπουδών του &laquo;ΤΜΗΜΑΤΟΣ ΜΗΧΑΝΙΚΩΝ, ΗΛΕΚΤΡΟΝΙΚΩΝ
             ΥΠΟΛΟΓΙΣΤΩΝ ΚΑΙ ΠΛΗΡΟΦΟΡΙΚΗΣ ΠΑΝΕΠΙΣΤΗΜΙΟΥ ΠΑΤΡΩΝ&raquo; και να του απονέμει το Δίπλωμα
@@ -180,7 +184,7 @@
     </div>
     <br>
     <div class="protocol-group-content button">
-        <button class="standard-button">Κατέβασμα</button>
+        <button class="standard-button" id="save-button">Κατέβασμα</button>
     </div>
 </main>
 

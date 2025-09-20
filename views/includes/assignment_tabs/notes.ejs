@@ -1,57 +1,62 @@
 <div class="notes-content">
-    <div class="info-section">
-        <p class="group-header note">Σημειώσεις
-            <button class="standard-button" id="new-note-button">Νέα Σημείωση</button>
-        </p>
+  <div class="info-section">
+    <p class="group-header note">
+      Σημειώσεις
+      <button class="standard-button" id="new-note-button">Νέα Σημείωση</button>
+    </p>
 
-        <div class="new-note-container">
-            <div class="content-group">
-                <label for="new-note-title">
-                    Τίτλος Σημείωσης
-                </label>
-                <input
-                        type="text"
-                        id="new-note-title"
-                        placeholder="Εισάγετε Τίτλο Σημείωσης"
-                        required
-                        class="input-note"
-                />
-            </div>
+    <div class="new-note-container">
+      <div class="content-group">
+        <label for="new-note-title" id="label-new-note-title">
+          Τίτλος Σημείωσης <span class="warning-message"></span>
+        </label>
+        <input
+          type="text"
+          id="new-note-title"
+          placeholder="Εισάγετε Τίτλο Σημείωσης"
+          required
+          class="input-note"
+        />
+      </div>
 
-            <div class="content-group">
-                <label for="new-note-content">Περιεχόμενο</label>
-                <textarea
-                        id="new-note-content"
-                        maxlength="500"
-                        placeholder="Εισάγετε Περιεχόμενο Σημείωσης"
-                        required
-                ></textarea>
-            </div>
+      <div class="content-group">
+        <label for="new-note-content" id="label-new-note-content">
+          Περιεχόμενο <span class="warning-message"></span>
+        </label>
+        <textarea
+          id="new-note-content"
+          maxlength="310"
+          placeholder="Εισάγετε Περιεχόμενο Σημείωσης"
+          required
+        ></textarea>
+      </div>
 
-            <div class="new-note-buttons-group">
-                <button class="light-cancel-button" id="cancel-new-note-button">Ακύρωση
-                </button>
-                <button class="accept-button" id="submit-new-note-button">Αποθήκευση</button>
-            </div>
-        </div>
-
+      <div class="new-note-buttons-group">
+        <button class="light-button" id="cancel-new-note-button">
+          Ακύρωση
+        </button>
+        <button class="accept-button disabled" id="submit-new-note-button">
+          Αποθήκευση
+        </button>
+      </div>
     </div>
+  </div>
 
-    <ul class="notes-list" id="notes-list" data-loaded="false">
-        <li class="no-data" id="notes-empty">Δεν υπάρχουν σημειώσεις.</li>
-    </ul>
+  <ul class="notes-list" id="notes-list" data-loaded="false"></ul>
 </div>
 
-<div id="noteOverlay" class="note-overlay">
-    <div class="note-modal">
-        <div class="note-modal-header">
-            <h3 id="modalNoteTitle">Τίτλος Σημείωσης</h3>
-            <button class="close-modal" id="closeNoteModal">&times;</button>
-        </div>
-        <div class="note-modal-body">
-            <div class="note-content" id="modalNoteContent">
-                Περιεχόμενο σημείωσης...
-            </div>
-        </div>
+<div class="modal-container" id="notes-modal-container">
+  <div class="modal small" id="notes-details-modal">
+    <div class="modal-header">
+      <div class="modal-title">
+        <p id="modal-title" class="modal-title-note"></p>
+        <button class="close-modal" id="close-note-modal-button" type="button">
+          &times;
+        </button>
+      </div>
     </div>
+    <div class="modal-body">
+      <p class="group-value" id="name-content-text"></p>
+    </div>
+  </div>
 </div>

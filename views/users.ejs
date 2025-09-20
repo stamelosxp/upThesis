@@ -4,14 +4,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><%= pageTitle %> | UpThesis</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
-            rel="stylesheet"
-    />
+
     <link rel="stylesheet" href="/styles/users.css"/>
-    <script src="/scripts/users.js" defer></script>
+    <script type="module" src="/scripts/users.js" defer></script>
 </head>
 <body>
 <%- include('includes/main-header') %>
@@ -71,13 +66,15 @@
                 </ul>
 
             <% } else { %>
-                <p class="no-data">Δεν υπάρχουν αποτελέσματα.</p>
+                <ul id="users-list">
+                    <p class="no-data">Δεν υπάρχουν αποτελέσματα.</p>
+                </ul>
             <% } %>
         </section>
 
         <!-- Import Modal -->
         <div class="modal-container">
-            <div class="modal">
+            <div class="modal small">
                 <div class="modal-backdrop"></div>
                 <div class="modal-header">
                     <div class="modal-title">
@@ -87,17 +84,19 @@
                 </div>
                 <div class="modal-body">
                     <div class="content-group">
-                        <label class="group-header" for="import-file">Εισαγωγή Από Αρχείο</label>
+                        <label class="group-header" for="import-file">Εισαγωγή Από Αρχείο <span
+                                    class="warning-message"></span></label>
                         <input type="file" id="import-file" accept=".csv, .json" class="group-value input"/>
                     </div>
                     <div class="content-group">
-                        <label class="group-header" for="import-link">Εισαγωγή Από Σύνδεσμο</label>
+                        <label class="group-header" for="import-link" id="label-link">Εισαγωγή Από Σύνδεσμο <span
+                                    class="warning-message"></span></label>
                         <input type="text" id="import-link" placeholder="https://example.com/users.json"
                                class="group-value input"/>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="accept-button" id="confirm-import" type="button">Εισαγωγή</button>
+                    <button class="accept-button disabled" id="confirm-import" type="button">Εισαγωγή</button>
                 </div>
             </div>
         </div>
