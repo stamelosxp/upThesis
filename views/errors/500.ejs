@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="el">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle || 'Σφάλμα 500' %> | UpThesis</title>
+
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <%- include('../includes/main-header') %>
+    <div class="layout">
+      <%- include('../includes/main-menu', { currentPage: currentPage }) %>
+      <main>
+        <%- include('../includes/current-page-header', { currentPage:
+        currentPage, pageTitle: pageTitle || 'Σφάλμα 500' }) %>
+        <section id="main-content" class="error-section">
+          <div class="box-container">
+            <div class="content-card-list">
+              <div class="content-card">
+                <h1 class="error-title">500 — Εσωτερικό σφάλμα διακομιστή</h1>
+                <p class="error-subtitle">
+                  Κάτι πήγε στραβά από την πλευρά μας. Παρακαλούμε δοκιμάστε
+                  ξανά αργότερα ή επιστρέψτε στην αρχική.
+                </p>
+                <div class="back-section">
+                  <a href="/">Αρχική σελίδα</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
