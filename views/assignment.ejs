@@ -4,15 +4,14 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><%= pageTitle %> | upThesis</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
-            rel="stylesheet"
-    />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://unpkg.com/flatpickr@4.6.13/dist/l10n/gr.js"></script>
+
 
     <link rel="stylesheet" href="/styles/assignment.css"/>
-    <script src="/scripts/assignment.js" defer></script>
+    <script type="module" src="/scripts/assignment.js" defer></script>
 </head>
 <body>
 <%- include('includes/main-header') %>
@@ -31,82 +30,102 @@
                 </a>
             </section>
         <% } %>
-        <section id="assignment-detail">
-            <div class="assignment-header">
-                <div class="title-status-container">
-                    <h2><%= thesis.title %></h2>
-                    <p class="status-badge <%= thesis.status %>">
-                        <% let statusText = ''; if (thesis.status) {
-                            switch (thesis.status.toLowerCase()) {
-                                case 'completed':
-                                    statusText = 'Ολοκληρωμένη';
-                                    break;
-                                case 'active':
-                                    statusText = 'Ενεργή';
-                                    break;
-                                case 'pending':
-                                    statusText = 'Υπό-Ανάθεση';
-                                    break;
-                                case 'review':
-                                    statusText = 'Υπό-Εξέταση';
-                                    break;
-                                case 'cancelled':
-                                    statusText = 'Ακυρωμένη';
-                                    break;
-                                default:
-                                    statusText = thesis.status;
-                            }
-                        } %>
-                        <%= statusText %>
-                    </p>
-                </div>
 
-                <%
-                let showEvaluation = false;
-                if (thesis.presentationDate) {
-                    const _pres = new Date(thesis.presentationDate);
-                    if (!isNaN(_pres) && _pres.getTime() <= Date.now()) {
-                        showEvaluation = true;
-                    }
-                }
-                let canCancel = false;
-                if (thesis.assignmentDate) {
-                    const _cancelProf = new Date(thesis.assignmentDate);
-                    if (!isNaN(_cancelProf)) {
-                        const now = new Date();
-                        const twoYearsMs = 2 * 365 * 24 * 60 * 60 * 1000;
-                        if (now.getTime() - _cancelProf.getTime() >= twoYearsMs) {
-                            canCancel = true;
-                        }
-                    }
-                }
-                %>
+        <div class="assignment-header">
 
-                <% if ( thesis.status === 'pending' && userThesisRole === 'supervisor'){ %>
-                    <button class="cancel-button <%= canCancel ? 'enabled' : 'disabled' %>">
-                        Ακύρωση Ανάθεσης
-                    </button>
-                <% } else if (thesis.status === 'pending' && userThesisRole === 'secretary' && thesis.professors.memberA.id && thesis.professors.memberB.id) { %>
-                    <button class="standard-button">
-                        Επίσημη Ανάθεση
-                    </button>
-                <% } else if (thesis.status === 'active' && userThesisRole === 'secretary') { %>
-                    <button class="cancel-button enabled">
-                        Ακύρωση Ανάθεσης
-                    </button>
-                <% } else if (thesis.status === 'active' && userThesisRole === 'supervisor' ) { %>
-                    <button class="cancel-button <%= canCancel ? 'enabled' : 'disabled' %>">
-                        Ακύρωση Ανάθεσης
-                    </button>
-                <% } else if (thesis.status === 'review' && (userThesisRole === 'supervisor' || userThesisRole === 'student') && !showEvaluation ){ %>
-                    <% /* need to change the condition to check if not exists temporary report and links (links are optional) show enable or disable button */ %>
-                    <button class="standard-button">Παρουσίαση</button>
-                <% } else if (thesis.status === 'review' && userThesisRole === 'secretary' && thesis.finalGrade && thesis.nemertesLink) { %>
-                    <button class="accept-button">Ολοκλήρωση</button>
-                <% } %>
+            <div class="title-status-container">
+                <h2><%= thesis.title %></h2>
+                <%- include('includes/assignment-status-badge', {assignment: thesis}) %>
             </div>
 
-            <div class="assignment-detail-container" data-thesis-id="<%= thesis.id %>"
+            <%
+            let showEvaluation = false;
+            if (thesis.presentationDate) {
+                const _pres = new Date(thesis.presentationDate);
+                if (!isNaN(_pres) && _pres.getTime() <= Date.now()) {
+                    showEvaluation = true;
+                }
+            }
+            let canCancel = false;
+            if (thesis.officialAssignmentDate) {
+                const _cancelProf = new Date(thesis.officialAssignmentDate);
+                if (!isNaN(_cancelProf)) {
+                    const now = new Date();
+                    const twoYearsMs = 2 * 365 * 24 * 60 * 60 * 1000;
+                    if (now.getTime() - _cancelProf.getTime() >= twoYearsMs) {
+                        canCancel = true;
+                    }
+                }
+            }
+            %>
+
+            <% function currentEvent() {
+                if (userThesisRole === 'supervisor') {
+                    if (!thesis.protocolNumberAssignment && (thesis.status === 'active' || thesis.status === 'pending')) {
+                        return 'cancel_pending_assignment';
+                    } else if (thesis.status === 'active' && thesis.protocolNumberAssignment) {
+                        return 'cancel_active_assignment';
+                    } else if (thesis.status === 'review' && thesis.temporaryReportFile && !showEvaluation) {
+                        return 'presentation_assignment';
+                    }
+                } else if (userThesisRole === 'student') {
+                    if (thesis.status === 'review' && thesis.temporaryReportFile && !showEvaluation) {
+                        return 'presentation_assignment';
+                    } else if (thesis.status === 'review' && !thesis.temporaryReportFile && !showEvaluation) {
+                        return 'dynamic_button';
+                    }
+                } else if (userThesisRole === 'secretary') {
+                    if (thesis.status === 'active' && thesis.professors.memberA.id && thesis.professors.memberB.id && !thesis.protocolNumberAssignment) {
+                        return 'official_assignment';
+                    } else if (thesis.status === 'active' && thesis.protocolNumberAssignment) {
+                        canCancel = true;
+                        return 'cancel_active_assignment';
+                    } else if (thesis.status === 'review' && thesis.finalGrade && thesis.nemertesLink) {
+                        return 'complete_assignment';
+                    }
+                }
+                return null;
+            }
+            %>
+
+            <% if (currentEvent() === 'cancel_pending_assignment'){ %>
+                <button class="cancel-button enabled" id="cancel-tmp-assignment-button">
+                    Ακύρωση Ανάθεσης
+                </button>
+            <% } else if (currentEvent() === 'cancel_active_assignment') { %>
+                <button class="cancel-button <%= !canCancel ? 'disabled' : '' %>" id="official-cancel-button">
+                    Ακύρωση Ανάθεσης
+                    <% if(userThesisRole === 'supervisor' && !canCancel) { %>
+                        <span class="disable-button-message">Ακύρωσή ανάθεσης μπορεί να γίνει μετά το πέρας <strong>δυο ετών</strong> απο την επίσημη ανάθεσή.</span>
+                    <% } %>
+                </button>
+            <% } else if (currentEvent() === 'presentation_assignment') { %>
+                <button class="standard-button" id="presentation-button">
+                    Παρουσίαση
+                </button>
+
+            <% } else if (currentEvent() === 'official_assignment') { %>
+                <button class="standard-button" id="official-assignment-button">
+                    Επίσημη Ανάθεση
+                </button>
+            <% } else if (currentEvent() === 'complete_assignment') { %>
+                <button class="accept-button" id="complete-assignment-button">
+                    Ολοκλήρωση
+                </button>
+            <% } else if (currentEvent() === 'dynamic_button') { %>
+                <div id="dynamic-button-presentation">
+                </div>
+            <% } %>
+        </div>
+
+        <% if(currentEvent() && currentEvent() !== 'presentation_assignment' && currentEvent() !== 'dynamic_button'){ %>
+            <%- include('includes/assignment_status_modal', { includeEvent: currentEvent(), thesis: thesis }) %>
+        <% } else if(currentEvent() === 'presentation_assignment') { %>
+            <%- include('includes/announcement_create_modal', { thesis: thesis }) %>
+        <% } %>
+
+        <section id="assignment-detail">
+            <div class="assignment-detail-container" data-thesis-id="<%= thesis._id %>"
                  data-user-role="<%= userThesisRole %>">
                 <ul class="sub-menu-assignment-details">
                     <li>
@@ -122,11 +141,13 @@
                                     <a class="tab-link" data-tab="meetings" href="#meetings">Συναντήσεις</a>
                                 </li>
                             <% } %>
-                            <li>
-                                <a class="tab-link" data-tab="evaluation" href="#evaluation">Αξιολόγιση</a>
-                            </li>
+                            <% if(thesis.officialAssignmentDate) { %>
+                                <li>
+                                    <a class="tab-link" data-tab="evaluation" href="#evaluation">Αξιολόγιση</a>
+                                </li>
+                            <% } %>
 
-                            <% if (thesis.status === 'review') { %>
+                            <% if (thesis.status === 'review' && userThesisRole === 'supervisor' && !thesis.protocolExists) { %>
                                 <li>
                                     <a class="tab-link" data-tab="protocol" href="#protocol">Πρακτικό</a>
                                 </li>
@@ -152,12 +173,15 @@
                                     <%- include('includes/assignment_tabs/meetings') %>
                                 </div>
                             <% } %>
-                            <div id="evaluation" class="tab-content ">
-                                <%- include('includes/assignment_tabs/evaluation', { userThesisRole: userThesisRole, thesis: thesis, showEvaluation: showEvaluation}) %>
-                            </div>
-                            <% if (thesis.status === 'review' ) { %>
+                            <% if(thesis.officialAssignmentDate) { %>
+                                <div id="evaluation" class="tab-content ">
+                                    <%- include('includes/assignment_tabs/evaluation', { userThesisRole: userThesisRole, thesis: thesis, showEvaluation: showEvaluation}) %>
+                                </div>
+                            <% } %>
+
+                            <% if (thesis.status === 'review' && userThesisRole === 'supervisor' && !thesis.protocolExists) { %>
                                 <div id="protocol" class="tab-content">
-                                    <%- include('includes/assignment_tabs/grade_protocol', { thesis: thesis, userThesisRole: userThesisRole}) %>
+                                    <%- include('includes/assignment_tabs/grade_protocol', { thesis: thesis}) %>
                                 </div>
                             <% } %>
                         <% } %>
@@ -167,6 +191,8 @@
                     </div>
                 </div>
             </div>
+
+
         </section>
     </main>
 </div>

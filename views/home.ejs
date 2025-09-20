@@ -4,14 +4,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><%= pageTitle %> | UpThesis</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Greek&display=swap"
-            rel="stylesheet"
-    />
+    
     <link rel="stylesheet" href="/styles/home.css"/>
-    <script src="/scripts/home.js" defer></script>
+    <script type="module" src="/scripts/home.js" defer></script>
     <% if(locals.connectedUserRole === 'professor') { %>
         <link rel="stylesheet" href="/styles/professor-styles/dashboard_stats.css"/>
         <script src="/scripts/professor-scripts/dashboard_stats.js" defer></script>
@@ -21,7 +16,7 @@
 <%- include('includes/main-header') %>
 <div class="layout">
     <%- include('includes/main-menu', {currentPage: currentPage}) %>
-    <main>
+    <main data-flash-message="<%= message %>">
         <%- include('includes/current-page-header', {currentPage: currentPage, pageTitle: pageTitle}) %>
         <% if(locals.connectedUserRole === 'professor') { %>
             <%- include('professor/dashboard_stats') %>
