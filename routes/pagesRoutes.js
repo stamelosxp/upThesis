@@ -545,11 +545,13 @@ router.get(
 
 router.get("/logout", requirePageRoles(allRoles), async (req, res, next) => {
   try {
+    
+    // Also clear the session from the store (MongoDB)
     req.session.destroy((error) => {
       if (error) {
         console.error(error);
         error.status = error.status || 500;
-        next(err);
+        return next(error);
       }
 
       res.clearCookie("connect.sid", {
