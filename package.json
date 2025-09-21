@@ -1,5 +1,5 @@
 {
-  "name": "UpThesis",
+  "name": "upthesis",
   "version": "1.0.0",
   "description": "University thesis management web app",
   "scripts": {
@@ -33,5 +33,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
-  }
+  },
+  "main": "server.js"
 }
