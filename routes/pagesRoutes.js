@@ -346,7 +346,7 @@ router.get(
 
         if (!studentUser.thesisId) {
           return res.render("no-assignment", {
-            pageTitle: "Καμία Ανάθεση",
+            pageTitle: "Χωρίς Ανάθεση",
             currentPage: "thesis",
             yearOfStudies: studentUser.yearOfStudies,
           });
