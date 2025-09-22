@@ -166,7 +166,7 @@ function checkEvaluationLoad() {
                         <% } %>
                     <% } %>
                 </div>
-                <% if(userThesisRole === 'student' && (!fileExists || !linkExists)) { %>
+                <% if(userThesisRole === 'student' && (!fileExists || !linkExists) && !showEvaluation) { %>
                     <div class="grades-buttons-group">
                         <button type="button" class="accept-button disabled" id="student-upload-button">Αποθήκευση
                         </button>
